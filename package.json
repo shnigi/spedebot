@@ -4,14 +4,15 @@
   "description": "Telegram bot",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "author": "Niki Ahlskog",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^8.2.0",
-    "express": "^4.17.1",
     "node-cron": "^2.0.3",
+    "node-fetch": "^2.6.1",
     "telegraf": "^4.0.1"
   }
 }
