@@ -118,7 +118,7 @@ const randomGame = (ctx) => {
 const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
 
-bot.hears('help', (ctx) => ctx.reply(`
+bot.help((ctx) => ctx.reply(`
 Komentoni ovat:
 keli
 sup
