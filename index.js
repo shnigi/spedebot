@@ -88,12 +88,13 @@ Vatsat 3 sarjaa, 8-12 toistoa
     }
 };
 
-const bot = new Telegraf(process.env.BOT_TOKEN);
-bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
-
-const sendShit = (ctx) => {
-    cron.schedule('0 30 16 1/1 * ? *', () => {
+const cronJobs = (ctx) => {
+    ctx.reply('Noniin pellet, ajastukset päällä.');
+    cron.schedule('30 16 * * *', () => {
         ctx.reply('Pörssi on auki. Eikun ostoksille!');
+    });
+    cron.schedule('30 16 * * 5', () => {
+        ctx.replyWithPhoto({ source: './pim.jpeg' });
     });
 };
 
@@ -107,18 +108,40 @@ Vaihteluväli: ${currentValue.regularMarketDayRange}$
 `);
 };
 
-// stock('kek', 'TLSS');
+const games = ['Sea of thievesiä', 'Phasmophobiaa'];
+const randomGame = (ctx) => {
+    const selectedRandomGame = games[Math.floor(Math.random() * games.length)];
+    ctx.reply(`Tänään pelataan ${selectedRandomGame}.`);
+};
+
+
+const bot = new Telegraf(process.env.BOT_TOKEN);
+bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
+
+bot.hears('help', (ctx) => ctx.reply(`
+Komentoni ovat:
+keli
+sup
+salille
+sali
+help
+pim
+tlss
+mmedf
+sieni
+(cron: ajastetut tehtävät)`));
+
 bot.hears('keli', (ctx) => weather(ctx));
 bot.hears('sup', (ctx) => ctx.reply('Haista sinä mursu paska!'));
 bot.hears('salille', (ctx) => ctx.reply('Jalkapäivä, elikkäs kyykkypäivä.'));
 bot.hears('sali', (ctx) => sali(ctx));
-bot.hears('help', (ctx) => ctx.reply('Komentoni ovat: keli, sup, salille, sali, help, pim, tlss, mmedf'));
-bot.hears('ripuli', (ctx) => sendShit(ctx));
+bot.hears('cron', (ctx) => cronJobs(ctx));
 bot.hears('pim', (ctx) => ctx.replyWithPhoto({ source: './pim.jpeg' }, { caption: "PIM Avaa kalja!" }));
-// bot.hears('kisu', (ctx) => ctx.sendAnimation({ id: 'CgACAgQAAxkBAAEEmj9gBWf6Xb_SjloAAVmpqy3XyTYapLwAAj8CAAIuya1R-izTBl2v-8YeBA' }));
 bot.hears('mmedf', (ctx) => stock(ctx, 'MMEDF'));
 bot.hears('sieni', (ctx) => stock(ctx, 'MMEDF'));
 bot.hears('tlss', (ctx) => stock(ctx, 'TLSS'));
+bot.hears('pelit', (ctx) => randomGame(ctx));
 
+// bot.hears('kisu', (ctx) => ctx.sendAnimation({ id: 'CgACAgQAAxkBAAEEmj9gBWf6Xb_SjloAAVmpqy3XyTYapLwAAj8CAAIuya1R-izTBl2v-8YeBA' }));
 
 bot.launch();
