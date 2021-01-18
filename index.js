@@ -131,6 +131,7 @@ mmedf
 sieni
 (cron: ajastetut tehtävät)`));
 
+// Bot commands
 bot.hears('keli', (ctx) => weather(ctx));
 bot.hears('sup', (ctx) => ctx.reply('Haista sinä mursu paska!'));
 bot.hears('salille', (ctx) => ctx.reply('Jalkapäivä, elikkäs kyykkypäivä.'));
@@ -141,6 +142,18 @@ bot.hears('mmedf', (ctx) => stock(ctx, 'MMEDF'));
 bot.hears('sieni', (ctx) => stock(ctx, 'MMEDF'));
 bot.hears('tlss', (ctx) => stock(ctx, 'TLSS'));
 bot.hears('pelit', (ctx) => randomGame(ctx));
+
+// Bot alias
+bot.hears('Keli', (ctx) => weather(ctx));
+bot.hears('Sup', (ctx) => ctx.reply('Haista sinä mursu paska!'));
+bot.hears('Salille', (ctx) => ctx.reply('Jalkapäivä, elikkäs kyykkypäivä.'));
+bot.hears('Sali', (ctx) => sali(ctx));
+bot.hears('Cron', (ctx) => cronJobs(ctx));
+bot.hears('Pim', (ctx) => ctx.replyWithPhoto({ source: './pim.jpeg' }, { caption: "PIM Avaa kalja!" }));
+bot.hears('Mmedf', (ctx) => stock(ctx, 'MMEDF'));
+bot.hears('Sieni', (ctx) => stock(ctx, 'MMEDF'));
+bot.hears('Tlss', (ctx) => stock(ctx, 'TLSS'));
+bot.hears('Pelit', (ctx) => randomGame(ctx));
 
 // bot.hears('kisu', (ctx) => ctx.sendAnimation({ id: 'CgACAgQAAxkBAAEEmj9gBWf6Xb_SjloAAVmpqy3XyTYapLwAAj8CAAIuya1R-izTBl2v-8YeBA' }));
 
