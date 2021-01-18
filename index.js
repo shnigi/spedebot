@@ -98,7 +98,9 @@ const sendShit = (ctx) => {
 };
 
 const stock = async (ctx, stockName) => {
-
+    // const response = await fetch(`http://api.marketstack.com/v1/eod?access_key=${process.env.MARKETSTACK_TOKEN}&symbols=TLSS,MMEDF`)
+    // const stokit = await response.json();
+    // console.log('stokit', stokit);
 };
 
 // stock('kek', 'tlls');
@@ -106,8 +108,10 @@ bot.hears('keli', (ctx) => weather(ctx));
 bot.hears('sup', (ctx) => ctx.reply('Haista sinä mursu paska!'));
 bot.hears('salille', (ctx) => ctx.reply('Jalkapäivä, elikkäs kyykkypäivä.'));
 bot.hears('sali', (ctx) => sali(ctx));
-bot.hears('help', (ctx) => ctx.reply('Komentoni ovat: keli, sup, salille, sali, help'));
+bot.hears('help', (ctx) => ctx.reply('Komentoni ovat: keli, sup, salille, sali, help, pim'));
 bot.hears('ripuli', (ctx) => sendShit(ctx));
+bot.hears('pim', (ctx) => ctx.replyWithPhoto({ source: './pim.jpeg' }, { caption: "PIM Avaa kalja!" }));
+// bot.hears('kisu', (ctx) => ctx.sendAnimation({ id: 'CgACAgQAAxkBAAEEmj9gBWf6Xb_SjloAAVmpqy3XyTYapLwAAj8CAAIuya1R-izTBl2v-8YeBA' }));
 // bot.hears('mmed', (ctx) => stock(ctx, 'mmed'));
 // bot.hears('tlls', (ctx) => stock(ctx, 'tlls'));
 
