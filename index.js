@@ -101,7 +101,10 @@ const stock = async (ctx, stockName) => {
     const response = await fetch(`https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols=${stockName}`)
     const stokit = await response.json();
     const [currentValue] = stokit.quoteResponse.result
-    ctx.reply(`${stockName}: ${currentValue.regularMarketPrice}$`);
+    ctx.reply(`
+${stockName}: ${currentValue.regularMarketPrice}$
+Vaihteluväli: ${currentValue.regularMarketDayRange}$
+`);
 };
 
 // stock('kek', 'TLSS');
@@ -114,6 +117,7 @@ bot.hears('ripuli', (ctx) => sendShit(ctx));
 bot.hears('pim', (ctx) => ctx.replyWithPhoto({ source: './pim.jpeg' }, { caption: "PIM Avaa kalja!" }));
 // bot.hears('kisu', (ctx) => ctx.sendAnimation({ id: 'CgACAgQAAxkBAAEEmj9gBWf6Xb_SjloAAVmpqy3XyTYapLwAAj8CAAIuya1R-izTBl2v-8YeBA' }));
 bot.hears('mmedf', (ctx) => stock(ctx, 'MMEDF'));
+bot.hears('sieni', (ctx) => stock(ctx, 'MMEDF'));
 bot.hears('tlss', (ctx) => stock(ctx, 'TLSS'));
 
 
