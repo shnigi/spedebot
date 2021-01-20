@@ -24,12 +24,14 @@ bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
 
 bot.help((ctx) => ctx.reply(`
 Komentoni ovat:
+/help
+/osake osaketunnus
 keli
+pim
+sketsi
 sup
 salille
 sali
-help
-pim
 tlss
 mmedf
 sieni

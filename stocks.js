@@ -9,7 +9,7 @@ const getStock = async (ctx, stockName) => {
         const [currentValue] = stokit.quoteResponse.result
         ctx.reply(`
 ${stockName}: ${currentValue.regularMarketPrice}$
-Vaihteluväli: ${currentValue.regularMarketDayRange}$
+Muutos: ${currentValue.regularMarketChangePercent.toFixed(2)}%
         `);
     }
 };
