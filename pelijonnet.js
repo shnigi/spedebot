@@ -18,16 +18,16 @@ const friendList = [
     { name: 'Tate', id: '76561197986283015' }
 ];
 
-const createIdList = friendList.reduce((acc, curr) =>  acc + `${curr.id},`, '');
+const steamIds = friendList.map(({id}) =>  id).join(',');
 
 const pelijonnet = async (ctx) => {
-    const response = await fetch(`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${process.env.STEAM_TOKEN}&format=json&steamids=${createIdList}`)
+    const response = await fetch(`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${process.env.STEAM_TOKEN}&format=json&steamids=${steamIds}`)
     const players = await response.json();
 
     const online = players.response.players.filter(player => player.personastate === 1 && player.gameid)
 
     if (online.length === 0) {
-        ctx.reply('Ei ketään pelaamassa :(');
+        ctx.reply('Ei ketään pelaamassa 🙁');
     } else {
         ctx.reply(`
     Peleillä on:
