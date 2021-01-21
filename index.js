@@ -1,7 +1,7 @@
 require('dotenv').config();
 const sali = require('./sali');
 const weather = require('./weather');
-const { getStock } = require('./stocks');
+const { getStock, getAllStocks } = require('./stocks');
 const randomGame = require('./games');
 const sketsi = require('./sketsi');
 const pelijonnet = require('./pelijonnet');
@@ -57,6 +57,7 @@ bot.hears('tlss', (ctx) => getStock(ctx, 'TLSS'));
 bot.hears('pelit', (ctx) => randomGame(ctx));
 bot.hears('sketsi', (ctx) => sketsi(ctx));
 bot.hears('pelijonnet', (ctx) => pelijonnet(ctx));
+bot.hears('osakkeet', (ctx) => getAllStocks(ctx));
 
 // Bot alias
 bot.hears('Keli', (ctx) => weather(ctx));
@@ -71,5 +72,6 @@ bot.hears('Tlss', (ctx) => getStock(ctx, 'TLSS'));
 bot.hears('Pelit', (ctx) => randomGame(ctx));
 bot.hears('Sketsi', (ctx) => sketsi(ctx));
 bot.hears('Pelijonnet', (ctx) => pelijonnet(ctx));
+bot.hears('Osakkeet', (ctx) => getAllStocks(ctx));
 
 bot.launch();

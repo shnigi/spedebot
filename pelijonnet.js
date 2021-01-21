@@ -25,10 +25,15 @@ const pelijonnet = async (ctx) => {
     const players = await response.json();
 
     const online = players.response.players.filter(player => player.personastate === 1 && player.gameid)
-    ctx.reply(`
-Peleillä on:
-${online.map(player => `${player.personaname} - ${player.gameextrainfo} \n`).join('')}
-`)
+
+    if (online.length === 0) {
+        ctx.reply('Ei ketään pelaamassa :(');
+    } else {
+        ctx.reply(`
+    Peleillä on:
+    ${online.map(player => `${player.personaname} - ${player.gameextrainfo} \n`).join('')}
+    `)
+    }
 }
 
 module.exports = pelijonnet;
