@@ -5,8 +5,13 @@ create .env file to project root
 
 Add apikeys to .env
 
-BOT_TOKEN=your telegram bot key
-WEATHER_TOKEN=openweathermap key
+BOT_TOKEN=
+WEATHER_TOKEN=
+FINNHUB_TOKEN= // Not in use
+MARKETSTACK_TOKEN= // Not in use
+XRAPIDAPI_TOKEN= // Not in use
+STEAM_TOKEN=
+SPORTDATA_TOKEN= // Not in use
 
 Run locally with: node index.js or npm start
 
@@ -15,5 +20,4 @@ To deploy on server:
 - Git pull
 - pm2 restart spedebot
 
-Todo:
-Github actions pipeline
+Project has github actions pipeline to automatically deploy on server

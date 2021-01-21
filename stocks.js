@@ -19,9 +19,9 @@ const getAllStocks = async (ctx) => {
         const stokit = await response.json();
         const stocks = stokit.quoteResponse.result
 
-        ctx.reply(`
-        ${stocks.map(stock => `${stock.symbol}: ${stock.regularMarketPrice}$
-Muutos: ${stock.regularMarketChangePercent.toFixed(2)}% \n`).join('')}
+        ctx.replyWithMarkdown(`
+        ${stocks.map(stock => `*${stock.symbol}*: ${stock.regularMarketPrice}$
+Muutos: ${stock.regularMarketChangePercent.toFixed(2)}% \n\n`).join('')}
         `);
 }
 
