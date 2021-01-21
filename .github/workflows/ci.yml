@@ -5,24 +5,12 @@ jobs:
     if: github.ref == 'refs/heads/master'
     runs-on: [ubuntu-latest]
     steps:
-      - name: Configure SSH
-        run: |
-          mkdir -p ~/.ssh/
-          echo "$SSH_KEY" > ~/.ssh/sermuri.key
-          chmod 600 ~/.ssh/sermuri.key
-          cat >>~/.ssh/config <<END
-          Host sermuri
-            HostName $SSH_HOST
-            User $SSH_USER
-            Port $PORT
-            IdentityFile ~/.ssh/sermuri.key
-            StrictHostKeyChecking no
-          END
-        env:
-          SSH_USER: ${{ secrets.SERVER_USERNAME }}
-          PORT: ${{ secrets.PORT }}
-          SSH_KEY: ${{ secrets.SERVER_GITKEY }}
-          SSH_HOST: ${{ secrets.SERVER_IP }}
-
-      - name: Git pull and restart server
-        run: ssh sermuri 'cd spedebot && git pull && pm2 restart spedebot'
+      - uses: actions/checkout@v1
+      - name: Deploy to production
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          port: ${{ secrets.PORT }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          script: cd spedebot && git pull && pm2 restart spedebot
