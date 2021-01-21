@@ -8,15 +8,15 @@ const pelijonnet = require('./pelijonnet');
 const { Telegraf } = require('telegraf')
 const cron = require('node-cron');
 
-const cronJobs = (ctx) => {
-    ctx.reply('Noniin pellet, ajastukset päällä.');
-    cron.schedule('30 16 * * *', () => {
-        ctx.reply('Pörssi on auki. Eikun ostoksille!');
-    });
-    cron.schedule('30 16 * * 5', () => {
-        ctx.replyWithPhoto({ source: './pim.jpeg' });
-    });
-};
+// const cronJobs = (ctx) => {
+//     ctx.reply('Noniin pellet, ajastukset päällä.');
+//     cron.schedule('30 16 * * *', () => {
+//         ctx.reply('Pörssi on auki. Eikun ostoksille!');
+//     });
+//     cron.schedule('30 16 * * 5', () => {
+//         ctx.replyWithPhoto({ source: './pim.jpeg' });
+//     });
+// };
 
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
@@ -27,6 +27,7 @@ bot.help((ctx) => ctx.reply(`
 Komentoni ovat:
 /help
 /osake osaketunnus
+osakkeet
 keli
 pim
 sketsi
@@ -37,7 +38,7 @@ tlss
 mmedf
 sieni
 pelijonnet
-(cron: ajastetut tehtävät)`));
+`));
 
 bot.command('osake', (ctx) => {
     const [command, stock] = ctx.message.text.split(' ');
@@ -45,11 +46,11 @@ bot.command('osake', (ctx) => {
 })
 
 // Bot commands
+// bot.hears('cron', (ctx) => cronJobs(ctx));
 bot.hears('keli', (ctx) => weather(ctx));
 bot.hears('sup', (ctx) => ctx.reply('Haista sinä mursu paska!'));
 bot.hears('salille', (ctx) => ctx.reply('Jalkapäivä, elikkäs kyykkypäivä.'));
 bot.hears('sali', (ctx) => sali(ctx));
-bot.hears('cron', (ctx) => cronJobs(ctx));
 bot.hears('pim', (ctx) => ctx.replyWithPhoto({ source: './pim.jpeg' }));
 bot.hears('mmedf', (ctx) => getStock(ctx, 'MMEDF'));
 bot.hears('sieni', (ctx) => getStock(ctx, 'MMEDF'));
@@ -64,8 +65,7 @@ bot.hears('Keli', (ctx) => weather(ctx));
 bot.hears('Sup', (ctx) => ctx.reply('Haista sinä mursu paska!'));
 bot.hears('Salille', (ctx) => ctx.reply('Jalkapäivä, elikkäs kyykkypäivä.'));
 bot.hears('Sali', (ctx) => sali(ctx));
-bot.hears('Cron', (ctx) => cronJobs(ctx));
-bot.hears('Pim', (ctx) => ctx.replyWithPhoto({ source: './pim.jpeg' }, { caption: "PIM Avaa kalja!" }));
+bot.hears('Pim', (ctx) => ctx.replyWithPhoto({ source: './pim.jpeg' }));
 bot.hears('Mmedf', (ctx) => getStock(ctx, 'MMEDF'));
 bot.hears('Sieni', (ctx) => getStock(ctx, 'MMEDF'));
 bot.hears('Tlss', (ctx) => getStock(ctx, 'TLSS'));
