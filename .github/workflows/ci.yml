@@ -15,7 +15,7 @@ jobs:
             HostName $SSH_HOST
             User $SSH_USER
             Port $PORT
-            IdentityFile ~/.ssh/sermuri.key
+            IdentityFile ~/.ssh/id_rsa
             StrictHostKeyChecking no
           END
         env:
