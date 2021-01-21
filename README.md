@@ -20,4 +20,5 @@ To deploy on server:
 - Git pull
 - pm2 restart spedebot
 
-Project has github actions pipeline to automatically deploy on server
+Todo:
+Project has github actions pipeline to automatically deploy on server.
