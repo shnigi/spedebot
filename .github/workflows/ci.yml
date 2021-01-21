@@ -13,4 +13,5 @@ jobs:
           port: ${{ secrets.PORT }}
           username: ${{ secrets.SERVER_USERNAME }}
           password: ${{ secrets.SERVER_PASSWORD }}
+          passphrase: ${{ secrets.SERVER_GITKEY}}
           script: cd spedebot && git pull && pm2 restart spedebot
