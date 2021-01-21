@@ -15,13 +15,13 @@ jobs:
             HostName $SSH_HOST
             User $SSH_USER
             Port $PORT
-            IdentityFile ~/.ssh/id_rsa
+            IdentityFile ~/.ssh/sermuri.key
             StrictHostKeyChecking no
           END
         env:
           SSH_USER: ${{ secrets.SERVER_USERNAME }}
           PORT: ${{ secrets.PORT }}
-          SSH_KEY: ${{ secrets.STAGING_SSH_KEY }}
+          SSH_KEY: ${{ secrets.SERVER_GITKEY }}
           SSH_HOST: ${{ secrets.SERVER_IP }}
 
       - name: Git pull and restart server
