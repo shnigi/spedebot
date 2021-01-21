@@ -20,6 +20,33 @@ const friendList = [
 
 const steamIds = friendList.map(({id}) =>  id).join(',');
 
+const getRecentGames = async () => Promise.all(friendList.map(async friend => {
+    const url = `http://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/?key=${process.env.STEAM_TOKEN}&steamid=${friend.id}&format=json&include_appinfo=1&include_played_free_games=1`;
+    const data = await fetch(url);
+    const recentGames = await data.json();
+    return {
+        recentGames: recentGames.response.games,
+        name: friend.name,
+    }
+}));
+
+const getAndSortMostPlayedPeople = async (ctx) => {
+    const recentGames = await getRecentGames();
+    const gameTimes = recentGames
+        .filter(games => games.recentGames !== undefined)
+        .map(player => ({
+        name: player.name,
+        totalPlaytime: player.recentGames.reduce((acc, b) => acc + b.playtime_2weeks, 0),
+        recentGames: player.recentGames
+    }))
+    .sort((a, b) => b.totalPlaytime - a.totalPlaytime);
+
+ctx.reply(`
+Eniten pelanneet 2 viikon aikana: ${gameTimes.map(player => `
+${player.name} - ${(player.totalPlaytime / 60).toFixed(2)} Tuntia`).join('')}
+`)
+};
+
 const pelijonnet = async (ctx) => {
     const response = await fetch(`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${process.env.STEAM_TOKEN}&format=json&steamids=${steamIds}`)
     const players = await response.json();
@@ -34,6 +61,9 @@ const pelijonnet = async (ctx) => {
     ${player.personaname} - ${player.gameextrainfo}`).join('')}
     `)
     }
-}
+};
 
-module.exports = pelijonnet;
+module.exports = {
+    pelijonnet,
+    getAndSortMostPlayedPeople
+};
