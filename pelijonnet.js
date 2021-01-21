@@ -30,8 +30,8 @@ const pelijonnet = async (ctx) => {
         ctx.reply('Ei ketään pelaamassa 🙁');
     } else {
         ctx.reply(`
-    Peleillä on:
-    ${online.map(player => `${player.personaname} - ${player.gameextrainfo} \n`).join('')}
+    Peleillä on: ${online.map(player => `
+    ${player.personaname} - ${player.gameextrainfo}`).join('')}
     `)
     }
 }

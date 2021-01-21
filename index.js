@@ -37,6 +37,7 @@ sali
 tlss
 mmedf
 sieni
+pelit
 pelijonnet
 `));
 
