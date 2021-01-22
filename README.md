@@ -9,6 +9,6 @@ BOT_TOKEN=
 WEATHER_TOKEN=
 STEAM_TOKEN=
 
-Run locally with: npm start
+Run locally with: npm run dev
 
 Project has github actions pipeline to automatically deploy on server.
