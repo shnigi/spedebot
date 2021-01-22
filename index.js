@@ -4,6 +4,7 @@ const weather = require('./weather');
 const { getStock, getAllStocks } = require('./stocks');
 const randomGame = require('./games');
 const sketsi = require('./sketsi');
+const wordListener = require('./wordListener');
 const { pelijonnet, getAndSortMostPlayedPeople } = require('./pelijonnet');
 const { Telegraf } = require('telegraf')
 const cron = require('node-cron');
@@ -46,6 +47,11 @@ bot.command('osake', (ctx) => {
     const [command, stock] = ctx.message.text.split(' ');
     if (stock && stock !== '') getStock(ctx, stock);
 })
+
+bot.use(async (ctx, next) => {
+    wordListener(ctx) //listen for words and reply to them
+    await next()
+  })
 
 // Bot commands
 // bot.hears('cron', (ctx) => cronJobs(ctx));
