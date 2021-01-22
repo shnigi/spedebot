@@ -1,9 +1,9 @@
-const wordsToListenFor = ['pystytkö', '/kick tommi', 'pizza'];
+const wordsToListenFor = ['mursu', '/kick tommi', 'pizza'];
 
 const replyToWord = (ctx, word) => {
     switch(word) {
-      case 'pystytkö':
-          ctx.replyWithAudio({ source: './media/PystynVaanenPistä.mp3' })
+      case 'mursu':
+          ctx.replyWithAudio({ source: './media/mursupaska.mp3' })
           break;
       case '/kick tommi':
           ctx.reply('Tommi lensi ulos mutta pingahti takaisin sisälle.')
