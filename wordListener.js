@@ -19,6 +19,7 @@ const replyToWord = (ctx, word) => {
 const wordListener = (ctx) => wordsToListen
     .filter(word => ctx.message.text
     .toLowerCase()
+    .split(' ')
     .includes(word)
     && replyToWord(ctx, word));
 
