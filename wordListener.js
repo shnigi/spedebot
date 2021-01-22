@@ -16,6 +16,9 @@ const replyToWord = (ctx, word) => {
       }
   }
 
-const wordListener = (ctx) => wordsToListen.filter(word => ctx.message.text.toLowerCase().includes(word) && replyToWord(ctx, word));
+const wordListener = (ctx) => wordsToListen
+    .filter(word => ctx.message.text
+    .toLowerCase()
+    .includes(word) && replyToWord(ctx, word));
 
 module.exports = wordListener;
