@@ -1,4 +1,4 @@
-const wordsToListenFor = ['mursu', '/kick tommi', 'pizza'];
+const wordsToListen = ['mursu', '/kick tommi', 'pizza'];
 
 const replyToWord = (ctx, word) => {
     switch(word) {
@@ -16,12 +16,6 @@ const replyToWord = (ctx, word) => {
       }
   }
 
-const wordListener = (ctx) => {
-    for (let i in wordsToListenFor) {
-        if (ctx.message.text.toLowerCase().includes(wordsToListenFor[i])) {
-            replyToWord(ctx, wordsToListenFor[i])
-        }
-    }
-}
+const wordListener = (ctx) => wordsToListen.filter(word => ctx.message.text.toLowerCase().includes(word) && replyToWord(ctx, word));
 
 module.exports = wordListener;
