@@ -2,38 +2,24 @@ require('dotenv').config();
 const sali = require('./sali');
 const weather = require('./weather');
 const { getStock, getAllStocks } = require('./stocks');
-const randomGame = require('./games');
+const games = require('./games');
 const sketsi = require('./sketsi');
-const wordListener = require('./wordListener');
 const { pelijonnet, getAndSortMostPlayedPeople } = require('./pelijonnet');
 const { Telegraf } = require('telegraf')
-const cron = require('node-cron');
-
-// const cronJobs = (ctx) => {
-//     ctx.reply('Noniin pellet, ajastukset päällä.');
-//     cron.schedule('30 16 * * *', () => {
-//         ctx.reply('Pörssi on auki. Eikun ostoksille!');
-//     });
-//     cron.schedule('30 16 * * 5', () => {
-//         ctx.replyWithPhoto({ source: './pim.jpeg' });
-//     });
-// };
-
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
-
 
 bot.help((ctx) => ctx.reply(`
 Komentoni ovat:
 /help
 /osake osaketunnus
+/pelit
 osakkeet
 keli
 pim
 sketsi
 sup
-salille
 sali
 tlss
 mmedf
@@ -48,16 +34,29 @@ bot.command('osake', (ctx) => {
     if (stock && stock !== '') getStock(ctx, stock);
 })
 
-bot.use(async (ctx, next) => {
-    wordListener(ctx) //listen for words and reply to them
-    await next()
-  })
+bot.command('pelit', (ctx) => {
+  const [command1, command] = ctx.message.text.split(' ');
+  if (command && command !== '') {
+    games(ctx, command);
+  }
+  else {
+    ctx.reply(`
+/pelit komennot:
+stats
+now
+today
+`);
+  }
+})
+
+// bot.use(async (ctx, next) => {
+//     wordListener(ctx) //listen for words and reply to them
+//     await next()
+//   })
 
 // Bot commands
-// bot.hears('cron', (ctx) => cronJobs(ctx));
 bot.hears('keli', (ctx) => weather(ctx));
 bot.hears('sup', (ctx) => ctx.reply('Haista sinä mursu paska!'));
-bot.hears('salille', (ctx) => ctx.reply('Jalkapäivä, elikkäs kyykkypäivä.'));
 bot.hears('sali', (ctx) => sali(ctx));
 bot.hears('pim', (ctx) => ctx.replyWithPhoto({ source: './pim.jpeg' }));
 bot.hears('mmedf', (ctx) => getStock(ctx, 'MMEDF'));
@@ -72,7 +71,6 @@ bot.hears('pelistatsit', (ctx) => getAndSortMostPlayedPeople(ctx));
 // Bot alias
 bot.hears('Keli', (ctx) => weather(ctx));
 bot.hears('Sup', (ctx) => ctx.reply('Haista sinä mursu paska!'));
-bot.hears('Salille', (ctx) => ctx.reply('Jalkapäivä, elikkäs kyykkypäivä.'));
 bot.hears('Sali', (ctx) => sali(ctx));
 bot.hears('Pim', (ctx) => ctx.replyWithPhoto({ source: './pim.jpeg' }));
 bot.hears('Mmedf', (ctx) => getStock(ctx, 'MMEDF'));

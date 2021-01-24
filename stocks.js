@@ -10,7 +10,7 @@ const getStock = async (ctx, stockName) => {
         ctx.reply(`
 ${stockName}: ${currentValue.regularMarketPrice}$
 Muutos: ${currentValue.regularMarketChangePercent.toFixed(2)}%
-        `);
+`);
     }
 };
 
@@ -22,7 +22,7 @@ const getAllStocks = async (ctx) => {
         ctx.replyWithMarkdown(`
         ${stocks.map(stock => `*${stock.symbol}*: ${stock.regularMarketPrice}$
 Muutos: ${stock.regularMarketChangePercent.toFixed(2)}% \n\n`).join('')}
-        `);
+`);
 }
 
 module.exports = {
