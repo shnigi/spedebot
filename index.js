@@ -5,6 +5,7 @@ const { getStock, getAllStocks } = require('./stocks');
 const games = require('./games');
 const sketsi = require('./sketsi');
 const { pelijonnet, getAndSortMostPlayedPeople } = require('./pelijonnet');
+const playSound = require('./playSound');
 const { Telegraf } = require('telegraf')
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
@@ -13,8 +14,9 @@ bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
 bot.help((ctx) => ctx.reply(`
 Komentoni ovat:
 /help
-/osake osaketunnus
+/osake
 /pelit
+/audio
 osakkeet
 keli
 pim
@@ -32,6 +34,9 @@ pelistatsit
 bot.command('osake', (ctx) => {
     const [command, stock] = ctx.message.text.split(' ');
     if (stock && stock !== '') getStock(ctx, stock);
+    else {
+      ctx.reply('/osake [osaketunnus]');
+    }
 })
 
 bot.command('pelit', (ctx) => {
@@ -41,10 +46,31 @@ bot.command('pelit', (ctx) => {
   }
   else {
     ctx.reply(`
-/pelit komennot:
-stats
-now
-today
+/pelit [komento]
+statsit
+nyt
+tanaan
+`);
+  }
+})
+
+bot.command('audio', (ctx) => {
+  const [command1, command] = ctx.message.text.split(' ');
+  if (command && command !== '') {
+    playSound(ctx, command);
+  }
+  else {
+    ctx.reply(`
+/audio [numero]
+1. Aja Saatana
+2. En lähde
+3. En minkäänsuuruisella
+4. En ole
+5. Haistapaska
+6. Mursupaska
+7. Puhut vähän mutta asiaa
+8. Pystyn vaan en pistä
+9. Turpa kiinni kloppi
 `);
   }
 })

@@ -8,13 +8,13 @@ const randomGame = (ctx) => {
 
 const games = (ctx, command) => {
     switch (command) {
-        case 'today':
+        case 'tanaan':
             randomGame(ctx);
             break;
-        case 'now':
+        case 'nyt':
             pelijonnet(ctx);
             break;
-        case 'stats':
+        case 'statsit':
             getAndSortMostPlayedPeople(ctx);
             break;
         case 'dota2':
