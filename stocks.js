@@ -6,7 +6,7 @@ const getStockSuggestions = async (ctx, stockName) => {
     const symbolSuggests = await response.json();
     const { items } = symbolSuggests;
     if ( items && items.length === 0 ) {
-        ctx.reply('En osaa edes ehdottaa mitään. Kokeile urpo uudestaan');
+        ctx.reply('En osaa ehdottaa mitään, kokeile urpo uudestaan.');
     } else {
     ctx.reply(`Osaketta ei löydy, olisiko se joku näistä?
 ${items.map(stock => `${stock.symbol} \n`).join('')}
