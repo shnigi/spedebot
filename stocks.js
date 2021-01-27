@@ -22,11 +22,11 @@ const getStock = async (ctx, stockName) => {
     } else {
         const [currentValue] = stokit.quoteResponse.result;
         const symbol = currentValue.symbol;
-        const regularMarketPrice = (currentValue && currentValue.regularMarketPrice) || 'Arvo ei tiedossa';
-        const regularMarketChangePercent = (currentValue && currentValue.regularMarketChangePercent && currentValue.regularMarketChangePercent.toFixed(2)) || 'Muutos ei tiedossa';
+        const regularMarketPrice = (currentValue && currentValue.regularMarketPrice ) && `${currentValue.regularMarketPrice}$` || 'Hinta ei tiedossa';
+        const regularMarketChangePercent = currentValue && currentValue.regularMarketChangePercent && `${currentValue.regularMarketChangePercent.toFixed(2)}%` || 'Ei tiedossa';
         ctx.reply(`
-${symbol}: ${regularMarketPrice}$
-Muutos: ${regularMarketChangePercent}%
+${symbol}: ${regularMarketPrice}
+Muutos: ${regularMarketChangePercent}
 `);
     }
 };
