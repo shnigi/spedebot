@@ -44,7 +44,20 @@ bot.command('hsl', (ctx) => {
   const [command, name] = ctx.message.text.split(' ');
   if (name && name !== '') getHslData(ctx, name);
   else {
-    ctx.reply('/hsl [nimi]');
+    ctx.reply(`
+/hsl [nimi]
+anders
+niki
+roivas
+halmela
+juuso
+mikko
+mustonen
+samu
+aleksi
+vikman
+kemi
+`);
   }
 })
 
