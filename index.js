@@ -6,6 +6,7 @@ const games = require('./games');
 const sketsi = require('./sketsi');
 const { pelijonnet, getAndSortMostPlayedPeople } = require('./pelijonnet');
 const playSound = require('./playSound');
+const getHslData = require('./hslData');
 const { Telegraf } = require('telegraf')
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
@@ -37,6 +38,14 @@ bot.command('osake', (ctx) => {
     else {
       ctx.reply('/osake [osaketunnus]');
     }
+})
+
+bot.command('hsl', (ctx) => {
+  const [command, name] = ctx.message.text.split(' ');
+  if (name && name !== '') getHslData(ctx, name);
+  else {
+    ctx.reply('/hsl [nimi]');
+  }
 })
 
 bot.command('pelit', (ctx) => {
