@@ -57,6 +57,8 @@ samu
 aleksi
 vikman
 kemi
+mara
+chan
 `);
   }
 })
