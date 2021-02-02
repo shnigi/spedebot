@@ -1,4 +1,5 @@
 const { pelijonnet, getAndSortMostPlayedPeople } = require('./pelijonnet');
+const recentMatchData = require('./dota2');
 
 const gamesToPlay = ['Sea of thievesiä', 'Phasmophobiaa'];
 const randomGame = (ctx) => {
@@ -18,7 +19,7 @@ const games = (ctx, command) => {
             getAndSortMostPlayedPeople(ctx);
             break;
         case 'dota2':
-            ctx.reply('dota statsit coming');
+            recentMatchData(ctx);
             break;
         default:
             ctx.reply('Komento väärin, kokeile urpo uudestaan.');

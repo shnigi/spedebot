@@ -74,6 +74,7 @@ bot.command('pelit', (ctx) => {
 statsit
 nyt
 tanaan
+dota2
 `);
   }
 })

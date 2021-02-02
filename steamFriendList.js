@@ -1,8 +1,10 @@
-const friendList = [{
+const friendList = [
+{
     name: 'Khalifimato',
     id: '76561197975718208',
     steamShortId: '15452480'
-}, {
+},
+{
     name: 'Mutumies',
     id: '76561197971446321',
     steamShortId: '11180593'
@@ -58,6 +60,7 @@ const friendList = [{
     name: 'Tate',
     id: '76561197986283015',
     steamShortId: '26017287'
-},];
+}
+];
 
 module.exports = friendList;

@@ -32,7 +32,7 @@ Muutos: ${regularMarketChangePercent}
 };
 
 const getAllStocks = async (ctx) => {
-        const response = await fetch(`https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols=tlss,mmedf,AVGR`)
+    const response = await fetch(`https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols=tlss,mmedf,AVGR,GME,HYLN,pltr`)
         const stokit = await response.json();
         const stocks = stokit.quoteResponse.result
 
