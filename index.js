@@ -8,6 +8,7 @@ const { pelijonnet, getAndSortMostPlayedPeople } = require('./pelijonnet');
 const playSound = require('./playSound');
 const getHslData = require('./hslData');
 const { Telegraf } = require('telegraf')
+const getRoadCameras = require('./roadCameras');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
@@ -100,13 +101,26 @@ bot.command('audio', (ctx) => {
   }
 })
 
+bot.command('keli', (ctx) => {
+  const [command1, command] = ctx.message.text.split(' ');
+  if(command && command !== '') {
+    if(command === 'sää') {
+      weather(ctx);
+    } else {
+      getRoadCameras(ctx, command)
+    }
+  } else {
+    ctx.reply(`/keli sää\n/keli **paikka**
+    `)
+  }
+})
+
 // bot.use(async (ctx, next) => {
 //     wordListener(ctx) //listen for words and reply to them
 //     await next()
 //   })
 
 // Bot commands
-bot.hears('keli', (ctx) => weather(ctx));
 bot.hears('sup', (ctx) => ctx.reply('Haista sinä mursu paska!'));
 bot.hears('sali', (ctx) => sali(ctx));
 bot.hears('pim', (ctx) => ctx.replyWithPhoto({ source: './pim.jpeg' }));
