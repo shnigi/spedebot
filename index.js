@@ -8,6 +8,7 @@ const { pelijonnet, getAndSortMostPlayedPeople } = require('./pelijonnet');
 const playSound = require('./playSound');
 const getHslData = require('./hslData');
 const { Telegraf } = require('telegraf')
+const getRoadCameras = require('./roadCameras');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
@@ -18,8 +19,9 @@ Komentoni ovat:
 /osake
 /pelit
 /audio
+/keli
+/kamera
 osakkeet
-keli
 pim
 sketsi
 sup
@@ -100,13 +102,30 @@ bot.command('audio', (ctx) => {
   }
 })
 
+bot.command('keli', (ctx) => {
+  const [command1, command2] = ctx.message.text.split(' ');
+  if(!command2) {
+    weather(ctx);
+  } else {
+    ctx.reply(`mursu se komento on /keli`)
+  }
+})
+
+bot.command('kamera', (ctx) => {
+  const [command1, command2] = ctx.message.text.split(' ');
+  if(!command2) {
+    ctx.reply(`kokeile esim. \n/kamera tie tornioon\n/kamera ivalo\n/kamera kehä iii`)
+  } else {
+    getRoadCameras(ctx, command2)
+  }
+})
+
 // bot.use(async (ctx, next) => {
 //     wordListener(ctx) //listen for words and reply to them
 //     await next()
 //   })
 
 // Bot commands
-bot.hears('keli', (ctx) => weather(ctx));
 bot.hears('sup', (ctx) => ctx.reply('Haista sinä mursu paska!'));
 bot.hears('sali', (ctx) => sali(ctx));
 bot.hears('pim', (ctx) => ctx.replyWithPhoto({ source: './pim.jpeg' }));
