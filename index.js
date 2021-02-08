@@ -19,8 +19,9 @@ Komentoni ovat:
 /osake
 /pelit
 /audio
+/keli
+/kamera
 osakkeet
-keli
 pim
 sketsi
 sup
@@ -102,16 +103,20 @@ bot.command('audio', (ctx) => {
 })
 
 bot.command('keli', (ctx) => {
-  const [command1, command] = ctx.message.text.split(' ');
-  if(command && command !== '') {
-    if(command === 'sää') {
-      weather(ctx);
-    } else {
-      getRoadCameras(ctx, command)
-    }
+  const [command1, command2] = ctx.message.text.split(' ');
+  if(!command2) {
+    weather(ctx);
   } else {
-    ctx.reply(`/keli sää\n/keli **paikka**
-    `)
+    ctx.reply(`mursu se komento on /keli`)
+  }
+})
+
+bot.command('kamera', (ctx) => {
+  const [command1, command2] = ctx.message.text.split(' ');
+  if(!command2) {
+    ctx.reply(`kokeile esim. \n/kamera tie tornioon\n/kamera ivalo\n/kamera kehä iii`)
+  } else {
+    getRoadCameras(ctx, command2)
   }
 })
 
