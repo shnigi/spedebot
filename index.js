@@ -17,6 +17,7 @@ bot.help((ctx) => ctx.reply(`
 Komentoni ovat:
 /help
 /osake
+/stocks [käyttäjänimi]
 /pelit
 /audio
 /keli
@@ -40,6 +41,22 @@ bot.command('osake', (ctx) => {
     else {
       ctx.reply('/osake [osaketunnus]');
     }
+})
+
+bot.command('stocks', (ctx) => {
+  const [notUsed, username, command] = ctx.message.text.split(' ');
+  console.log('notUsed', notUsed);
+  console.log('username', username);
+  console.log('command', command);
+  console.log('ctx', ctx);
+  console.log('test', ctx.update.message.chat.first_name);
+  
+  
+  
+  // if (stock && stock !== '') getStock(ctx, stock);
+  // else {
+  //   ctx.reply('/osake [osaketunnus]');
+  // }
 })
 
 bot.command('hsl', (ctx) => {

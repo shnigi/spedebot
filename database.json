@@ -1,0 +1,31 @@
+ { "database": [
+    { 
+      "name": "tommi",
+      "tickers": []
+    },
+    {
+      "name": "halmela",
+      "tickers": []
+    },
+    {
+      "name": "anders",
+      "tickers": []
+    },
+    {
+      "name": "roivas",
+      "tickers": []
+    },
+    {
+      "name": "juuso",
+      "tickers": []
+    },
+    {
+      "name": "chan",
+      "tickers": []
+    },
+    {
+      "name": "niki",
+      "tickers": ["baba", "tsla"]
+    }
+    ]
+  }

@@ -1,4 +1,5 @@
 const fetch = require("node-fetch");
+const fs = require("fs");
 
 const getStockSuggestions = async (ctx, stockName) => {
     const url = `https://finance.yahoo.com/_finance_doubledown/api/resource/searchassist;searchTerm=${stockName}`;
@@ -42,7 +43,23 @@ Muutos: ${stock.regularMarketChangePercent.toFixed(2)}% \n\n`).join('')}
 `);
 }
 
+const getUserStocks = async (ctx) => {
+    let rawdata = fs.readFileSync('database.json');
+    const { database } = JSON.parse(rawdata);
+    console.log(database);
+//     const response = await fetch(`https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols=${symbols}`)
+//     const stokit = await response.json();
+//     const stocks = stokit.quoteResponse.result
+
+//     ctx.replyWithMarkdown(`
+//         ${stocks.map(stock => `*${stock.symbol}*: ${stock.regularMarketPrice}$
+// Muutos: ${stock.regularMarketChangePercent.toFixed(2)}% \n\n`).join('')}
+// `);
+}
+getUserStocks();
+
 module.exports = {
     getStock,
-    getAllStocks
+    getAllStocks,
+    getUserStocks
 };
