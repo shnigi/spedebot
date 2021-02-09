@@ -1,4 +1,4 @@
-const { pelijonnet, getAndSortMostPlayedPeople } = require('./pelijonnet');
+const { pelijonnet, getAndSortMostPlayedPeople, mostPlayedGame } = require('./pelijonnet');
 const recentMatchData = require('./dota2');
 
 const gamesToPlay = ['Sea of thievesiä', 'Phasmophobiaa'];
@@ -17,6 +17,9 @@ const games = (ctx, command) => {
             break;
         case 'statsit':
             getAndSortMostPlayedPeople(ctx);
+            break;
+        case 'eniten':
+            mostPlayedGame(ctx);
             break;
         case 'dota2':
             recentMatchData(ctx);

@@ -47,7 +47,23 @@ const pelijonnet = async (ctx) => {
     }
 };
 
+const mostPlayedGame = async (ctx) => {
+    const recentGames = await getRecentGames();
+    const mostPlayedGame = recentGames
+        .filter(games => games.recentGames !== undefined)
+        .map(player => ({
+            name: player.name,
+            mostPlayedGames: player.recentGames.sort((a, b) => b.totalPlaytime - a.totalPlaytime)
+        }))
+       
+    ctx.reply(`
+Eniten pelatut pelit 2 viikon aikana: ${mostPlayedGame.map(player => `
+${player.name} - ${player.mostPlayedGames[0].name}`).join('')}
+`)
+};
+
 module.exports = {
     pelijonnet,
     getAndSortMostPlayedPeople,
+    mostPlayedGame,
 };
