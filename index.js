@@ -126,6 +126,7 @@ bot.command('kamera', (ctx) => {
 //   })
 
 // Bot commands
+bot.hears('keli', (ctx) => weather(ctx));
 bot.hears('sup', (ctx) => ctx.reply('Haista sinä mursu paska!'));
 bot.hears('sali', (ctx) => sali(ctx));
 bot.hears('pim', (ctx) => ctx.replyWithPhoto({ source: './pim.jpeg' }));

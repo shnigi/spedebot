@@ -3,11 +3,11 @@ const friendList = require('./steamFriendList');
 
 const didPlayerWin = (isRadiant, didRadiantWin) => {
  if (isRadiant && didRadiantWin) {
-     return 'Voitto 👍'
+     return '✅'
  } else if (!isRadiant && !didRadiantWin) {
-     return 'Voitto 👍'
+     return '✅'
  } else {
-     return 'Häviö 👎'
+     return '❌'
  }
 };
 
@@ -39,7 +39,7 @@ const recentMatchData = async (ctx) => {
         ctx.reply(`
 ${matchData.map(match => `
 ${match.name}
-${match.recentMatches.map(status => `${status}\n`).join('')}
+${match.recentMatches.map(status => `${status}`).join('')}
 `).join('')}
 \n`)
 }
