@@ -52,6 +52,7 @@ bot.command('osake', (ctx) => {
 
 bot.command('stocks', (ctx) => {
   const [notUsed, command, stockname] = ctx.message.text.split(' ');
+  console.log('ctx', ctx);
   const userName = `${ctx.update.message.chat.first_name} ${ctx.update.message.chat.last_name}`;
   if (!command) getUserStocks(ctx, userName);
   else if (command === 'add' && stockname !== '') {
