@@ -23,13 +23,14 @@ bot.help((ctx) => ctx.reply(`
 Komentoni ovat:
 /help
 /osake
-/stocks [käyttäjänimi]
+/stocks [add, remove]
 /pelit
 /audio
 /keli
 /kamera
 osakkeet
 pim
+keli
 sketsi
 sup
 sali
