@@ -1,31 +1,31 @@
  { "database": [
-    { 
-      "name": "tommi",
+    {
+      "name": "Tommi Heinisaari",
       "tickers": []
     },
     {
-      "name": "halmela",
+      "name": "Teemu Halmela",
       "tickers": []
     },
     {
-      "name": "anders",
+      "name": "Anders Borgström",
       "tickers": []
     },
     {
-      "name": "roivas",
+      "name": "Teemu Roivas",
       "tickers": []
     },
     {
-      "name": "juuso",
+      "name": "Juuso Taavitsainen",
       "tickers": []
     },
     {
-      "name": "chan",
+      "name": "Jani Chan",
       "tickers": []
     },
     {
-      "name": "niki",
-      "tickers": ["baba", "tsla"]
+      "name": "Niki Ahlskog",
+      "tickers": []
     }
     ]
   }

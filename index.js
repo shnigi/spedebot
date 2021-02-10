@@ -1,7 +1,13 @@
 require('dotenv').config();
 const sali = require('./sali');
 const weather = require('./weather');
-const { getStock, getAllStocks } = require('./stocks');
+const {
+  getStock,
+  getAllStocks,
+  getUserStocks,
+  addStockToUser,
+  removeStock
+} = require('./stocks');
 const games = require('./games');
 const sketsi = require('./sketsi');
 const { pelijonnet, getAndSortMostPlayedPeople, mostPlayedGame } = require('./pelijonnet');
@@ -44,19 +50,16 @@ bot.command('osake', (ctx) => {
 })
 
 bot.command('stocks', (ctx) => {
-  const [notUsed, username, command] = ctx.message.text.split(' ');
-  console.log('notUsed', notUsed);
-  console.log('username', username);
-  console.log('command', command);
-  console.log('ctx', ctx);
-  console.log('test', ctx.update.message.chat.first_name);
-  
-  
-  
-  // if (stock && stock !== '') getStock(ctx, stock);
-  // else {
-  //   ctx.reply('/osake [osaketunnus]');
-  // }
+  const [notUsed, command, stockname] = ctx.message.text.split(' ');
+  const userName = `${ctx.update.message.chat.first_name} ${ctx.update.message.chat.last_name}`;
+  if (!command) getUserStocks(ctx, userName);
+  else if (command === 'add' && stockname !== '') {
+    addStockToUser(ctx, userName, stockname);
+  } else if (command === 'remove' && stockname !== '') {
+    removeStock(ctx, userName, stockname);
+  } else {
+      ctx.reply('Perhana, jotain meni pieleen.');
+  }
 })
 
 bot.command('hsl', (ctx) => {

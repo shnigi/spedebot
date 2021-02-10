@@ -12,3 +12,14 @@ STEAM_TOKEN=
 Run locally with: npm run dev
 
 Project has github actions pipeline to automatically deploy on server.
+
+TO use personalized stocklists add database.json to the project root and createa a following json:
+
+ {
+  "database": [
+    {
+      "name": "username",
+      "tickers": []
+    },
+    ]
+  }
