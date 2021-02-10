@@ -46,6 +46,7 @@ Muutos: ${stock.regularMarketChangePercent.toFixed(2)}% \n\n`).join('')}
 const getUserStocks = async (ctx, userName) => {
     let rawdata = fs.readFileSync('database.json');
     const { database } = JSON.parse(rawdata);
+    console.log('database', database);
     const { tickers } = database.find(user => user.name === userName);
     if (tickers.length > 0) {
     const response = await fetch(`https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols=${tickers}`)
