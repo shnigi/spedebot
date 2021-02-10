@@ -54,7 +54,7 @@ const getUserStocks = async (ctx, userName) => {
     const stocks = stokit.quoteResponse.result
 
     ctx.replyWithMarkdown(`
-Tässä ${userName} osakkeesi: \n
+Tässä osakkeesi ${userName}: \n
 ${stocks.map(stock => `*${stock.symbol}*: ${stock.regularMarketPrice}$
 Muutos: ${stock.regularMarketChangePercent.toFixed(2)}% \n\n`).join('')}
 `);
