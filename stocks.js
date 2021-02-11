@@ -44,11 +44,11 @@ Muutos: ${stock.regularMarketChangePercent.toFixed(2)}% \n\n`).join('')}
 }
 
 const userStockMessage = (stock) => {
-    const marketPrice = stock.regularMarketPrice ? stock.regularMarketPrice : stock.marketState;
-    const currency = stock.currency ? stock.currency : `Hintavihje: ${stock.priceHint}`;
-    const change = stock.regularMarketChangePercent ? `Muutos: ${stock.regularMarketChangePercent.toFixed(2)}%` : `Vaihteluväli: ${stock.fiftyTwoWeekRange}`;
+    const marketPrice = stock.regularMarketPrice ? stock.regularMarketPrice : 'Hinta ei tiedossa';
+    const currency = stock.currency ? stock.currency : '';
+    const change = stock.regularMarketChangePercent ? `Muutos: ${stock.regularMarketChangePercent.toFixed(2)}%` : 'Muutos ei tiedossa';
     return`
-*${stock.symbol}*: ${marketPrice} ${currency} \n${change}\n`
+*${stock.symbol}*: ${marketPrice} ${currency} \n${change}\n`;
 }
 
 const getUserStocks = async (ctx, userName) => {
