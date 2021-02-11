@@ -43,25 +43,38 @@ Muutos: ${stock.regularMarketChangePercent.toFixed(2)}% \n\n`).join('')}
 `);
 }
 
-const getUserStocks = async (ctx, userName) => {
-    let rawdata = fs.readFileSync('database.json');
-    const { database } = JSON.parse(rawdata);
-    console.log('database', database);
-    const { tickers } = database.find(user => user.name === userName);
-    if (tickers.length > 0) {
-    const response = await fetch(`https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols=${tickers}`)
-    const stokit = await response.json();
-    const stocks = stokit.quoteResponse.result
+const userStockMessage = (stock) => {
+    const marketPrice = stock.regularMarketPrice ? stock.regularMarketPrice : stock.marketState;
+    const currency = stock.currency ? stock.currency : `Hintavihje: ${stock.priceHint}`;
+    const change = stock.regularMarketChangePercent ? `Muutos: ${stock.regularMarketChangePercent.toFixed(2)}%` : `Vaihteluväli: ${stock.fiftyTwoWeekRange}`;
+    return`
+*${stock.symbol}*: ${marketPrice} ${currency} \n${change}\n`
+}
 
-    ctx.replyWithMarkdown(`
-Tässä osakkeesi ${userName}: \n
-${stocks.map(stock => `*${stock.symbol}*: ${stock.regularMarketPrice}$
-Muutos: ${stock.regularMarketChangePercent.toFixed(2)}% \n\n`).join('')}
-`);
-    } else {
-        ctx.reply(`Et ole lisännyt osakkeita listallesi.
-        Voit lisätä osakkeita komennolla /stocks add tickername
-        ja poistaa osakkeita komennolla /stocks remove tickername`);
+const getUserStocks = async (ctx, userName) => {
+    try {
+        let rawdata = fs.readFileSync('database.json');
+        const { database } = JSON.parse(rawdata);
+        console.log('database', database);
+        const { tickers } = database.find(user => user.name === userName);
+        if (tickers.length > 0) {
+            console.log('tickers', tickers);
+        const response = await fetch(`https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols=${tickers}`)
+        const stokit = await response.json();
+        const stocks = stokit.quoteResponse.result
+            console.log('stokit', stokit);
+
+        ctx.replyWithMarkdown(`
+    Tässä osakkeesi ${userName}:
+    ${stocks.map(stock => userStockMessage(stock)).join('')}
+    `);
+        } else {
+            ctx.reply(`Et ole lisännyt osakkeita listallesi.
+            Voit lisätä osakkeita komennolla /stocks add tickername
+            ja poistaa osakkeita komennolla /stocks remove tickername`);
+        }
+    } catch (e) {
+        console.log('VIRHE', e);
     }
 };
 
