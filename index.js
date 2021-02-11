@@ -136,7 +136,7 @@ bot.command('keli', (ctx) => {
 bot.command('kamera', (ctx) => {
   const [command1, command2] = ctx.message.text.split(' ');
   if(!command2) {
-    ctx.reply(`kokeile esim. \n/kamera tie tornioon\n/kamera ivalo\n/kamera kehä iii`)
+    ctx.reply(`kokeile esim. \n/kamera tornioon\n/kamera ivalo\n/kamera kehä i/\nkamera kehä ii\n/kamera kehä iii\n/kamera tampereelle\n/kamera tuusulaan`)
   } else {
     getRoadCameras(ctx, command2)
   }
