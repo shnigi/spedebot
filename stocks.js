@@ -40,19 +40,24 @@ const getGraafi = async (ctx, stockName) => {
     if (stokit.quoteResponse.result.length === 0) {
         getStockSuggestions(ctx, stockName);
     } else {
-        // const browser = await puppeteer.launch();
-        const browser = await puppeteer.launch({
-            executablePath: '/usr/bin/chromium-browser' // set according to dev machine
-        })
+        let browser;
+        if (process.env.DEV) {
+            browser = await puppeteer.launch();
+        } else {
+            browser = await puppeteer.launch({
+                executablePath: '/usr/bin/chromium-browser' // set according to dev machine
+            })
+        }
         const page = await browser.newPage();
         await page.goto(`https://finance.yahoo.com/chart/${stockName}`);
         await page.click('button[name="agree"]');
-        console.log('timeout alkaa');
-        // await page.waitForTimeout(5000);
         await page.waitForNavigation();
+        await page.waitForNavigation({
+            waitUntil: 'networkidle0',
+        });
         await page.screenshot({
             path: 'stock.png',
-            fullPage: true
+            fullPage: true,
         });
         // await page.screenshot({
         //     path: 'stock.png',

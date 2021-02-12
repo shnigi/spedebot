@@ -29,6 +29,7 @@ Komentoni ovat:
 /audio
 /keli
 /kamera
+/graafi
 osakkeet
 pim
 keli

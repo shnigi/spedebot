@@ -8,6 +8,7 @@ Add apikeys to .env
 BOT_TOKEN=
 WEATHER_TOKEN=
 STEAM_TOKEN=
+DEV=true
 
 Run locally with: npm run dev
 
