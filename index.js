@@ -33,6 +33,8 @@ Komentoni ovat:
 /graafi
 /lounas
 osakkeet
+perjantai
+raketti
 pim
 keli
 sketsi
@@ -168,6 +170,8 @@ bot.command('kamera', (ctx) => {
 //   })
 
 // Bot commands
+bot.hears('perjantai', (ctx) => ctx.replyWithVideo({ source: './media/perjantai.mp4' }));
+bot.hears('raketti', (ctx) => ctx.replyWithVideo({ source: './media/korko.mp4' }));
 bot.hears('keli', (ctx) => weather(ctx));
 bot.hears('sup', (ctx) => ctx.reply('Haista sinä mursu paska!'));
 bot.hears('sali', (ctx) => sali(ctx));
@@ -182,6 +186,8 @@ bot.hears('osakkeet', (ctx) => getAllStocks(ctx));
 bot.hears('pelistatsit', (ctx) => getAndSortMostPlayedPeople(ctx));
 
 // Bot alias
+bot.hears('Perjantai', (ctx) => ctx.replyWithVideo({ source: './media/perjantai.mp4' }));
+bot.hears('Raketti', (ctx) => ctx.replyWithVideo({ source: './media/korko.mp4' }));
 bot.hears('Keli', (ctx) => weather(ctx));
 bot.hears('Sup', (ctx) => ctx.reply('Haista sinä mursu paska!'));
 bot.hears('Sali', (ctx) => sali(ctx));
