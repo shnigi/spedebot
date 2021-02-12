@@ -24,3 +24,7 @@ TO use personalized stocklists add database.json to the project root and createa
     },
     ]
   }
+
+  Update database on server:
+
+  {"name": "username", "tickers": []},
