@@ -45,18 +45,19 @@ const getGraafi = async (ctx, stockName) => {
             executablePath: '/usr/bin/chromium-browser' // set according to dev machine
         })
         const page = await browser.newPage();
-        await page.goto(`https://finance.yahoo.com/quote/${stockName}`);
+        await page.goto(`https://finance.yahoo.com/chart/${stockName}`);
         await page.click('button[name="agree"]');
-        await page.waitForSelector('#quote-header');
-        await page.waitForTimeout(1000);
+        console.log('timeout alkaa');
+        // await page.waitForTimeout(5000);
         await page.waitForNavigation();
-        await page.waitForSelector('#interactive-2col-qsp-m', {
-            visible: true,
-        });
         await page.screenshot({
             path: 'stock.png',
-            clip: { x: 0, y: 510, width: 640, height: 270 }
+            fullPage: true
         });
+        // await page.screenshot({
+        //     path: 'stock.png',
+        //     clip: { x: 0, y: 510, width: 640, height: 270 }
+        // });
         await browser.close();
         ctx.replyWithPhoto({ source: './stock.png' });
     }
