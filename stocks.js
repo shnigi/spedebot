@@ -40,7 +40,10 @@ const getGraafi = async (ctx, stockName) => {
     if (stokit.quoteResponse.result.length === 0) {
         getStockSuggestions(ctx, stockName);
     } else {
-        const browser = await puppeteer.launch();
+        // const browser = await puppeteer.launch();
+        const browser = await puppeteer.launch({
+            executablePath: '/usr/bin/chromium-browser' // set according to dev machine
+        })
         const page = await browser.newPage();
         await page.goto(`https://finance.yahoo.com/quote/${stockName}`);
         await page.click('button[name="agree"]');
