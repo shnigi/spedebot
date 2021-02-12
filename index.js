@@ -16,6 +16,7 @@ const playSound = require('./playSound');
 const getHslData = require('./hslData');
 const { Telegraf } = require('telegraf')
 const getRoadCameras = require('./roadCameras');
+const lunch = require('./lunch');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
@@ -30,6 +31,7 @@ Komentoni ovat:
 /keli
 /kamera
 /graafi
+/lounas
 osakkeet
 pim
 keli
@@ -57,6 +59,14 @@ bot.command('graafi', (ctx) => {
   if (stock && stock !== '') getGraafi(ctx, stock);
   else {
     ctx.reply('/graafi [osaketunnus]');
+  }
+})
+
+bot.command('lounas', (ctx) => {
+  const [command, restaurant] = ctx.message.text.split(' ');
+  if (restaurant && restaurant !== '') lunch(ctx, restaurant);
+  else {
+    ctx.reply('/lounas [ravintola]');
   }
 })
 
@@ -139,7 +149,7 @@ bot.command('keli', (ctx) => {
   if(!command2) {
     weather(ctx);
   } else {
-    ctx.reply(`mursu se komento on /keli`)
+    ctx.reply(`Mursu se komento on /keli`)
   }
 })
 
