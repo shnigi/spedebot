@@ -1,6 +1,7 @@
 const puppeteer = require('puppeteer');
 
 const lunch = async (ctx, restaurant) => {
+  const restaurantName = encodeURI(restaurant.trim());
     let browser;
     if (process.env.DEV) {
       browser = await puppeteer.launch();
@@ -14,7 +15,7 @@ const lunch = async (ctx, restaurant) => {
       width: 800,
       height: 1000,
     });
-    await page.goto(`https://www.lounaat.info/haku?etsi=${restaurant}`);
+    await page.goto(`https://www.lounaat.info/haku?etsi=${restaurantName}`);
 
     const [error] = await page.$x('//*[contains(text(), "Emme löytäneet yhtään ravintolaa")]');
     if (error) {

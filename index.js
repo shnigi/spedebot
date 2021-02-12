@@ -65,7 +65,7 @@ bot.command('graafi', (ctx) => {
 })
 
 bot.command('lounas', (ctx) => {
-  const [command, restaurant] = ctx.message.text.split(' ');
+  const [command, restaurant] = ctx.message.text.split('/lounas');
   if (restaurant && restaurant !== '') lunch(ctx, restaurant);
   else {
     ctx.reply('/lounas [ravintola]');
