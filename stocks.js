@@ -49,7 +49,7 @@ const getGraafi = async (ctx, stockName) => {
         await page.click('button[name="agree"]');
         await page.waitForNavigation();
         await page.waitForSelector('#quote-header');
-        await page.waitForTimeout(1000);
+        await page.waitForTimeout(2000);
         await page.screenshot({
             path: 'stock.png',
             clip: { x: 0, y: 510, width: 640, height: 270 }
