@@ -1,4 +1,5 @@
 require('dotenv').config();
+const { Telegraf } = require('telegraf');
 const sali = require('./sali');
 const weather = require('./weather');
 const {
@@ -11,10 +12,9 @@ const {
 } = require('./stocks');
 const games = require('./games');
 const sketsi = require('./sketsi');
-const { pelijonnet, getAndSortMostPlayedPeople, mostPlayedGame } = require('./pelijonnet');
+const { pelijonnet, getAndSortMostPlayedPeople } = require('./pelijonnet');
 const playSound = require('./playSound');
 const getHslData = require('./hslData');
-const { Telegraf } = require('telegraf')
 const getRoadCameras = require('./roadCameras');
 const lunch = require('./lunch');
 
@@ -40,21 +40,17 @@ keli
 sketsi
 sup
 sali
-tlss
-mmedf
-sieni
-pelit
 pelijonnet
 pelistatsit
 `));
 
 bot.command('osake', (ctx) => {
-    const [command, stock] = ctx.message.text.split(' ');
-    if (stock && stock !== '') getStock(ctx, stock);
-    else {
-      ctx.reply('/osake [osaketunnus]');
-    }
-})
+  const [command, stock] = ctx.message.text.split(' ');
+  if (stock && stock !== '') getStock(ctx, stock);
+  else {
+    ctx.reply('/osake [osaketunnus]');
+  }
+});
 
 bot.command('graafi', (ctx) => {
   const [command, stock] = ctx.message.text.split(' ');
@@ -62,7 +58,7 @@ bot.command('graafi', (ctx) => {
   else {
     ctx.reply('/graafi [osaketunnus]');
   }
-})
+});
 
 bot.command('lounas', (ctx) => {
   const [command, restaurant] = ctx.message.text.split('/lounas');
@@ -70,7 +66,7 @@ bot.command('lounas', (ctx) => {
   else {
     ctx.reply('/lounas [ravintola]');
   }
-})
+});
 
 bot.command('stocks', (ctx) => {
   const [notUsed, command, stockname] = ctx.message.text.split(' ');
@@ -82,9 +78,9 @@ bot.command('stocks', (ctx) => {
   } else if (command === 'remove' && stockname !== '') {
     removeStock(ctx, userName, stockname);
   } else {
-      ctx.reply('Perhana, jotain meni pieleen.');
+    ctx.reply('Perhana, jotain meni pieleen.');
   }
-})
+});
 
 bot.command('hsl', (ctx) => {
   const [command, name] = ctx.message.text.split(' ');
@@ -107,14 +103,13 @@ mara
 chan
 `);
   }
-})
+});
 
 bot.command('pelit', (ctx) => {
   const [command1, command] = ctx.message.text.split(' ');
   if (command && command !== '') {
     games(ctx, command);
-  }
-  else {
+  } else {
     ctx.reply(`
 /pelit [komento]
 statsit
@@ -123,14 +118,13 @@ tanaan
 dota2
 `);
   }
-})
+});
 
 bot.command('audio', (ctx) => {
   const [command1, command] = ctx.message.text.split(' ');
   if (command && command !== '') {
     playSound(ctx, command);
-  }
-  else {
+  } else {
     ctx.reply(`
 /audio [numero]
 1. Aja Saatana
@@ -144,30 +138,25 @@ bot.command('audio', (ctx) => {
 9. Turpa kiinni kloppi
 `);
   }
-})
+});
 
 bot.command('keli', (ctx) => {
   const [command1, command2] = ctx.message.text.split(' ');
-  if(!command2) {
+  if (!command2) {
     weather(ctx);
   } else {
-    ctx.reply(`Mursu se komento on /keli`)
+    ctx.reply('Mursu se komento on /keli');
   }
-})
+});
 
 bot.command('kamera', (ctx) => {
   const [command1, command2] = ctx.message.text.split(' ');
-  if(!command2) {
-    ctx.reply(`kokeile esim. \n/kamera tornioon\n/kamera ivalo\n/kamera kehä i/\nkamera kehä ii\n/kamera kehä iii\n/kamera tampereelle\n/kamera tuusulaan`)
+  if (!command2) {
+    ctx.reply('kokeile esim. \n/kamera tornioon\n/kamera ivalo\n/kamera kehä i/\nkamera kehä ii\n/kamera kehä iii\n/kamera tampereelle\n/kamera tuusulaan');
   } else {
-    getRoadCameras(ctx, command2)
+    getRoadCameras(ctx, command2);
   }
-})
-
-// bot.use(async (ctx, next) => {
-//     wordListener(ctx) //listen for words and reply to them
-//     await next()
-//   })
+});
 
 // Bot commands
 bot.hears('perjantai', (ctx) => ctx.replyWithVideo({ source: './media/perjantai.mp4' }));
@@ -176,10 +165,6 @@ bot.hears('keli', (ctx) => weather(ctx));
 bot.hears('sup', (ctx) => ctx.reply('Haista sinä mursu paska!'));
 bot.hears('sali', (ctx) => sali(ctx));
 bot.hears('pim', (ctx) => ctx.replyWithPhoto({ source: './pim.jpeg' }));
-bot.hears('mmedf', (ctx) => getStock(ctx, 'MMEDF'));
-bot.hears('sieni', (ctx) => getStock(ctx, 'MMEDF'));
-bot.hears('tlss', (ctx) => getStock(ctx, 'TLSS'));
-bot.hears('pelit', (ctx) => randomGame(ctx));
 bot.hears('sketsi', (ctx) => sketsi(ctx));
 bot.hears('pelijonnet', (ctx) => pelijonnet(ctx));
 bot.hears('osakkeet', (ctx) => getAllStocks(ctx));
@@ -192,10 +177,6 @@ bot.hears('Keli', (ctx) => weather(ctx));
 bot.hears('Sup', (ctx) => ctx.reply('Haista sinä mursu paska!'));
 bot.hears('Sali', (ctx) => sali(ctx));
 bot.hears('Pim', (ctx) => ctx.replyWithPhoto({ source: './pim.jpeg' }));
-bot.hears('Mmedf', (ctx) => getStock(ctx, 'MMEDF'));
-bot.hears('Sieni', (ctx) => getStock(ctx, 'MMEDF'));
-bot.hears('Tlss', (ctx) => getStock(ctx, 'TLSS'));
-bot.hears('Pelit', (ctx) => randomGame(ctx));
 bot.hears('Sketsi', (ctx) => sketsi(ctx));
 bot.hears('Pelijonnet', (ctx) => pelijonnet(ctx));
 bot.hears('Osakkeet', (ctx) => getAllStocks(ctx));
