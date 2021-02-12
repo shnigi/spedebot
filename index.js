@@ -6,7 +6,8 @@ const {
   getAllStocks,
   getUserStocks,
   addStockToUser,
-  removeStock
+  removeStock,
+  getGraafi,
 } = require('./stocks');
 const games = require('./games');
 const sketsi = require('./sketsi');
@@ -48,6 +49,14 @@ bot.command('osake', (ctx) => {
     else {
       ctx.reply('/osake [osaketunnus]');
     }
+})
+
+bot.command('graafi', (ctx) => {
+  const [command, stock] = ctx.message.text.split(' ');
+  if (stock && stock !== '') getGraafi(ctx, stock);
+  else {
+    ctx.reply('/graafi [osaketunnus]');
+  }
 })
 
 bot.command('stocks', (ctx) => {

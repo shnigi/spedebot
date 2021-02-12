@@ -1,5 +1,6 @@
 const fetch = require("node-fetch");
 const fs = require("fs");
+const puppeteer = require('puppeteer');
 
 const getStockSuggestions = async (ctx, stockName) => {
     const url = `https://finance.yahoo.com/_finance_doubledown/api/resource/searchassist;searchTerm=${stockName}`;
@@ -29,6 +30,29 @@ const getStock = async (ctx, stockName) => {
 ${symbol}: ${regularMarketPrice}
 Muutos: ${regularMarketChangePercent}
 `);
+    }
+};
+
+const getGraafi = async (ctx, stockName) => {
+    const url = `https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols=${stockName}`;
+    const response = await fetch(url);
+    const stokit = await response.json();
+    if (stokit.quoteResponse.result.length === 0) {
+        getStockSuggestions(ctx, stockName);
+    } else {
+        const browser = await puppeteer.launch();
+        const page = await browser.newPage();
+        await page.goto(`https://finance.yahoo.com/quote/${stockName}`);
+        await page.click('button[name="agree"]');
+        await page.waitForNavigation();
+        await page.waitForSelector('#quote-header');
+        await page.waitForTimeout(1000);
+        await page.screenshot({
+            path: 'stock.png',
+            clip: { x: 0, y: 510, width: 640, height: 270 }
+        });
+        await browser.close();
+        ctx.replyWithPhoto({ source: './stock.png' });
     }
 };
 
@@ -149,4 +173,5 @@ module.exports = {
     getUserStocks,
     addStockToUser,
     removeStock,
+    getGraafi,
 };
