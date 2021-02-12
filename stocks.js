@@ -47,9 +47,12 @@ const getGraafi = async (ctx, stockName) => {
         const page = await browser.newPage();
         await page.goto(`https://finance.yahoo.com/quote/${stockName}`);
         await page.click('button[name="agree"]');
-        await page.waitForNavigation();
         await page.waitForSelector('#quote-header');
-        await page.waitForTimeout(4000);
+        await page.waitForTimeout(1000);
+        await page.waitForNavigation();
+        await page.waitForSelector('#interactive-2col-qsp-m', {
+            visible: true,
+        });
         await page.screenshot({
             path: 'stock.png',
             clip: { x: 0, y: 510, width: 640, height: 270 }
