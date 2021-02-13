@@ -13,6 +13,11 @@ const friendList = [
     id: '76561197963946575',
     steamShortId: '3680847',
   }, {
+    name: 'Jeims 2',
+    id: '76561198148745480',
+    steamShortId: '188479752',
+  },
+  {
     name: 'Tumppu',
     id: '76561198122563689',
     steamShortId: '162297961',
