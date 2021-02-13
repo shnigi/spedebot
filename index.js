@@ -17,6 +17,7 @@ const playSound = require('./playSound');
 const getHslData = require('./hslData');
 const getRoadCameras = require('./roadCameras');
 const lunch = require('./lunch');
+const getBeer = require('./beer');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
@@ -32,6 +33,7 @@ Komentoni ovat:
 /kamera
 /graafi
 /lounas
+/bisse
 osakkeet
 perjantai
 raketti
@@ -65,6 +67,14 @@ bot.command('lounas', (ctx) => {
   if (restaurant && restaurant !== '') lunch(ctx, restaurant);
   else {
     ctx.reply('/lounas [ravintola]');
+  }
+});
+
+bot.command('bisse', (ctx) => {
+  const [command, beer] = ctx.message.text.split('/bisse');
+  if (beer && beer !== '') getBeer(ctx, beer);
+  else {
+    ctx.reply('/bisse [oluen nimi]');
   }
 });
 
