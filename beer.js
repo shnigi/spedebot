@@ -31,10 +31,10 @@ const getBeer = async (ctx, beer) => {
     const infoResponse = await fetch(beerInfoUrl);
     const infoData = await infoResponse.json();
     const { beer_name, rating_score, beer_style, beer_description } = infoData.response.beer;
-    ctx.reply(`${beer_name} ${getStars(rating_score)}
-  Pisteet: ${rating_score.toFixed(2)}
-  Tyyli: ${beer_style}
-  Kuvaus: ${beer_description}`);
+    ctx.replyWithMarkdown(`*${beer_name}* ${getStars(rating_score)}
+*Pisteet*: ${rating_score.toFixed(2)}
+*Tyyli*: ${beer_style}
+*Kuvaus*: ${beer_description}`);
   }
 };
 
