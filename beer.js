@@ -30,9 +30,10 @@ const getBeer = async (ctx, beer) => {
     const beerInfoUrl = `https://api.untappd.com/v4/beer/info/${firstBeer.bid}?client_id=${process.env.UNTAPPD_CLIENT_ID}&client_secret=${process.env.UNTAPPD_CLIENT_SECRET}`;
     const infoResponse = await fetch(beerInfoUrl);
     const infoData = await infoResponse.json();
-    const { beer_name, rating_score, beer_style, beer_description } = infoData.response.beer;
+    const { beer_name, rating_score, beer_style, beer_description, beer_abv } = infoData.response.beer;
     ctx.replyWithMarkdown(`*${beer_name}* ${getStars(rating_score)}
 *Pisteet*: ${rating_score.toFixed(2)}
+*Alkoholi*: ${beer_abv}
 *Tyyli*: ${beer_style}
 *Kuvaus*: ${beer_description}`);
   }
