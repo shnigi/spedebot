@@ -45,6 +45,8 @@ sup
 sali
 pelijonnet
 pelistatsit
+eipelata
+jolipennet
 `));
 
 bot.command('osake', (ctx) => {
