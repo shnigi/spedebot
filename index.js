@@ -18,6 +18,7 @@ const getHslData = require('./hslData');
 const getRoadCameras = require('./roadCameras');
 const lunch = require('./lunch');
 const getBeer = require('./beer');
+const jolipennet = require('./trollit');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
@@ -179,8 +180,12 @@ bot.hears('sketsi', (ctx) => sketsi(ctx));
 bot.hears('pelijonnet', (ctx) => pelijonnet(ctx));
 bot.hears('osakkeet', (ctx) => getAllStocks(ctx));
 bot.hears('pelistatsit', (ctx) => getAndSortMostPlayedPeople(ctx));
+bot.hears('jolipennet', (ctx) => jolipennet(ctx));
+bot.hears('eipelata', (ctx) => ctx.replyWithVideo({ source: './media/eipelata.mp4' }));
 
 // Bot alias
+bot.hears('Eipelata', (ctx) => ctx.replyWithVideo({ source: './media/eipelata.mp4' }));
+bot.hears('Jolipennet', (ctx) => jolipennet(ctx));
 bot.hears('Perjantai', (ctx) => ctx.replyWithVideo({ source: './media/perjantai.mp4' }));
 bot.hears('Raketti', (ctx) => ctx.replyWithVideo({ source: './media/korko.mp4' }));
 bot.hears('Keli', (ctx) => weather(ctx));
