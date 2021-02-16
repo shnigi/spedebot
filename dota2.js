@@ -19,7 +19,7 @@ const getRecentMatches = async () => Promise.all(friendList.map(async (friend) =
       if (matches && matches.length > 0) {
         return {
           name: friend.name,
-          recentMatches: matches.slice(0, 5).map((match) => didPlayerWin(match.players[0].isRadiant, match.didRadiantWin)),
+          recentMatches: matches.slice(0, 9).map((match) => didPlayerWin(match.players[0].isRadiant, match.didRadiantWin)),
         };
       }
     }
