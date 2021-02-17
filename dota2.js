@@ -61,7 +61,7 @@ const getPlayerHeroPerformance = async () => Promise.all(friendList.map(async (f
 
 const calculateWinPercentage = (hero) => ((hero.winCount / hero.matchCount) * 100).toFixed(2);
 
-const top5heroes = async (ctx) => {
+const topheroes = async (ctx) => {
   const heroPerformance = await getPlayerHeroPerformance();
   const filterUndefined = heroPerformance.filter((n) => n);
   const removeAxcer = filterUndefined.filter((match) => match.name !== 'Acxer');
@@ -72,12 +72,11 @@ const top5heroes = async (ctx) => {
     ctx.replyWithMarkdown(`Top 5 herot
 Ottelut | Voitot | KDA | Win%
   ${filterEmpty.map((player) => `
-  *${player.name}*
-  ${player.herodata.slice(0, 5).map((hero) => `
-  *${hero.heroName.localized_name}*
-  ${hero.matchCount} | ${hero.winCount} | ${hero.kda.toFixed(2)} | ${calculateWinPercentage(hero)}%`).join('')}
-  `).join('')}
-  `);
+*${player.name}*
+${player.herodata.slice(0, 5).map((hero) => `
+*${hero.heroName.localized_name}* | ${hero.matchCount} | ${hero.winCount} | ${hero.kda.toFixed(2)} | ${calculateWinPercentage(hero)}%`).join('')}
+`).join('')}
+`);
   }
 };
 
@@ -109,15 +108,13 @@ const dota2matchcount = async (ctx) => {
   if (sortMostGames.length === 0) {
     ctx.reply('Perhana, apirajat tulivat vastaan.');
   } else {
-    ctx.replyWithMarkdown(`Dota 2 \nPelit | Voitot | Voittoprosentti\n
-  ${sortMostGames.map((player) => `*${player.name}*
-  ${player.matchCount} | ${player.win} | ${calculateWinPercentage2(player)}%
-  `).join('')}`);
+    ctx.replyWithMarkdown(`Dota 2 \nPelit | Voitot | Voittoprosentti
+${sortMostGames.map((player) => `*${player.name}* | ${player.matchCount} | ${player.win} | ${calculateWinPercentage2(player)}%\n`).join('')}`);
   }
 };
 
 module.exports = {
   recentMatchData,
-  top5heroes,
+  topheroes,
   dota2matchcount,
 };

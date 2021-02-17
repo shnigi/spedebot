@@ -129,8 +129,8 @@ statsit
 nyt
 tanaan
 dota2
-top5heroes
-matchcount
+topheroes
+summary
 `);
   }
 });
