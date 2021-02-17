@@ -64,15 +64,19 @@ const top5heroes = async (ctx) => {
   const filterUndefined = heroPerformance.filter((n) => n);
   const removeAxcer = filterUndefined.filter((match) => match.name !== 'Acxer');
   const filterEmpty = removeAxcer.filter((item) => item.herodata.length > 0);
-  ctx.replyWithMarkdown(`Top 5 herot
-Ottelut | Voitot | KDA
-${filterEmpty.map((player) => `
-*${player.name}*
-${player.herodata.slice(0, 5).map((hero) => `
-*${hero.heroName.localized_name}*
-${hero.matchCount} | ${hero.winCount} | ${hero.kda.toFixed(2)}`).join('')}
-`).join('')}
-`);
+  if (filterEmpty.length === 0) {
+    ctx.reply('Perhana, apirajat tulivat vastaan.');
+  } else {
+    ctx.replyWithMarkdown(`Top 5 herot
+Ottelut | Voitot | KDA | Win%
+  ${filterEmpty.map((player) => `
+  *${player.name}*
+  ${player.herodata.slice(0, 5).map((hero) => `
+  *${hero.heroName.localized_name}*
+  ${hero.matchCount} | ${hero.winCount} | ${hero.kda.toFixed(2)} | ${(hero.winCount / hero.matchCount).toFixed(2)}%`).join('')}
+  `).join('')}
+  `);
+  }
 };
 
 const getPlayerSummary = async () => Promise.all(friendList.map(async (friend) => {
@@ -98,11 +102,14 @@ const dota2matchcount = async (ctx) => {
   const removeAxcer = filterUndefined.filter((match) => match.name !== 'Acxer');
   const filterEmpty = removeAxcer.filter((item) => item.matchCount !== 0);
   const sortMostGames = filterEmpty.sort((a, b) => b.matchCount - a.matchCount);
-  console.log('filterEmpty', filterEmpty);
-  ctx.replyWithMarkdown(`Dota 2 \nPelit | Voitot\n
-${sortMostGames.map((player) => `*${player.name}*
-${player.matchCount} | ${player.win}
-`).join('')}`);
+  if (sortMostGames.length === 0) {
+    ctx.reply('Perhana, apirajat tulivat vastaan.');
+  } else {
+    ctx.replyWithMarkdown(`Dota 2 \nPelit | Voitot | Voittoprosentti\n
+  ${sortMostGames.map((player) => `*${player.name}*
+  ${player.matchCount} | ${player.win} | ${(player.win / player.matchCount).toFixed(2)}%
+  `).join('')}`);
+  }
 };
 
 module.exports = {
