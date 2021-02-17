@@ -59,6 +59,8 @@ const getPlayerHeroPerformance = async () => Promise.all(friendList.map(async (f
   }
 }));
 
+const calculateWinPercentage = (hero) => ((hero.winCount / hero.matchCount) * 100).toFixed(2);
+
 const top5heroes = async (ctx) => {
   const heroPerformance = await getPlayerHeroPerformance();
   const filterUndefined = heroPerformance.filter((n) => n);
@@ -73,7 +75,7 @@ Ottelut | Voitot | KDA | Win%
   *${player.name}*
   ${player.herodata.slice(0, 5).map((hero) => `
   *${hero.heroName.localized_name}*
-  ${hero.matchCount} | ${hero.winCount} | ${hero.kda.toFixed(2)} | ${(hero.winCount / hero.matchCount).toFixed(2)}%`).join('')}
+  ${hero.matchCount} | ${hero.winCount} | ${hero.kda.toFixed(2)} | ${calculateWinPercentage(hero)}%`).join('')}
   `).join('')}
   `);
   }
@@ -96,6 +98,8 @@ const getPlayerSummary = async () => Promise.all(friendList.map(async (friend) =
   }
 }));
 
+const calculateWinPercentage2 = (player) => ((player.win / player.matchCount) * 100).toFixed(2);
+
 const dota2matchcount = async (ctx) => {
   const heroPerformance = await getPlayerSummary();
   const filterUndefined = heroPerformance.filter((n) => n);
@@ -107,7 +111,7 @@ const dota2matchcount = async (ctx) => {
   } else {
     ctx.replyWithMarkdown(`Dota 2 \nPelit | Voitot | Voittoprosentti\n
   ${sortMostGames.map((player) => `*${player.name}*
-  ${player.matchCount} | ${player.win} | ${(player.win / player.matchCount).toFixed(2)}%
+  ${player.matchCount} | ${player.win} | ${calculateWinPercentage2(player)}%
   `).join('')}`);
   }
 };
