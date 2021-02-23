@@ -14,5 +14,7 @@ module.exports = {
     'linebreak-style': 'off',
     indent: ['error', 2],
     'max-len': ['warn', 150],
+    camelcase: 'off',
+    'no-unused-vars': 'off',
   },
 };
