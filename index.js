@@ -145,6 +145,38 @@ summary
   }
 });
 
+let bettiResults = [];
+bot.command('bettipeli', (ctx) => {
+  const [command, betti] = ctx.message.text.split('/bettipeli');
+  const bettiTrimmed = betti.trim();
+  if (bettiTrimmed > 5 || Number.isNaN(Number(bettiTrimmed))) {
+    ctx.reply('Tarvitsen numeron 1-5 urpo.');
+    return;
+  }
+  const { first_name, last_name } = ctx.update.message.from;
+  if (bettiTrimmed && bettiResults.length === 0) {
+    bettiResults.push({ name: `${first_name} ${last_name}`, bet: bettiTrimmed });
+    ctx.reply('Odotetaan haastajaa.');
+  } else if (bettiTrimmed && bettiResults.length === 1) {
+    const sameBet = bettiResults[0].bet === bettiTrimmed;
+    if (sameBet) {
+      ctx.reply('Et voi veikata samaa numeroa 😩');
+      return;
+    }
+    bettiResults.push({ name: `${first_name} ${last_name}`, bet: bettiTrimmed });
+    const winningNumber = Math.floor(Math.random() * 5) + 1;
+    const didSomeoneWin = bettiResults.find((player) => parseInt(player.bet, 2) === winningNumber);
+    if (didSomeoneWin) {
+      ctx.reply(`Voittava numero oli ${winningNumber} ja voittaja oli ${didSomeoneWin.name}!`);
+    } else {
+      ctx.reply(`Ei voittajia, voittava numero oli ${winningNumber}`);
+    }
+    bettiResults = [];
+  } else {
+    ctx.reply('/bettipeli [numero 1-5]');
+  }
+});
+
 bot.command('audio', (ctx) => {
   const [command1, command] = ctx.message.text.split(' ');
   if (command && command !== '') {
