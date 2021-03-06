@@ -22,7 +22,7 @@ const getMemes = async (ctx, memename) => {
 const generateMeme = async (ctx, id, text1, text2) => {
     const topText = encodeURI(text1.trim());
     const bottomText = encodeURI(text2.trim());
-    const generate = await fetch(`https://api.imgflip.com/caption_image?template_id=${id}&username=shnigi2&password=tittiriitattaraa123&text0=${topText}&text1=${bottomText}`, {
+    const generate = await fetch(`https://api.imgflip.com/caption_image?template_id=${id}&username=${process.env.IMGFLIP_USER}&password=${process.env.IMGFLIP_PASSWORD}&text0=${topText}&text1=${bottomText}`, {
         method: 'post',
     });
     const response = await generate.json();
