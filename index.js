@@ -41,6 +41,8 @@ Komentoni ovat:
 /lounas [ravintola]
 /bisse [olut]
 /arvonta [lista]
+/etsimeme [meme name]
+/meme /id /top /bottom
 osakkeet
 perjantai
 raketti
