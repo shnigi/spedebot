@@ -26,6 +26,7 @@ const generateMeme = async (ctx, id, text1, text2) => {
         method: 'post',
     });
     const response = await generate.json();
+    console.log('response', response);
     if (response.success) {
         ctx.replyWithPhoto({ url: response.data.url });
     } else {

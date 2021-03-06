@@ -75,7 +75,7 @@ bot.command('meme', (ctx) => {
     const [notUsed, notUsed2, id, text1, text2] = ctx.message.text.split('/');
     if (id && text1 && text2) generateMeme(ctx, id, text1, text2);
     else {
-        ctx.reply('/meme /id /yläteksti /alateksti');
+        ctx.reply('/meme /id /top /bottom');
     }
 });
 
