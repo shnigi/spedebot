@@ -34,7 +34,21 @@ const generateMeme = async (ctx, id, text1, text2) => {
     }
 };
 
+const showAllMemes = async (ctx) => {
+    const url = 'https://api.imgflip.com/get_memes';
+    const response = await fetch(url);
+    const { data } = await response.json();
+    if (data.memes.length > 0) {
+        ctx.reply(`Tässä kaikki saakelin memet:
+${data.memes.map((meme) => `${meme.name} - ID: ${meme.id}\n`).join('')}
+        `);
+    } else {
+        ctx.reply('Perhana, jotain meni pieleen!');
+    }
+};
+
 module.exports = {
     getMemes,
     generateMeme,
+    showAllMemes,
 };

@@ -23,6 +23,7 @@ const getRandomItem = require('./arvonta');
 const {
     getMemes,
     generateMeme,
+    showAllMemes,
 } = require('./meme');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
@@ -41,7 +42,7 @@ Komentoni ovat:
 /lounas [ravintola]
 /bisse [olut]
 /arvonta [lista]
-/etsimeme [meme name]
+/etsimeme [meme name / all]
 /meme /id /top /bottom
 osakkeet
 perjantai
@@ -67,9 +68,12 @@ bot.command('osake', (ctx) => {
 
 bot.command('etsimeme', (ctx) => {
     const [notUsed, memename] = ctx.message.text.split('/etsimeme');
-    if (memename && memename !== '') getMemes(ctx, memename.trim());
-    else {
-        ctx.reply('/etsimeme [meemin nimi]');
+    if (memename && memename.trim() === 'all') {
+        showAllMemes(ctx);
+    } else if (memename && memename !== '') {
+        getMemes(ctx, memename.trim());
+    } else {
+        ctx.reply('/etsimeme [meemin nimi]\n/etsimeme all');
     }
 });
 
