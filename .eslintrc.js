@@ -12,7 +12,7 @@ module.exports = {
   },
   rules: {
     'linebreak-style': 'off',
-    indent: ['error', 2],
+    indent: ['error', 4],
     'max-len': ['warn', 150],
     camelcase: 'off',
     'no-unused-vars': 'off',

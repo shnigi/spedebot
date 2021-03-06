@@ -3,12 +3,12 @@ const { Telegraf } = require('telegraf');
 const sali = require('./sali');
 const weather = require('./weather');
 const {
-  getStock,
-  getAllStocks,
-  getUserStocks,
-  addStockToUser,
-  removeStock,
-  getGraafi,
+    getStock,
+    getAllStocks,
+    getUserStocks,
+    addStockToUser,
+    removeStock,
+    getGraafi,
 } = require('./stocks');
 const games = require('./games');
 const sketsi = require('./sketsi');
@@ -20,6 +20,10 @@ const lunch = require('./lunch');
 const getBeer = require('./beer');
 const jolipennet = require('./trollit');
 const getRandomItem = require('./arvonta');
+const {
+    getMemes,
+    generateMeme,
+} = require('./meme');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
@@ -52,64 +56,80 @@ jolipennet
 `));
 
 bot.command('osake', (ctx) => {
-  const [command, stock] = ctx.message.text.split(' ');
-  if (stock && stock !== '') getStock(ctx, stock);
-  else {
-    ctx.reply('/osake [osaketunnus]');
-  }
+    const [command, stock] = ctx.message.text.split(' ');
+    if (stock && stock !== '') getStock(ctx, stock);
+    else {
+        ctx.reply('/osake [osaketunnus]');
+    }
+});
+
+bot.command('etsimeme', (ctx) => {
+    const [notUsed, memename] = ctx.message.text.split('/etsimeme');
+    if (memename && memename !== '') getMemes(ctx, memename.trim());
+    else {
+        ctx.reply('/etsimeme [meemin nimi]');
+    }
+});
+
+bot.command('meme', (ctx) => {
+    const [notUsed, notUsed2, id, text1, text2] = ctx.message.text.split('/');
+    if (id && text1 && text2) generateMeme(ctx, id, text1, text2);
+    else {
+        ctx.reply('/meme /id /yläteksti /alateksti');
+    }
 });
 
 bot.command('graafi', (ctx) => {
-  const [command, stock] = ctx.message.text.split(' ');
-  if (stock && stock !== '') getGraafi(ctx, stock);
-  else {
-    ctx.reply('/graafi [osaketunnus]');
-  }
+    const [command, stock] = ctx.message.text.split(' ');
+    if (stock && stock !== '') getGraafi(ctx, stock);
+    else {
+        ctx.reply('/graafi [osaketunnus]');
+    }
 });
 
 bot.command('lounas', (ctx) => {
-  const [command, restaurant] = ctx.message.text.split('/lounas');
-  if (restaurant && restaurant !== '') lunch(ctx, restaurant);
-  else {
-    ctx.reply('/lounas [ravintola]');
-  }
+    const [command, restaurant] = ctx.message.text.split('/lounas');
+    if (restaurant && restaurant !== '') lunch(ctx, restaurant);
+    else {
+        ctx.reply('/lounas [ravintola]');
+    }
 });
 
 bot.command('bisse', (ctx) => {
-  const [command, beer] = ctx.message.text.split('/bisse');
-  if (beer && beer !== '') getBeer(ctx, beer);
-  else {
-    ctx.reply('/bisse [oluen nimi]');
-  }
+    const [command, beer] = ctx.message.text.split('/bisse');
+    if (beer && beer !== '') getBeer(ctx, beer);
+    else {
+        ctx.reply('/bisse [oluen nimi]');
+    }
 });
 
 bot.command('arvonta', (ctx) => {
-  const [command, ...rest] = ctx.message.text.split(' ');
-  if (rest) getRandomItem(ctx, rest);
-  else {
-    ctx.reply('/arvonta [lista asioista]');
-  }
+    const [command, ...rest] = ctx.message.text.split(' ');
+    if (rest) getRandomItem(ctx, rest);
+    else {
+        ctx.reply('/arvonta [lista asioista]');
+    }
 });
 
 bot.command('stocks', (ctx) => {
-  const [notUsed, command, stockname] = ctx.message.text.split(' ');
-  const userName = ctx.update.message.from.username;
-  console.log('ctx.update.message.from', ctx.update.message.from.username);
-  if (!command) getUserStocks(ctx, userName);
-  else if (command === 'add' && stockname !== '') {
-    addStockToUser(ctx, userName, stockname);
-  } else if (command === 'remove' && stockname !== '') {
-    removeStock(ctx, userName, stockname);
-  } else {
-    ctx.reply('Perhana, jotain meni pieleen.');
-  }
+    const [notUsed, command, stockname] = ctx.message.text.split(' ');
+    const userName = ctx.update.message.from.username;
+    console.log('ctx.update.message.from', ctx.update.message.from.username);
+    if (!command) getUserStocks(ctx, userName);
+    else if (command === 'add' && stockname !== '') {
+        addStockToUser(ctx, userName, stockname);
+    } else if (command === 'remove' && stockname !== '') {
+        removeStock(ctx, userName, stockname);
+    } else {
+        ctx.reply('Perhana, jotain meni pieleen.');
+    }
 });
 
 bot.command('hsl', (ctx) => {
-  const [command, name] = ctx.message.text.split(' ');
-  if (name && name !== '') getHslData(ctx, name);
-  else {
-    ctx.reply(`
+    const [command, name] = ctx.message.text.split(' ');
+    if (name && name !== '') getHslData(ctx, name);
+    else {
+        ctx.reply(`
 /hsl [nimi]
 anders
 niki
@@ -125,15 +145,15 @@ kemi
 mara
 chan
 `);
-  }
+    }
 });
 
 bot.command('pelit', (ctx) => {
-  const [command1, command] = ctx.message.text.split(' ');
-  if (command && command !== '') {
-    games(ctx, command);
-  } else {
-    ctx.reply(`
+    const [command1, command] = ctx.message.text.split(' ');
+    if (command && command !== '') {
+        games(ctx, command);
+    } else {
+        ctx.reply(`
 /pelit [komento]
 statsit
 nyt
@@ -142,15 +162,15 @@ dota2
 topheroes
 summary
 `);
-  }
+    }
 });
 
 bot.command('audio', (ctx) => {
-  const [command1, command] = ctx.message.text.split(' ');
-  if (command && command !== '') {
-    playSound(ctx, command);
-  } else {
-    ctx.reply(`
+    const [command1, command] = ctx.message.text.split(' ');
+    if (command && command !== '') {
+        playSound(ctx, command);
+    } else {
+        ctx.reply(`
 /audio [numero]
 1. Aja Saatana
 2. En lähde
@@ -162,25 +182,25 @@ bot.command('audio', (ctx) => {
 8. Pystyn vaan en pistä
 9. Turpa kiinni kloppi
 `);
-  }
+    }
 });
 
 bot.command('keli', (ctx) => {
-  const [command1, command2] = ctx.message.text.split(' ');
-  if (!command2) {
-    weather(ctx);
-  } else {
-    ctx.reply('Mursu se komento on /keli');
-  }
+    const [command1, command2] = ctx.message.text.split(' ');
+    if (!command2) {
+        weather(ctx);
+    } else {
+        ctx.reply('Mursu se komento on /keli');
+    }
 });
 
 bot.command('kamera', (ctx) => {
-  const [command1, command2] = ctx.message.text.split(' ');
-  if (!command2) {
-    ctx.reply('kokeile esim. \n/kamera tornioon\n/kamera ivalo\n/kamera kehä i/\nkamera kehä ii\n/kamera kehä iii\n/kamera tampereelle\n/kamera tuusulaan');
-  } else {
-    getRoadCameras(ctx, command2);
-  }
+    const [command1, command2] = ctx.message.text.split(' ');
+    if (!command2) {
+        ctx.reply('kokeile esim. \n/kamera tornioon\n/kamera ivalo\n/kamera kehä i/\nkamera kehä ii\n/kamera kehä iii\n/kamera tampereelle\n/kamera tuusulaan');
+    } else {
+        getRoadCameras(ctx, command2);
+    }
 });
 
 // Bot commands
