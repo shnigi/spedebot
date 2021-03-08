@@ -1,5 +1,5 @@
 const { pelijonnet, getAndSortMostPlayedPeople, mostPlayedGame } = require('./pelijonnet');
-const { recentMatchData, top5heroes, dota2matchcount } = require('./dota2');
+const { recentMatchData, topheroes, dota2matchcount } = require('./dota2');
 
 const gamesToPlay = ['Sea of thievesiä', 'Phasmophobiaa'];
 const randomGame = (ctx) => {
@@ -24,10 +24,10 @@ const games = (ctx, command) => {
   case 'dota2':
     recentMatchData(ctx);
     break;
-  case 'top5heroes':
-    top5heroes(ctx);
+  case 'topheroes':
+    topheroes(ctx);
     break;
-  case 'matchcount':
+  case 'summary':
     dota2matchcount(ctx);
     break;
   default:
