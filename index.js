@@ -35,6 +35,7 @@ Komentoni ovat:
 /graafi
 /lounas
 /bisse
+/ruletti
 osakkeet
 perjantai
 raketti
@@ -79,6 +80,12 @@ bot.command('bisse', (ctx) => {
   else {
     ctx.reply('/bisse [oluen nimi]');
   }
+});
+
+bot.command('ruletti', (ctx) => {
+  const commands = ['😌 CLICK', '😌 CLICK', '😌 CLICK', '😌 CLICK', '😌 CLICK', 'BANG 🤯🔫'];
+  const answer = commands[Math.floor(Math.random() * commands.length)];
+  ctx.reply(answer);
 });
 
 bot.command('stocks', (ctx) => {
