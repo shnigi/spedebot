@@ -5,7 +5,7 @@ const searchMovie = async (ctx, movieName) => {
     const url = `http://www.omdbapi.com/?t=${movieName}&apikey=${process.env.OMDB_KEY}`;
     const response = await fetch(url);
     const data = await response.json();
-    if (data && data.Response) {
+    if (data && data.Response === 'True') {
         ctx.reply(`${data.Title} - ${data.Year}
 Genre: ${data.Genre}
 Juoni: ${data.Plot}
