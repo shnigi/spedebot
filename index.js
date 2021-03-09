@@ -27,6 +27,7 @@ const {
 } = require('./meme');
 const searchWolfram = require('./search');
 const searchMovie = require('./movie');
+const searchAnime = require('./anime');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
@@ -76,6 +77,14 @@ bot.command('movie', (ctx) => {
     if (movie && movie !== '') searchMovie(ctx, movie);
     else {
         ctx.reply('/movie [elokuvan nimi]');
+    }
+});
+
+bot.command('anime', (ctx) => {
+    const [command, anime] = ctx.message.text.split('/anime');
+    if (anime && anime !== '') searchAnime(ctx, anime);
+    else {
+        ctx.reply('/anime [animen nimi]');
     }
 });
 
