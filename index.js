@@ -35,7 +35,7 @@ bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
 bot.help((ctx) => ctx.reply(`
 Komentoni ovat:
 /help
-/osake
+/osake [ticker]
 /stocks [add, remove]
 /pelit [Antaa lisäkomentoja]
 /audio [numero]
@@ -48,7 +48,8 @@ Komentoni ovat:
 /etsimeme [meme name / all]
 /meme /id /top /bottom
 /ruletti
-/search
+/search [hakusana tai lause]
+/anime [animen nimi]
 /movie [elokuva]
 osakkeet
 perjantai
