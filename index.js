@@ -25,6 +25,7 @@ const {
     generateMeme,
     showAllMemes,
 } = require('./meme');
+const searchWolfram = require('./search');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
@@ -45,6 +46,7 @@ Komentoni ovat:
 /etsimeme [meme name / all]
 /meme /id /top /bottom
 /ruletti
+/search
 osakkeet
 perjantai
 raketti
@@ -107,6 +109,14 @@ bot.command('bisse', (ctx) => {
     if (beer && beer !== '') getBeer(ctx, beer);
     else {
         ctx.reply('/bisse [oluen nimi]');
+    }
+});
+
+bot.command('search', (ctx) => {
+    const [command, searchWord] = ctx.message.text.split('/search');
+    if (searchWord && searchWord !== '') searchWolfram(ctx, searchWord);
+    else {
+        ctx.reply('/search [hakuteksti]');
     }
 });
 
