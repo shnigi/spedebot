@@ -26,6 +26,7 @@ const {
     showAllMemes,
 } = require('./meme');
 const searchWolfram = require('./search');
+const searchMovie = require('./movie');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
@@ -47,6 +48,7 @@ Komentoni ovat:
 /meme /id /top /bottom
 /ruletti
 /search
+/movie [elokuva]
 osakkeet
 perjantai
 raketti
@@ -66,6 +68,14 @@ bot.command('osake', (ctx) => {
     if (stock && stock !== '') getStock(ctx, stock);
     else {
         ctx.reply('/osake [osaketunnus]');
+    }
+});
+
+bot.command('movie', (ctx) => {
+    const [command, movie] = ctx.message.text.split('/movie');
+    if (movie && movie !== '') searchMovie(ctx, movie);
+    else {
+        ctx.reply('/movie [elokuvan nimi]');
     }
 });
 
