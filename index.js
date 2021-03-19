@@ -29,6 +29,7 @@ const searchWolfram = require('./search');
 const searchMovie = require('./movie');
 const searchAnime = require('./anime');
 const googleSearch = require('./googleSearch');
+const rulettiNextlevel = require('./rulettiNextlevel');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
@@ -162,6 +163,11 @@ bot.command('ruletti', (ctx) => {
     const commands = ['😌 CLICK', '😌 CLICK', '😌 CLICK', '😌 CLICK', '😌 CLICK', 'BANG 🤯🔫'];
     const answer = commands[Math.floor(Math.random() * commands.length)];
     ctx.reply(answer);
+});
+
+bot.command('pyssy', (ctx) => {
+    const userName = ctx.update.message.from.username;
+    rulettiNextlevel(ctx, userName);
 });
 
 bot.command('stocks', (ctx) => {
