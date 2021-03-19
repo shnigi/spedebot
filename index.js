@@ -28,6 +28,7 @@ const {
 const searchWolfram = require('./search');
 const searchMovie = require('./movie');
 const searchAnime = require('./anime');
+const googleSearch = require('./googleSearch');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
@@ -45,6 +46,7 @@ Komentoni ovat:
 /lounas [ravintola]
 /bisse [olut]
 /arvonta [lista]
+/google [hakusana tai lause]
 /etsimeme [meme name / all]
 /meme /id /top /bottom
 /ruletti
@@ -78,6 +80,14 @@ bot.command('movie', (ctx) => {
     if (movie && movie !== '') searchMovie(ctx, movie);
     else {
         ctx.reply('/movie [elokuvan nimi]');
+    }
+});
+
+bot.command('google', (ctx) => {
+    const [command, searchWord] = ctx.message.text.split('/google');
+    if (searchWord && searchWord !== '') googleSearch(ctx, searchWord);
+    else {
+        ctx.reply('/google [hakusana tai lause]');
     }
 });
 
