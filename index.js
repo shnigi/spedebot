@@ -54,6 +54,7 @@ Komentoni ovat:
 /search [hakusana tai lause]
 /anime [animen nimi]
 /movie [elokuva]
+/pyssy [tyhjä tai all]
 osakkeet
 perjantai
 raketti
