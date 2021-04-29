@@ -69,23 +69,23 @@ const getGraafi = async (ctx, stockName) => {
 };
 
 const getAllStocks = async (ctx) => {
-    const response = await fetch(`https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols=tlss,mmedf,AVGR,GME,HYLN,pltr`)
-        const stokit = await response.json();
-        const stocks = stokit.quoteResponse.result
+    const response = await fetch(`https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols=tlss,mnmd,AVGR,GME,HYLN,pltr`);
+    const stokit = await response.json();
+    const stocks = stokit.quoteResponse.result;
 
-        ctx.replyWithMarkdown(`
-        ${stocks.map(stock => `*${stock.symbol}*: ${stock.regularMarketPrice}$
+    ctx.replyWithMarkdown(`
+    ${stocks.map((stock) => `*${stock.symbol}*: ${stock.regularMarketPrice}$
 Muutos: ${stock.regularMarketChangePercent.toFixed(2)}% \n\n`).join('')}
 `);
-}
+};
 
 const userStockMessage = (stock) => {
     const marketPrice = stock.regularMarketPrice ? stock.regularMarketPrice : 'Hinta ei tiedossa';
     const currency = stock.currency ? stock.currency : '';
     const change = stock.regularMarketChangePercent ? `Muutos: ${stock.regularMarketChangePercent.toFixed(2)}%` : 'Muutos ei tiedossa';
-    return`
+    return `
 *${stock.symbol}*: ${marketPrice} ${currency} \n${change}\n`;
-}
+};
 
 const getUserStocks = async (ctx, userName) => {
     try {
