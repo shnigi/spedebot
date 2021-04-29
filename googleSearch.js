@@ -7,7 +7,7 @@ const googleSearch = async (ctx, searchWord) => {
         method: 'GET',
         headers: {
             'x-rapidapi-host': 'google-search3.p.rapidapi.com',
-            'x-rapidapi-key': '96b0d2ba5emsh0761b04b049fdacp17ae29jsne81efc14cb14',
+            'x-rapidapi-key': process.env.RAPIDAPI_GOOGLE,
         },
     });
     const data = await response.json();

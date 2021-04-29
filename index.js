@@ -29,6 +29,7 @@ const searchWolfram = require('./search');
 const searchMovie = require('./movie');
 const searchAnime = require('./anime');
 const googleSearch = require('./googleSearch');
+const { rulettiNextlevel, rulettiResults } = require('./rulettiNextlevel');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
@@ -53,6 +54,7 @@ Komentoni ovat:
 /search [hakusana tai lause]
 /anime [animen nimi]
 /movie [elokuva]
+/pyssy [tyhjä tai all]
 osakkeet
 perjantai
 raketti
@@ -162,6 +164,16 @@ bot.command('ruletti', (ctx) => {
     const commands = ['😌 CLICK', '😌 CLICK', '😌 CLICK', '😌 CLICK', '😌 CLICK', 'BANG 🤯🔫'];
     const answer = commands[Math.floor(Math.random() * commands.length)];
     ctx.reply(answer);
+});
+
+bot.command('pyssy', (ctx) => {
+    const [notused, command] = ctx.message.text.split('/pyssy ');
+    const userName = ctx.update.message.from.username;
+    if (command === 'all') {
+        rulettiResults(ctx);
+    } else {
+        rulettiNextlevel(ctx, userName, command);
+    }
 });
 
 bot.command('stocks', (ctx) => {
