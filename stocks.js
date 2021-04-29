@@ -69,7 +69,7 @@ const getGraafi = async (ctx, stockName) => {
 };
 
 const getAllStocks = async (ctx) => {
-    const response = await fetch(`https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols=tlss,mnmd,AVGR,GME,HYLN,pltr`);
+    const response = await fetch(`https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols=tlss,mnmd,AVGR,GME,HYLN,pltr,BTC-EUR,ETH-EUR`);
     const stokit = await response.json();
     const stocks = stokit.quoteResponse.result;
 
