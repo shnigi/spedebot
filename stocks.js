@@ -22,13 +22,10 @@ const getStock = async (ctx, stockName) => {
     if (stokit.quoteResponse.result.length === 0) {
         getStockSuggestions(ctx, stockName);
     } else {
-        const [currentValue] = stokit.quoteResponse.result;
-        const symbol = currentValue.symbol;
-        const regularMarketPrice = (currentValue && currentValue.regularMarketPrice ) && `${currentValue.regularMarketPrice}$` || 'Hinta ei tiedossa';
-        const regularMarketChangePercent = currentValue && currentValue.regularMarketChangePercent && `${currentValue.regularMarketChangePercent.toFixed(2)}%` || 'Ei tiedossa';
-        ctx.reply(`
-${symbol}: ${regularMarketPrice}
-Muutos: ${regularMarketChangePercent}
+        const stocks = stokit.quoteResponse.result;
+        ctx.replyWithMarkdown(`
+    ${stocks.map((stock) => `*${stock.symbol}*: ${stock.regularMarketPrice} ${stock.currency ? stock.currency : ''}
+Muutos: ${stock.regularMarketChangePercent.toFixed(2)}% \n\n`).join('')}
 `);
     }
 };
@@ -74,7 +71,7 @@ const getAllStocks = async (ctx) => {
     const stocks = stokit.quoteResponse.result;
 
     ctx.replyWithMarkdown(`
-    ${stocks.map((stock) => `*${stock.symbol}*: ${stock.regularMarketPrice}$
+    ${stocks.map((stock) => `*${stock.symbol}*: ${stock.regularMarketPrice} ${stock.currency ? stock.currency : ''}
 Muutos: ${stock.regularMarketChangePercent.toFixed(2)}% \n\n`).join('')}
 `);
 };
