@@ -41,11 +41,12 @@ const getCompany = async (ctx, stockName) => {
     if (stokit.quoteSummary.result.length === 0) {
         getStockSuggestions(ctx, stockName);
     } else {
-        const { assetProfile: { industry, sector, website, longBusinessSummary, fullTimeEmployees } } = stokit.quoteSummary.result[0];
+        const { assetProfile: { industry, sector, website, longBusinessSummary, fullTimeEmployees, country } } = stokit.quoteSummary.result[0];
         ctx.replyWithMarkdown(`
 *Toimiala:* ${sector}
 *Nettisivu:* ${website}
-*Työntekijöitä:* ${fullTimeEmployees}
+*Maa:* ${country}
+*Työntekijöitä:* ${fullTimeEmployees || 'ei tiedossa'}
 *Kuvaus:* ${longBusinessSummary}
 `);
     }
