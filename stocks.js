@@ -33,6 +33,27 @@ Muutos: ${regularMarketChangePercent}
     }
 };
 
+const getCompany = async (ctx, stockName) => {
+    const url = `https://query1.finance.yahoo.com/v10/finance/quoteSummary/${stockName}?modules=assetProfile%2CfinancialData%2CrecommendationTrend%2CsummaryDetail%2CsummaryProfile`;
+    const response = await fetch(url);
+    const stokit = await response.json();
+    if (stokit.quoteSummary.result === null) {
+        ctx.reply('Eipä löytynyt mitään tällä tickerillä :/');
+        return;
+    }
+    if (stokit.quoteSummary.result.length === 0) {
+        getStockSuggestions(ctx, stockName);
+    } else {
+        const { assetProfile: { industry, sector, website, longBusinessSummary, fullTimeEmployees } } = stokit.quoteSummary.result[0];
+        ctx.replyWithMarkdown(`
+*Toimiala:* ${sector}
+*Nettisivu:* ${website}
+*Työntekijöitä:* ${fullTimeEmployees}
+*Kuvaus:* ${longBusinessSummary}
+`);
+    }
+};
+
 const getGraafi = async (ctx, stockName) => {
     const url = `https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols=${stockName}`;
     const response = await fetch(url);
@@ -186,4 +207,5 @@ module.exports = {
     addStockToUser,
     removeStock,
     getGraafi,
+    getCompany,
 };

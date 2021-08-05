@@ -9,6 +9,7 @@ const {
     addStockToUser,
     removeStock,
     getGraafi,
+    getCompany,
 } = require('./stocks');
 const games = require('./games');
 const sketsi = require('./sketsi');
@@ -38,6 +39,7 @@ bot.help((ctx) => ctx.reply(`
 Komentoni ovat:
 /help
 /osake [ticker]
+/company [ticker]
 /stocks [add, remove]
 /pelit [Antaa lisäkomentoja]
 /audio [numero]
@@ -74,6 +76,14 @@ bot.command('osake', (ctx) => {
     if (stock && stock !== '') getStock(ctx, stock);
     else {
         ctx.reply('/osake [osaketunnus]');
+    }
+});
+
+bot.command('company', (ctx) => {
+    const [command, stock] = ctx.message.text.split(' ');
+    if (stock && stock !== '') getCompany(ctx, stock);
+    else {
+        ctx.reply('/company [ticker]');
     }
 });
 
