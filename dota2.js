@@ -130,7 +130,7 @@ const inlineMessagePlayers = Markup.inlineKeyboard(
 
 const dota2heroperformance = async (ctx) => {
     ctx.telegram.sendMessage(
-        ctx.from.id,
+        ctx.message.chat.id,
         'Valitse pelaaja',
         inlineMessagePlayers,
     );
@@ -163,6 +163,7 @@ Voittoprosentti: *${winPercentage}%*
         }
     } catch {
         console.log('error');
+        ctx.reply('Dataa ei tainnut löytyä, tai jotain muuta meni pieleen.');
     }
 };
 
