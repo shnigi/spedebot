@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { Telegraf } = require('telegraf');
+const { Telegraf, Markup } = require('telegraf');
 const sali = require('./sali');
 const weather = require('./weather');
 const {
@@ -31,6 +31,9 @@ const searchMovie = require('./movie');
 const searchAnime = require('./anime');
 const googleSearch = require('./googleSearch');
 const { rulettiNextlevel, rulettiResults } = require('./rulettiNextlevel');
+const { dota2heroperformanceSelectHero, getHeroPerformance } = require('./dota2');
+const dota2players = require('./dota2players');
+const dota2heroes = require('./dota2heroes');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
@@ -236,6 +239,7 @@ tanaan
 dota2
 topheroes
 summary
+heroperformance
 `);
     }
 });
@@ -277,6 +281,9 @@ bot.command('kamera', (ctx) => {
         getRoadCameras(ctx, command2);
     }
 });
+
+dota2players.forEach((player) => bot.action(player.name, (ctx) => dota2heroperformanceSelectHero(ctx, player.steamShortId)));
+dota2heroes.forEach((hero) => bot.action(hero.localized_name, (ctx) => getHeroPerformance(ctx, hero.id)));
 
 // Bot commands
 bot.hears('perjantai', (ctx) => ctx.replyWithVideo({ source: './media/perjantai.mp4' }));

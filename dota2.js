@@ -1,5 +1,8 @@
+const { Markup } = require('telegraf');
+const _ = require('lodash');
 const fetch = require('node-fetch');
 const friendList = require('./steamFriendList');
+const dota2players = require('./dota2players');
 const dota2heroes = require('./dota2heroes');
 
 const didPlayerWin = (isRadiant, didRadiantWin) => {
@@ -113,8 +116,61 @@ ${sortMostGames.map((player) => `*${player.name}* | ${player.matchCount} | ${pla
   }
 };
 
+const sortedDota2Heroes = _.sortBy(dota2heroes, ['localized_name']);
+const dota2heroesChunk = _.chunk(sortedDota2Heroes, 4);
+const steamDota2Players = _.chunk(dota2players, 2);
+
+const inlineMessageHeroes = Markup.inlineKeyboard(
+    dota2heroesChunk.map((chunk) => chunk.map((hero) => Markup.button.callback(hero.localized_name, hero.localized_name))),
+);
+
+const inlineMessagePlayers = Markup.inlineKeyboard(
+    steamDota2Players.map((chunk) => chunk.map((player) => Markup.button.callback(player.name, player.name))),
+);
+
+const dota2heroperformance = async (ctx) => {
+    ctx.telegram.sendMessage(
+        ctx.from.id,
+        'Valitse pelaaja',
+        inlineMessagePlayers,
+    );
+};
+
+let selectedPlayer;
+const dota2heroperformanceSelectHero = async (ctx, playerId) => {
+    selectedPlayer = playerId;
+    ctx.telegram.sendMessage(
+        ctx.from.id,
+        'Valitse hero',
+        inlineMessageHeroes,
+    );
+};
+
+const getHeroPerformance = async (ctx, heroId) => {
+    const url = `https://api.stratz.com/api/v1/Player/${selectedPlayer}/heroPerformance/${heroId}`;
+    try {
+        const data = await fetch(url);
+        if (data) {
+            const { matchCount, winCount, maxStreak, mvpCount } = await data.json();
+            const winPercentage = ((winCount / matchCount) * 100).toFixed(2);
+ctx.replyWithMarkdown(`
+Ottelut: *${matchCount}*
+Voitot: *${winCount}*
+Streakit: *${maxStreak}*
+MVP: *${mvpCount}*
+Voittoprosentti: *${winPercentage}%*
+`);
+        }
+    } catch {
+        console.log('error');
+    }
+};
+
 module.exports = {
-  recentMatchData,
-  topheroes,
-  dota2matchcount,
+    recentMatchData,
+    topheroes,
+    dota2matchcount,
+    dota2heroperformance,
+    dota2heroperformanceSelectHero,
+    getHeroPerformance,
 };
