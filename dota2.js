@@ -128,7 +128,11 @@ const inlineMessagePlayers = Markup.inlineKeyboard(
     steamDota2Players.map((chunk) => chunk.map((player) => Markup.button.callback(player.name, player.name))),
 );
 
+let fromChat;
+let selectedPlayer;
+
 const dota2heroperformance = async (ctx) => {
+    fromChat = ctx.message.chat.id;
     ctx.telegram.sendMessage(
         ctx.message.chat.id,
         'Valitse pelaaja',
@@ -136,11 +140,10 @@ const dota2heroperformance = async (ctx) => {
     );
 };
 
-let selectedPlayer;
 const dota2heroperformanceSelectHero = async (ctx, playerId) => {
     selectedPlayer = playerId;
     ctx.telegram.sendMessage(
-        ctx.from.id,
+        fromChat,
         'Valitse hero',
         inlineMessageHeroes,
     );
