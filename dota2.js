@@ -4,6 +4,7 @@ const fetch = require('node-fetch');
 const friendList = require('./steamFriendList');
 const dota2players = require('./dota2players');
 const dota2heroes = require('./dota2heroes');
+const dota2Players = require('./dota2players');
 
 const didPlayerWin = (isRadiant, didRadiantWin) => {
   if (isRadiant && didRadiantWin) {
@@ -151,17 +152,23 @@ const dota2heroperformanceSelectHero = async (ctx, playerId) => {
 
 const getHeroPerformance = async (ctx, heroId) => {
     const url = `https://api.stratz.com/api/v1/Player/${selectedPlayer}/heroPerformance/${heroId}`;
+    const { localized_name } = dota2heroes.find((heroIterator) => heroId === heroIterator.id);
+    const { name } = dota2Players.find((player) => selectedPlayer === player.steamShortId);
     try {
         const data = await fetch(url);
-        if (data) {
-            const { matchCount, winCount, maxStreak, mvpCount } = await data.json();
+        if (data.status === 200) {
+            const json = await data.json();
+            const { matchCount, winCount, maxStreak, mvpCount } = json;
             const winPercentage = ((winCount / matchCount) * 100).toFixed(2);
-ctx.replyWithMarkdown(`
+ctx.reply(`
+Pelaaja: *${name}*
+Hero: *${localized_name}*
 Ottelut: *${matchCount}*
 Voitot: *${winCount}*
 Streakit: *${maxStreak}*
 MVP: *${mvpCount}*
 Voittoprosentti: *${winPercentage}%*
+Nappia painoi: *${ctx.update.message.from.username}*
 `);
         }
     } catch {
