@@ -244,6 +244,7 @@ dota2
 topheroes
 summary
 heroperformance
+eniten
 `);
     }
 });
