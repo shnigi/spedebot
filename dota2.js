@@ -192,8 +192,8 @@ Ottelut: ${matchCount}
 Voitot: ${winCount}
 Streakit: ${maxStreak}
 MVP: ${mvpCount}
-----------------
 Voittoprosentti: ${winPercentage}%
+----------------
 Nappia 1 painoi: ${firstPress}
 Nappia 2 painoi: ${secondPress}
 Nappia 3 painoi: ${thirdPress}
