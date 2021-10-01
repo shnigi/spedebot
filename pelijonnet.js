@@ -77,6 +77,7 @@ const splitGateBasic = async (ctx) => {
 };
 
 const getSplitGateBasicInfo = async (ctx, steamId) => {
+    const { name } = friendList.find((friend) => steamId === friend.id);
     try {
         const url = `https://public-api.tracker.gg/v2/splitgate/standard/profile/steam/${steamId}`;
         const response = await fetch(url, {
@@ -100,6 +101,7 @@ const getSplitGateBasicInfo = async (ctx, steamId) => {
             kd: { displayValue: kdvalue },
         } = data.segments[0].stats;
     ctx.editMessageText(`
+Pelaaja: ${name}
 Tapot: ${killvalue}
 Kuolemat: ${deathvalue}
 Avustukset: ${assistvalue}
