@@ -121,9 +121,15 @@ const sortedDota2Heroes = _.sortBy(dota2heroes, ['localized_name']);
 const dota2heroesChunk = _.chunk(sortedDota2Heroes, 4);
 const steamDota2Players = _.chunk(dota2players, 2);
 
-const inlineMessageHeroes = Markup.inlineKeyboard(
-    dota2heroesChunk.map((chunk) => chunk.map((hero) => Markup.button.callback(hero.localized_name, hero.localized_name))),
-);
+// const inlineMessageHeroes = Markup.inlineKeyboard(
+//     dota2heroesChunk.map((chunk) => chunk.map((hero) => Markup.button.callback(hero.localized_name, hero.localized_name))),
+// );
+
+const inlineMessageCategories = Markup.inlineKeyboard([
+    Markup.button.callback('Strength', 'strength'),
+    Markup.button.callback('Agility', 'agility'),
+    Markup.button.callback('Intelligence', 'mana'),
+]);
 
 const inlineMessagePlayers = Markup.inlineKeyboard(
     steamDota2Players.map((chunk) => chunk.map((player) => Markup.button.callback(player.name, player.name))),
@@ -131,6 +137,7 @@ const inlineMessagePlayers = Markup.inlineKeyboard(
 
 let fromChat;
 let selectedPlayer;
+let heroCateGory;
 let fromSender;
 
 const dota2heroperformance = async (ctx) => {
@@ -143,11 +150,23 @@ const dota2heroperformance = async (ctx) => {
     );
 };
 
-const dota2heroperformanceSelectHero = async (ctx, playerId) => {
+const dota2heroperformanceSelectCategory = async (ctx, playerId) => {
     selectedPlayer = playerId;
     ctx.editMessageText(
+        'Valitse kategoria',
+        inlineMessageCategories,
+    );
+};
+
+const dota2heroperformanceSelectHero = async (ctx, category) => {
+    heroCateGory = category;
+    const categorizedHeroes = sortedDota2Heroes.filter((hero) => hero.type === category);
+    const heroChunks = _.chunk(categorizedHeroes, 4);
+    ctx.editMessageText(
         'Valitse hero',
-        inlineMessageHeroes,
+        Markup.inlineKeyboard(
+            heroChunks.map((chunk) => chunk.map((hero) => Markup.button.callback(hero.localized_name, hero.localized_name))),
+        ),
     );
 };
 
@@ -185,4 +204,5 @@ module.exports = {
     dota2heroperformance,
     dota2heroperformanceSelectHero,
     getHeroPerformance,
+    dota2heroperformanceSelectCategory,
 };

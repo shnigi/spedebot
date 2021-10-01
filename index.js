@@ -31,7 +31,11 @@ const searchMovie = require('./movie');
 const searchAnime = require('./anime');
 const googleSearch = require('./googleSearch');
 const { rulettiNextlevel, rulettiResults } = require('./rulettiNextlevel');
-const { dota2heroperformanceSelectHero, getHeroPerformance } = require('./dota2');
+const {
+    dota2heroperformanceSelectHero,
+    getHeroPerformance,
+    dota2heroperformanceSelectCategory,
+} = require('./dota2');
 const dota2players = require('./dota2players');
 const dota2heroes = require('./dota2heroes');
 
@@ -282,7 +286,9 @@ bot.command('kamera', (ctx) => {
     }
 });
 
-dota2players.forEach((player) => bot.action(player.name, (ctx) => dota2heroperformanceSelectHero(ctx, player.steamShortId)));
+const dota2HeroCategories = ['strength', 'agility', 'mana'];
+dota2players.forEach((player) => bot.action(player.name, (ctx) => dota2heroperformanceSelectCategory(ctx, player.steamShortId)));
+dota2HeroCategories.forEach((category) => bot.action(category, (ctx) => dota2heroperformanceSelectHero(ctx, category)));
 dota2heroes.forEach((hero) => bot.action(hero.localized_name, (ctx) => getHeroPerformance(ctx, hero.id)));
 
 // Bot commands
