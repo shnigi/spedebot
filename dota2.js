@@ -138,11 +138,13 @@ const inlineMessagePlayers = Markup.inlineKeyboard(
 let fromChat;
 let selectedPlayer;
 let heroCateGory;
-let fromSender;
+let firstPress;
+let secondPress;
+let thirdPress;
 
 const dota2heroperformance = async (ctx) => {
     fromChat = ctx.message.chat.id;
-    fromSender = ctx.message.from.username || ctx.message.from.first_name;
+    firstPress = ctx.message.from.username || ctx.message.from.first_name;
     ctx.telegram.sendMessage(
         ctx.message.chat.id,
         'Valitse pelaaja',
@@ -152,6 +154,7 @@ const dota2heroperformance = async (ctx) => {
 
 const dota2heroperformanceSelectCategory = async (ctx, playerId) => {
     selectedPlayer = playerId;
+    secondPress = ctx.update.callback_query.from.username || ctx.update.callback_query.from.first_name;
     ctx.editMessageText(
         'Valitse kategoria',
         inlineMessageCategories,
@@ -160,6 +163,7 @@ const dota2heroperformanceSelectCategory = async (ctx, playerId) => {
 
 const dota2heroperformanceSelectHero = async (ctx, category) => {
     heroCateGory = category;
+    thirdPress = ctx.update.callback_query.from.username || ctx.update.callback_query.from.first_name;
     const categorizedHeroes = sortedDota2Heroes.filter((hero) => hero.type === category);
     const heroChunks = _.chunk(categorizedHeroes, 4);
     ctx.editMessageText(
@@ -176,6 +180,7 @@ const getHeroPerformance = async (ctx, heroId) => {
     const { name } = dota2Players.find((player) => selectedPlayer === player.steamShortId);
     try {
         const data = await fetch(url);
+        console.log('Heroperformance DATA status', data.status);
         if (data.status === 200) {
             const json = await data.json();
             const { matchCount, winCount, maxStreak, mvpCount } = json;
@@ -187,9 +192,15 @@ Ottelut: ${matchCount}
 Voitot: ${winCount}
 Streakit: ${maxStreak}
 MVP: ${mvpCount}
+----------------
 Voittoprosentti: ${winPercentage}%
-Nappia painoi: ${fromSender}
+Nappia 1 painoi: ${firstPress}
+Nappia 2 painoi: ${secondPress}
+Nappia 3 painoi: ${thirdPress}
 `);
+        }
+        if (data.status === 403) {
+            ctx.editMessageText('Käyttäjä ei ole sallinut tiedon hakua?? 403!');
         }
     } catch {
         console.log('error');
