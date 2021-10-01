@@ -131,9 +131,11 @@ const inlineMessagePlayers = Markup.inlineKeyboard(
 
 let fromChat;
 let selectedPlayer;
+let fromSender;
 
 const dota2heroperformance = async (ctx) => {
     fromChat = ctx.message.chat.id;
+    fromSender = ctx.message.from.username || ctx.message.from.first_name;
     ctx.telegram.sendMessage(
         ctx.message.chat.id,
         'Valitse pelaaja',
@@ -143,8 +145,7 @@ const dota2heroperformance = async (ctx) => {
 
 const dota2heroperformanceSelectHero = async (ctx, playerId) => {
     selectedPlayer = playerId;
-    ctx.telegram.sendMessage(
-        fromChat,
+    ctx.editMessageText(
         'Valitse hero',
         inlineMessageHeroes,
     );
@@ -160,15 +161,15 @@ const getHeroPerformance = async (ctx, heroId) => {
             const json = await data.json();
             const { matchCount, winCount, maxStreak, mvpCount } = json;
             const winPercentage = ((winCount / matchCount) * 100).toFixed(2);
-ctx.reply(`
-Pelaaja: *${name}*
-Hero: *${localized_name}*
-Ottelut: *${matchCount}*
-Voitot: *${winCount}*
-Streakit: *${maxStreak}*
-MVP: *${mvpCount}*
-Voittoprosentti: *${winPercentage}%*
-Nappia painoi: *${ctx.update.message.from.username}*
+ctx.editMessageText(`
+Pelaaja: ${name}
+Hero: ${localized_name}
+Ottelut: ${matchCount}
+Voitot: ${winCount}
+Streakit: ${maxStreak}
+MVP: ${mvpCount}
+Voittoprosentti: ${winPercentage}%
+Nappia painoi: ${fromSender}
 `);
         }
     } catch {
