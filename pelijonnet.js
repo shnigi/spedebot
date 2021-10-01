@@ -1,3 +1,4 @@
+const { Markup } = require('telegraf');
 const fetch = require('node-fetch');
 const friendList = require('./steamFriendList');
 
@@ -62,8 +63,65 @@ ${player.name} - ${player.mostPlayedGames[0].name}`).join('')}
 `);
 };
 
+const splitGatePlayers = friendList.filter((friend) => friend.splitgate);
+const inlineMessagePlayers = Markup.inlineKeyboard(
+    splitGatePlayers.map((player) => Markup.button.callback(player.name, player.id)),
+);
+
+const splitGateBasic = async (ctx) => {
+    ctx.telegram.sendMessage(
+        ctx.message.chat.id,
+        'Valitse pelaaja',
+        inlineMessagePlayers,
+    );
+};
+
+const getSplitGateBasicInfo = async (ctx, steamId) => {
+    try {
+        const url = `https://public-api.tracker.gg/v2/splitgate/standard/profile/steam/${steamId}`;
+        const response = await fetch(url, {
+            headers: {
+                'Content-Type': 'application/json',
+                'TRN-Api-Key': process.env.TRACKERGG,
+            },
+        });
+        const { data } = await response.json();
+        const {
+            kills: { displayValue: killvalue },
+            deaths: { displayValue: deathvalue },
+            assists: { displayValue: assistvalue },
+            meleeKills: { displayValue: meleevalue },
+            matchesPlayed: { displayValue: matches },
+            wins: { displayValue: win },
+            losses: { displayValue: los },
+            wlPercentage: { displayValue: winchance },
+            timePlayed: { displayValue: playTime },
+            headshotAccuracy: { displayValue: headshotaccuracy },
+            kd: { displayValue: kdvalue },
+        } = data.segments[0].stats;
+    ctx.editMessageText(`
+Tapot: ${killvalue}
+Kuolemat: ${deathvalue}
+Avustukset: ${assistvalue}
+Meleetapot: ${meleevalue}
+Pelit: ${matches}
+Voitot: ${win}
+Häviöt: ${los}
+Voittoprosentti: ${winchance}
+Peliaika: ${playTime}
+Headshot%: ${headshotaccuracy}
+K/D: ${kdvalue}
+    `);
+    } catch {
+        console.log('Splitgate error');
+        ctx.editMessageText('Jotain meni mönkään.');
+    }
+};
+
 module.exports = {
-  pelijonnet,
-  getAndSortMostPlayedPeople,
-  mostPlayedGame,
+    pelijonnet,
+    getAndSortMostPlayedPeople,
+    mostPlayedGame,
+    splitGateBasic,
+    getSplitGateBasicInfo,
 };

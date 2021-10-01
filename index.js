@@ -13,7 +13,11 @@ const {
 } = require('./stocks');
 const games = require('./games');
 const sketsi = require('./sketsi');
-const { pelijonnet, getAndSortMostPlayedPeople } = require('./pelijonnet');
+const {
+    pelijonnet,
+    getAndSortMostPlayedPeople,
+    getSplitGateBasicInfo,
+} = require('./pelijonnet');
 const playSound = require('./playSound');
 const getHslData = require('./hslData');
 const getRoadCameras = require('./roadCameras');
@@ -38,6 +42,7 @@ const {
 } = require('./dota2');
 const dota2players = require('./dota2players');
 const dota2heroes = require('./dota2heroes');
+const steamFriendList = require('./steamFriendList');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
@@ -245,6 +250,7 @@ topheroes
 summary
 heroperformance
 eniten
+splitgate
 `);
     }
 });
@@ -287,10 +293,14 @@ bot.command('kamera', (ctx) => {
     }
 });
 
+// inline button listeners
 const dota2HeroCategories = ['strength', 'agility', 'mana'];
 dota2players.forEach((player) => bot.action(player.name, (ctx) => dota2heroperformanceSelectCategory(ctx, player.steamShortId)));
 dota2HeroCategories.forEach((category) => bot.action(category, (ctx) => dota2heroperformanceSelectHero(ctx, category)));
 dota2heroes.forEach((hero) => bot.action(hero.localized_name, (ctx) => getHeroPerformance(ctx, hero.id)));
+
+const splitGatePlayers = steamFriendList.filter((friend) => friend.splitgate);
+splitGatePlayers.forEach((player) => bot.action(player.id, (ctx) => getSplitGateBasicInfo(ctx, player.id)));
 
 // Bot commands
 bot.hears('perjantai', (ctx) => ctx.replyWithVideo({ source: './media/perjantai.mp4' }));

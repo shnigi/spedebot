@@ -1,4 +1,4 @@
-const { pelijonnet, getAndSortMostPlayedPeople, mostPlayedGame } = require('./pelijonnet');
+const { pelijonnet, getAndSortMostPlayedPeople, mostPlayedGame, splitGateBasic } = require('./pelijonnet');
 const { recentMatchData, topheroes, dota2matchcount, dota2heroperformance } = require('./dota2');
 
 const gamesToPlay = ['Sea of thievesiä', 'Phasmophobiaa'];
@@ -32,6 +32,9 @@ const games = (ctx, command) => {
         break;
     case 'heroperformance':
         dota2heroperformance(ctx);
+        break;
+    case 'splitgate':
+        splitGateBasic(ctx);
         break;
     default:
         ctx.reply('Komento väärin, kokeile urpo uudestaan.');
