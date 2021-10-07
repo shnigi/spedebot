@@ -202,10 +202,9 @@ bot.command('pyssy', (ctx) => {
 const getNumberBetween = (limit, existingNumbers) => {
     const randomNumber = Math.floor(Math.random() * limit) + 1;
     if (existingNumbers.includes(randomNumber)) {
-        getNumberBetween(limit, existingNumbers);
-    } else {
-        return randomNumber;
+        return getNumberBetween(limit, existingNumbers);
     }
+    return randomNumber;
 };
 
 bot.command('eurojaska', (ctx) => {
