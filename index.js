@@ -69,6 +69,7 @@ Komentoni ovat:
 /anime [animen nimi]
 /movie [elokuva]
 /pyssy [tyhjä tai all]
+/eurojaska
 osakkeet
 perjantai
 raketti
@@ -196,6 +197,31 @@ bot.command('pyssy', (ctx) => {
     } else {
         rulettiNextlevel(ctx, userName, command);
     }
+});
+
+const getNumberBetween = (limit, existingNumbers) => {
+    const randomNumber = Math.floor(Math.random() * limit) + 1;
+    if (existingNumbers.includes(randomNumber)) {
+        getNumberBetween(limit, existingNumbers);
+    } else {
+        return randomNumber;
+    }
+};
+
+bot.command('eurojaska', (ctx) => {
+    const lottoBaseNumbers = [];
+    const lottoExtraNumbers = [];
+    for (let i = 0; i < 5; i++) {
+        const baseNumber = getNumberBetween(50, lottoBaseNumbers);
+        lottoBaseNumbers.push(baseNumber);
+    }
+    for (let i = 0; i < 2; i++) {
+        const extraNumber = getNumberBetween(10, lottoExtraNumbers);
+        lottoExtraNumbers.push(extraNumber);
+    }
+    const base = lottoBaseNumbers.sort((a, b) => a - b);
+    const extra = lottoExtraNumbers.sort((a, b) => a - b);
+    ctx.reply(`${base} - ${extra}`);
 });
 
 bot.command('stocks', (ctx) => {
