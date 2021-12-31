@@ -71,6 +71,7 @@ Komentoni ovat:
 /anime [animen nimi]
 /movie [elokuva]
 /pyssy [tyhjä tai all]
+/niki
 /eurojaska
 osakkeet
 perjantai
@@ -219,6 +220,15 @@ bot.command('pyssy', (ctx) => {
     } else {
         rulettiNextlevel(ctx, userName, command);
     }
+});
+
+bot.command('niki', async (ctx) => {
+    const url = `https://api.ouraring.com/v1/readiness?access_token=${process.env.NIKIOURA}`;
+    const req = await fetch(url);
+    const data = await req.json();
+    const [readiness] = data.readiness.reverse();
+ctx.reply(`Valmiustaso tänään: ${readiness.score}
+Palauduttu: ${readiness.score_recovery_index}%`);
 });
 
 const getNumberBetween = (limit, existingNumbers) => {
