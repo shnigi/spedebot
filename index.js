@@ -231,6 +231,15 @@ ctx.reply(`Valmiustaso tänään: ${readiness.score}
 Palauduttu: ${readiness.score_recovery_index}%`);
 });
 
+bot.command('halmela', async (ctx) => {
+    const url = `https://api.ouraring.com/v1/readiness?access_token=${process.env.HALMELAOURA}`;
+    const req = await fetch(url);
+    const data = await req.json();
+    const [readiness] = data.readiness.reverse();
+    ctx.reply(`Valmiustaso tänään: ${readiness.score}
+Palauduttu: ${readiness.score_recovery_index}%`);
+});
+
 const getNumberBetween = (limit, existingNumbers) => {
     const randomNumber = Math.floor(Math.random() * limit) + 1;
     if (existingNumbers.includes(randomNumber)) {
