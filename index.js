@@ -4,6 +4,7 @@ const { Telegraf, Markup } = require('telegraf');
 const fetch = require('node-fetch');
 const sali = require('./sali');
 const weather = require('./weather');
+const tommigeneraattori = require('./tommigeneraattori');
 const {
     getStock,
     getAllStocks,
@@ -73,6 +74,7 @@ Komentoni ovat:
 /pyssy [tyhjä tai all]
 /niki
 /halmela
+/tommigeneraattori
 /eurojaska
 osakkeet
 perjantai
@@ -221,6 +223,10 @@ bot.command('pyssy', (ctx) => {
     } else {
         rulettiNextlevel(ctx, userName, command);
     }
+});
+
+bot.command('tommigeneraattori', (ctx) => {
+    tommigeneraattori(ctx);
 });
 
 bot.command('niki', async (ctx) => {
