@@ -72,6 +72,7 @@ Komentoni ovat:
 /movie [elokuva]
 /pyssy [tyhjä tai all]
 /niki
+/halmela
 /eurojaska
 osakkeet
 perjantai
