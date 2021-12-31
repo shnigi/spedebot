@@ -1,5 +1,23 @@
-const thoughts = ['Pitäisköhän', 'Koskahan sitä viitsisi', 'Milloin sitä voisi', 'Muistakaa', 'Tänään pitää', 'Jahha täytyy'];
-const how = ['kävellä', 'pyöräillä', 'ryömiä', 'kikkailla', 'siirtyä'];
+const thoughts = [
+    'Pitäisiköhän',
+    'Koskahan sitä viitsisi',
+    'Milloinkohan sitä voisi',
+    'Muistakaa',
+    'Tänään pitää',
+    'Jahha täytyy',
+    'Täytyypä',
+    'Pitääpä',
+    'Kohta saa',
+];
+const how = [
+    'kävellä',
+    'pyöräillä',
+    'ryömiä',
+    'kikkailla',
+    'siirtyä',
+    'mennä',
+    'lähteä',
+];
 const what = [
     'kauppaan',
     'salille',
@@ -9,7 +27,10 @@ const what = [
     'tekemään SETIT',
     'lepäämään',
     'penkkaamaan',
-    'kyykkäämään'];
+    'kyykkäämään',
+    'juomaan maitua',
+    'tammiston cittariin',
+];
 
 const getRandomItem = (array) => array[Math.floor(Math.random() * array.length)];
 
