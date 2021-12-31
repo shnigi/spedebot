@@ -74,7 +74,7 @@ Komentoni ovat:
 /pyssy [tyhjä tai all]
 /niki
 /halmela
-/tommigeneraattori
+/tommi
 /eurojaska
 osakkeet
 perjantai
@@ -225,10 +225,6 @@ bot.command('pyssy', (ctx) => {
     }
 });
 
-bot.command('tommigeneraattori', (ctx) => {
-    tommigeneraattori(ctx);
-});
-
 bot.command('niki', async (ctx) => {
     const url = `https://api.ouraring.com/v1/readiness?access_token=${process.env.NIKIOURA}`;
     const req = await fetch(url);
@@ -245,6 +241,10 @@ bot.command('halmela', async (ctx) => {
     const [readiness] = data.readiness.reverse();
     ctx.reply(`Valmiustaso tänään: ${readiness.score}
 Palauduttu: ${readiness.score_recovery_index}%`);
+});
+
+bot.command('tommi', (ctx) => {
+    tommigeneraattori(ctx);
 });
 
 const getNumberBetween = (limit, existingNumbers) => {
