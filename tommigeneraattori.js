@@ -8,6 +8,8 @@ const thoughts = [
     'Täytyypä',
     'Pitääpä',
     'Kohta saa',
+    'Taidanpa',
+    'Taidan',
 ];
 const how = [
     'kävellä',
@@ -30,6 +32,11 @@ const what = [
     'kyykkäämään',
     'juomaan maitua',
     'tammiston cittariin',
+    'dominoimaan splitgate kenttiä',
+    'saunaan',
+    'splitgateen',
+    'vetämään mömmöt',
+    'tekemään klarnalasku',
 ];
 
 const getRandomItem = (array) => array[Math.floor(Math.random() * array.length)];
