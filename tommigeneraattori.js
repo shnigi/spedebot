@@ -37,6 +37,7 @@ const what = [
     'splitgateen',
     'vetämään mömmöt',
     'tekemään klarnalasku',
+    'tilaamaan kanakebab ilman kastiketta',
 ];
 
 const getRandomItem = (array) => array[Math.floor(Math.random() * array.length)];
