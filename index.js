@@ -5,6 +5,7 @@ const fetch = require('node-fetch');
 const sali = require('./sali');
 const weather = require('./weather');
 const tommigeneraattori = require('./tommigeneraattori');
+const ouraData = require('./ouraData');
 const {
     getStock,
     getAllStocks,
@@ -226,21 +227,11 @@ bot.command('pyssy', (ctx) => {
 });
 
 bot.command('niki', async (ctx) => {
-    const url = `https://api.ouraring.com/v1/readiness?access_token=${process.env.NIKIOURA}`;
-    const req = await fetch(url);
-    const data = await req.json();
-    const [readiness] = data.readiness.reverse();
-ctx.reply(`Valmiustaso tänään: ${readiness.score}
-Palauduttu: ${readiness.score_recovery_index}%`);
+    ouraData(ctx, process.env.NIKIOURA);
 });
 
 bot.command('halmela', async (ctx) => {
-    const url = `https://api.ouraring.com/v1/readiness?access_token=${process.env.HALMELAOURA}`;
-    const req = await fetch(url);
-    const data = await req.json();
-    const [readiness] = data.readiness.reverse();
-    ctx.reply(`Valmiustaso tänään: ${readiness.score}
-Palauduttu: ${readiness.score_recovery_index}%`);
+    ouraData(ctx, process.env.HALMELAOURA);
 });
 
 bot.command('tommi', (ctx) => {
