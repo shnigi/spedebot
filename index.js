@@ -5,6 +5,7 @@ const fetch = require('node-fetch');
 const sali = require('./sali');
 const weather = require('./weather');
 const tommigeneraattori = require('./tommigeneraattori');
+const fitBitTommi = require('./fittommi');
 const {
     getStock,
     getAllStocks,
@@ -245,6 +246,10 @@ Palauduttu: ${readiness.score_recovery_index}%`);
 
 bot.command('tommi', (ctx) => {
     tommigeneraattori(ctx);
+});
+
+bot.command('fittommi', (ctx) => {
+    fitBitTommi(ctx);
 });
 
 const getNumberBetween = (limit, existingNumbers) => {
