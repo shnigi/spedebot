@@ -76,6 +76,7 @@ Komentoni ovat:
 /pyssy [tyhjä tai all]
 /niki
 /halmela
+/fittommi
 /tommi
 /eurojaska
 osakkeet
