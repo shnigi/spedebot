@@ -76,7 +76,7 @@ Komentoni ovat:
 /pyssy [tyhjä tai all]
 /niki
 /halmela
-/fittommi
+/tommismi
 /tommi
 /eurojaska
 osakkeet
@@ -236,11 +236,11 @@ bot.command('halmela', async (ctx) => {
     ouraData(ctx, process.env.HALMELAOURA);
 });
 
-bot.command('tommi', (ctx) => {
+bot.command('tommismi', (ctx) => {
     tommigeneraattori(ctx);
 });
 
-bot.command('fittommi', (ctx) => {
+bot.command('tommi', (ctx) => {
     fitBitTommi(ctx);
 });
 
