@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+const moment = require('moment');
 
 const ouraData = async (ctx, token) => {
     const urls = [
@@ -10,8 +11,9 @@ const ouraData = async (ctx, token) => {
         return resp.json();
     }));
     const [readiness] = req[0].readiness.reverse();
+    const datehack = moment(readiness.summary_date, 'YYYY-MM-DD').add(1, 'days').format('DD.MM.YYYY');
     const [sleep] = req[1].sleep.reverse();
-    ctx.reply(`${readiness.summary_date.split('-').reverse().join('.')}
+    ctx.reply(`${datehack}
 Valmiustaso: ${readiness.score}
 Unipisteet: ${sleep.score}
 Nukuttu: ${(sleep.total / 60 / 60).toFixed(2)} tuntia
