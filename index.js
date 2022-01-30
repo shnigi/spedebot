@@ -6,6 +6,7 @@ const sali = require('./sali');
 const weather = require('./weather');
 const tommigeneraattori = require('./tommigeneraattori');
 const fitBitTommi = require('./fittommi');
+const ouraData = require('./ouraData');
 const {
     getStock,
     getAllStocks,
@@ -227,21 +228,11 @@ bot.command('pyssy', (ctx) => {
 });
 
 bot.command('niki', async (ctx) => {
-    const url = `https://api.ouraring.com/v1/readiness?access_token=${process.env.NIKIOURA}`;
-    const req = await fetch(url);
-    const data = await req.json();
-    const [readiness] = data.readiness.reverse();
-ctx.reply(`Valmiustaso tänään: ${readiness.score}
-Palauduttu: ${readiness.score_recovery_index}%`);
+    ouraData(ctx, process.env.NIKIOURA);
 });
 
 bot.command('halmela', async (ctx) => {
-    const url = `https://api.ouraring.com/v1/readiness?access_token=${process.env.HALMELAOURA}`;
-    const req = await fetch(url);
-    const data = await req.json();
-    const [readiness] = data.readiness.reverse();
-    ctx.reply(`Valmiustaso tänään: ${readiness.score}
-Palauduttu: ${readiness.score_recovery_index}%`);
+    ouraData(ctx, process.env.HALMELAOURA);
 });
 
 bot.command('tommi', (ctx) => {
@@ -383,6 +374,7 @@ splitGatePlayers.forEach((player) => bot.action(player.id, (ctx) => getSplitGate
 // Bot commands
 bot.hears('perjantai', (ctx) => ctx.replyWithVideo({ source: './media/perjantai.mp4' }));
 bot.hears('perjantai2', (ctx) => ctx.replyWithVideo({ source: './media/perjantai2.mp4' }));
+bot.hears('perjantai3', (ctx) => ctx.replyWithVideo({ source: './media/perjantai3.mp4' }));
 bot.hears('raketti', (ctx) => ctx.replyWithVideo({ source: './media/korko.mp4' }));
 bot.hears('keli', (ctx) => weather(ctx));
 bot.hears('sup', (ctx) => ctx.reply('Haista sinä mursu paska!'));
@@ -396,10 +388,11 @@ bot.hears('jolipennet', (ctx) => jolipennet(ctx));
 bot.hears('eipelata', (ctx) => ctx.replyWithVideo({ source: './media/eipelata.mp4' }));
 
 // Bot alias
-bot.hears('Perjantai2', (ctx) => ctx.replyWithVideo({ source: './media/perjantai2.mp4' }));
 bot.hears('Eipelata', (ctx) => ctx.replyWithVideo({ source: './media/eipelata.mp4' }));
 bot.hears('Jolipennet', (ctx) => jolipennet(ctx));
 bot.hears('Perjantai', (ctx) => ctx.replyWithVideo({ source: './media/perjantai.mp4' }));
+bot.hears('Perjantai2', (ctx) => ctx.replyWithVideo({ source: './media/perjantai2.mp4' }));
+bot.hears('Perjantai3', (ctx) => ctx.replyWithVideo({ source: './media/perjantai3.mp4' }));
 bot.hears('Raketti', (ctx) => ctx.replyWithVideo({ source: './media/korko.mp4' }));
 bot.hears('Keli', (ctx) => weather(ctx));
 bot.hears('Sup', (ctx) => ctx.reply('Haista sinä mursu paska!'));
