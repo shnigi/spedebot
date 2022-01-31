@@ -236,6 +236,10 @@ bot.command('halmela', async (ctx) => {
     ouraData(ctx, process.env.HALMELAOURA);
 });
 
+bot.command('juuso', async (ctx) => {
+    ouraData(ctx, process.env.JUUSOOURA);
+});
+
 bot.command('tommismi', (ctx) => {
     tommigeneraattori(ctx);
 });
