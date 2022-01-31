@@ -75,6 +75,7 @@ Komentoni ovat:
 /movie [elokuva]
 /pyssy [tyhjä tai all]
 /niki
+/juuso
 /halmela
 /tommismi
 /tommi
