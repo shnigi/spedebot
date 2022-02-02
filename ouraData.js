@@ -16,14 +16,18 @@ const ouraData = async (ctx, token) => {
         const resp = await fetch(url);
         return resp.json();
     }));
-    const [{ readiness: [readiness] }, { sleep: [sleep] }, { activity: [activity] }] = req;
-    const datehack = moment(readiness.summary_date, 'YYYY-MM-DD').add(1, 'days').format('DD.MM.YYYY');
+    if (req[0].readiness.length) {
+        const [{ readiness: [readiness] }, { sleep: [sleep] }, { activity: [activity] }] = req;
+        const datehack = moment(readiness.summary_date, 'YYYY-MM-DD').add(1, 'days').format('DD.MM.YYYY');
     ctx.reply(`${datehack}
 Valmiustaso: ${readiness.score}
 Unipisteet: ${sleep.score}
 Nukuttu: ${(sleep.total / 60 / 60).toFixed(2)} tuntia
 Askeleet: ${activity.steps}
 `);
+    } else {
+        ctx.reply('No eipä ole vielä avattu äppiä tältä päivältä!');
+    }
 };
 
 module.exports = ouraData;
