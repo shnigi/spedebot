@@ -22,21 +22,20 @@ const fitBitTommi = async (ctx) => {
     }));
 
     if (data) {
-        const [{ sleep: [sleep] }, { activities: [activities] }] = data;
+        const [{ sleep: [sleep], summary: sleepSummary }, { activities: [activities], summary: activitySummary }] = data;
         const { efficiency } = sleep;
         const sleepStart = moment(sleep.startTime).format('HH.mm');
         const sleepEnd = moment(sleep.endTime).format('HH.mm');
-        const { steps, calories } = activities;
-        const sleptHours = getSleepTime(data[0].summary.totalMinutesAsleep);
+        const sleptHours = getSleepTime(sleepSummary.totalMinutesAsleep);
         const [year, month, day] = sleep.dateOfSleep.split('-');
+        const { steps } = activitySummary;
 ctx.reply(`
 ${day}.${month}.${year}
+Sammu: ${sleepStart}
+Heräs: ${sleepEnd}
 Nukuttu: ${sleptHours}
 Unen tehokkuus: ${efficiency}
-Unille: ${sleepStart}
-Herätys: ${sleepEnd}
 Askeleet: ${steps}
-Aktiivisetkalorit: ${calories}
 `);
     }
 };
