@@ -50,6 +50,12 @@ const friendList = [
     dota: true,
     splitgate: false,
   }, {
+    name: 'Nappasukeke 2',
+    id: '76561198147397408',
+    steamShortId: '187131680',
+    dota: true,
+    splitgate: false,
+  }, {
     name: 'Weakki',
     id: '76561197979493922',
     steamShortId: '19228194',
