@@ -20,6 +20,7 @@ const summaryQuery = (steamIds) => gql`
           isDotaPlusSubscriber,
           isAnonymous,
           smurfFlag,
+          id,
         }
        }
      }
@@ -49,7 +50,8 @@ const recentMatchesQuery = (steamId) => gql`
   player(steamAccountId: ${steamId}) {
     steamAccount {
       name,
-      isAnonymous
+      isAnonymous,
+      id,
     },
     matches(request: {isParsed: true, take: 5}) {
       didRadiantWin,
@@ -76,7 +78,7 @@ const getRecentMatches = async (ctx) => {
     const data = await Promise.all(dota2PlayerIds.map(async (playerId) => graphQLClient.request(recentMatchesQuery(playerId))));
     // const data = await Promise.all([graphQLClient.request(recentMatchesQuery('15452480')), graphQLClient.request(recentMatchesQuery('11180593'))]);
     ctx.reply(data.map((gamer) => `
-Pelaaja: ${gamer.player.steamAccount.name}
+Pelaaja: ${gamer.player.steamAccount.name} ${gamer.player.steamAccount.id === 188479752 ? '(Smurffi)' : ''}
 ${!gamer.player.steamAccount.isAnonymous ? `Ottelut: ${gamer.player.matches.map((match) => `${match.players[0].isVictory ? '✅' : '❌'}`).join('')}` : 'Anonyymi'}
 `).join(''));
 };
