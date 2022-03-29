@@ -3,7 +3,7 @@ on: [push]
 jobs:
   deploy:
     if: github.ref == 'refs/heads/master'
-    runs-on: [ubuntu-latest]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
       - name: Deploy to production
@@ -13,4 +13,4 @@ jobs:
           port: ${{ secrets.PORT }}
           username: ${{ secrets.SERVER_USERNAME }}
           password: ${{ secrets.SERVER_PASSWORD }}
-          script: cd spedebot && git pull && npm ci && pm2 restart spedebot
+          script:  export NVM_DIR=~/.nvm && source ~/.nvm/nvm.sh && cd spedebot && git pull && npm ci && pm2 restart spedebot
