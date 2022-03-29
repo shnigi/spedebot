@@ -320,10 +320,8 @@ bot.command('pelit', (ctx) => {
 statsit
 nyt
 tanaan
-dota2
-topheroes
-summary
-heroperformance
+dota
+dotamatches
 eniten
 splitgate
 `);

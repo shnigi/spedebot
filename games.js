@@ -1,10 +1,7 @@
 const {
     pelijonnet, getAndSortMostPlayedPeople, mostPlayedGame, splitGateBasic,
 } = require('./pelijonnet');
-const {
-    topheroes, dota2matchcount, dota2heroperformance,
-} = require('./dota2');
-const { getPlayerSummaries } = require('./dota2_new');
+const { getPlayerSummaries, getRecentMatches } = require('./dota2_new');
 
 const gamesToPlay = ['Sea of thievesiä', 'Phasmophobiaa', 'Dotaa', 'Apexia', 'Splitgatea', 'Groundedia'];
 const randomGame = (ctx) => {
@@ -26,20 +23,11 @@ const games = (ctx, command) => {
     case 'eniten':
         mostPlayedGame(ctx);
         break;
-    case 'dota2':
+    case 'dota':
         getPlayerSummaries(ctx);
         break;
-    case 'topheroes':
-        ctx.reply('Komento korjataan piakkoin');
-        // topheroes(ctx);
-        break;
-    case 'summary':
-        ctx.reply('Komento korjataan piakkoin');
-        // dota2matchcount(ctx);
-        break;
-    case 'heroperformance':
-        ctx.reply('Komento korjataan piakkoin');
-        // dota2heroperformance(ctx);
+    case 'dotamatches':
+        getRecentMatches(ctx);
         break;
     case 'splitgate':
         splitGateBasic(ctx);
