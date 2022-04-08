@@ -1,9 +1,10 @@
 const fetch = require('node-fetch');
 const moment = require('moment');
+const { format } = require('date-fns');
 
 const getSleepData = (data) => {
     const time = new Date(data);
-    return time.toLocaleTimeString();
+    return format(time, 'HH:mm');
 };
 
 const ouraData = async (ctx, token) => {
