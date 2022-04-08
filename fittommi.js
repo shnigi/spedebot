@@ -29,12 +29,12 @@ const fitBitTommi = async (ctx) => {
         const sleptHours = getSleepTime(sleepSummary.totalMinutesAsleep);
         const [year, month, day] = sleep.dateOfSleep.split('-');
         const { steps } = activitySummary;
-ctx.reply(`
-${day}.${month}.${year}
+ctx.replyWithMarkdown(`
+*${day}.${month}.${year}*
 Sammu: ${sleepStart}
 Heräs: ${sleepEnd}
 Nukuttu: ${sleptHours}
-Unen tehokkuus: ${efficiency}
+Unipisteet: ${efficiency}
 Askeleet: ${steps}
 `);
     }
