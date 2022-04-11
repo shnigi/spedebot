@@ -3,7 +3,7 @@ const moment = require('moment');
 
 const getSleepTime = (n) => `${n / 60 ^ 0}:` + n % 60;
 
-const fitBitTommi = async (ctx) => {
+const fitBitTommi = async (ctx, name) => {
     const date = new Date();
     const formattedDate = date.toISOString().split('T')[0];
     const urls = [
@@ -30,6 +30,7 @@ const fitBitTommi = async (ctx) => {
         const [year, month, day] = sleep.dateOfSleep.split('-');
         const { steps } = activitySummary;
 ctx.replyWithMarkdown(`
+*${name || ''}*
 *${day}.${month}.${year}*
 Sammu: ${sleepStart}
 Heräs: ${sleepEnd}

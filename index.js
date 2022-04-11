@@ -1,7 +1,5 @@
 require('dotenv').config();
-const fs = require('fs');
-const { Telegraf, Markup } = require('telegraf');
-const fetch = require('node-fetch');
+const { Telegraf } = require('telegraf');
 const sali = require('./sali');
 const weather = require('./weather');
 const tommigeneraattori = require('./tommigeneraattori');
@@ -239,6 +237,13 @@ bot.command('halmela', async (ctx) => {
 
 bot.command('juuso', async (ctx) => {
     ouraData(ctx, process.env.JUUSOOURA);
+});
+
+bot.command('life', async (ctx) => {
+    ouraData(ctx, process.env.NIKIOURA, 'Niki');
+    ouraData(ctx, process.env.HALMELAOURA, 'Halmela');
+    ouraData(ctx, process.env.JUUSOOURA, 'Juuso');
+    fitBitTommi(ctx, 'Tommi');
 });
 
 bot.command('tommismi', (ctx) => {

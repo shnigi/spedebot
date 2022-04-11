@@ -7,7 +7,7 @@ const getSleepData = (data) => {
     return format(time, 'HH:mm');
 };
 
-const ouraData = async (ctx, token) => {
+const ouraData = async (ctx, token, name) => {
     const date = new Date();
     const date2 = new Date();
     const formattedDateCurrentDate = date.toISOString().split('T')[0];
@@ -27,7 +27,8 @@ const ouraData = async (ctx, token) => {
         const datehack = moment(readiness.summary_date, 'YYYY-MM-DD').add(1, 'days').format('DD.MM.YYYY');
         const steps = (activity && activity.steps) || 'Ei tietoa';
         const wentToSleep = new Date();
-ctx.replyWithMarkdown(`*${datehack}*
+ctx.replyWithMarkdown(`*${name || ''}*
+*${datehack}*
 Valmiustaso: ${readiness.score}
 Sammu: ${getSleepData(sleep.bedtime_start)}
 Heräs: ${getSleepData(sleep.bedtime_end)}
