@@ -77,6 +77,7 @@ Komentoni ovat:
 /halmela
 /tommismi
 /tommi
+/life
 /eurojaska
 osakkeet
 perjantai
