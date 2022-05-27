@@ -73,6 +73,7 @@ Komentoni ovat:
 /movie [elokuva]
 /pyssy [tyhjä tai all]
 /niki
+/samu
 /juuso
 /halmela
 /tommismi
@@ -236,6 +237,10 @@ bot.command('halmela', async (ctx) => {
     ouraData(ctx, process.env.HALMELAOURA);
 });
 
+bot.command('samu', async (ctx) => {
+    ouraData(ctx, process.env.SAMUOURA);
+});
+
 bot.command('juuso', async (ctx) => {
     ouraData(ctx, process.env.JUUSOOURA);
 });
@@ -244,6 +249,7 @@ bot.command('life', async (ctx) => {
     ouraData(ctx, process.env.NIKIOURA, 'Niki');
     ouraData(ctx, process.env.HALMELAOURA, 'Halmela');
     ouraData(ctx, process.env.JUUSOOURA, 'Juuso');
+    ouraData(ctx, process.env.SAMUOURA, 'Samu');
     fitBitTommi(ctx, 'Tommi');
 });
 
