@@ -1,8 +1,6 @@
 const fetch = require('node-fetch');
 const moment = require('moment');
 
-const getSleepTime = (n) => `${n / 60 ^ 0}:` + n % 60;
-
 const fitBitTommi = async (ctx, name) => {
     const date = new Date();
     const formattedDate = date.toISOString().split('T')[0];
@@ -26,15 +24,16 @@ const fitBitTommi = async (ctx, name) => {
         const { efficiency } = sleep;
         const sleepStart = moment(sleep.startTime).format('HH.mm');
         const sleepEnd = moment(sleep.endTime).format('HH.mm');
-        const sleptHours = getSleepTime(sleepSummary.totalMinutesAsleep);
+        const sleepScore = moment.utc().startOf('day').add(sleepSummary.totalMinutesAsleep, 'minutes').format('hh:mm');
         const [year, month, day] = sleep.dateOfSleep.split('-');
         const { steps } = activitySummary;
+
 ctx.replyWithMarkdown(`
 *${name || ''}*
 *${day}.${month}.${year}*
 Sammu: ${sleepStart}
 Heräs: ${sleepEnd}
-Nukuttu: ${sleptHours}
+Nukuttu: ${sleepScore}
 Unipisteet: ${efficiency}
 Askeleet: ${steps}
 `);
