@@ -72,6 +72,7 @@ Komentoni ovat:
 /anime [animen nimi]
 /movie [elokuva]
 /pyssy [tyhjä tai all]
+/roll (arpoo numeron 1-100)
 /niki
 /samu
 /juuso
@@ -128,6 +129,11 @@ bot.command('company', (ctx) => {
     else {
         ctx.reply('/company [ticker]');
     }
+});
+
+bot.command('roll', (ctx) => {
+    const number = Math.floor(Math.random() * 101);
+    ctx.reply(`${number}`);
 });
 
 bot.command('movie', (ctx) => {
