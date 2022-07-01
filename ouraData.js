@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
 const moment = require('moment');
-const { format } = require('date-fns');
+const { format, intervalToDuration } = require('date-fns');
 
 const getSleepData = (data) => {
     const time = new Date(data);
@@ -26,13 +26,13 @@ const ouraData = async (ctx, token, name) => {
         const [{ readiness: [readiness] }, { sleep: [sleep] }, { activity: [activity] }] = req;
         const datehack = moment(readiness.summary_date, 'YYYY-MM-DD').add(1, 'days').format('DD.MM.YYYY');
         const steps = (activity && activity.steps) || 'Ei tietoa';
-        const wentToSleep = new Date();
+        const { hours, minutes } = intervalToDuration({ start: 0, end: sleep.total * 1000 });
 ctx.replyWithMarkdown(`*${name || ''}*
 *${datehack}*
 Valmiustaso: ${readiness.score}
 Sammu: ${getSleepData(sleep.bedtime_start)}
 Heräs: ${getSleepData(sleep.bedtime_end)}
-Nukuttu: ${(sleep.total / 60 / 60).toFixed(2)} tuntia
+Nukuttu: ${hours}:${minutes}
 Unipisteet: ${sleep.score}
 Askeleet: ${steps}
 `);

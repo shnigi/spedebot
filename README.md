@@ -36,3 +36,6 @@ https://query1.finance.yahoo.com/v10/finance/quoteSummary/FB?modules=assetProfil
 
 
 https://query1.finance.yahoo.com/v10/finance/quoteSummary/avgr?modules=assetProfile%2CfinancialData%2CrecommendationTrend%2CsummaryDetail%2CsummaryProfile
+
+To use speech.js
+create folder and file: downloads/speech.mp3
