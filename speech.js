@@ -11,7 +11,11 @@ const speech = (ctx, text) => {
         response.pipe(file);
         file.on('finish', () => {
             file.close();
-            ctx.replyWithAudio({ source: filePath });
+            if (response.statusCode === 400) {
+                ctx.reply('Osaan vain lyhyitä lauseita!');
+            } else {
+                ctx.replyWithAudio({ source: filePath });
+            }
         });
     });
 };
