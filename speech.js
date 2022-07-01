@@ -1,19 +1,21 @@
 const http = require('http'); // or 'https' for https:// URLs
 const fs = require('fs');
+const path = require('path');
 
 const speech = (ctx, text) => {
     const textToQuery = encodeURI(text);
-    const file = fs.createWriteStream('./downloads/speech.mp3');
+    const filePath = path.join(__dirname, './downloads/speech.mp3');
+    const file = fs.createWriteStream(filePath);
     const baseUrl = 'http://translate.google.com.vn/translate_tts?ie=UTF-8&q=';
     http.get(`${baseUrl}${textToQuery}&tl=fi&client=tw-ob`, (response) => {
         response.pipe(file);
         file.on('finish', () => {
             file.close();
-            ctx.replyWithAudio({ source: './downloads/speech.mp3' });
+            ctx.replyWithAudio({ source: filePath });
             try {
-                fs.unlinkSync('./downloads/speech.mp3');
+                fs.unlinkSync(filePath);
             } catch (err) {
-                console.error(err);
+                console.error('removing file errored:', err);
             }
         });
     });
