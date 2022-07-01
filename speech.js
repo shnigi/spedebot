@@ -12,11 +12,6 @@ const speech = (ctx, text) => {
         file.on('finish', () => {
             file.close();
             ctx.replyWithAudio({ source: filePath });
-            try {
-                fs.unlinkSync(filePath);
-            } catch (err) {
-                console.error('removing file errored:', err);
-            }
         });
     });
 };
