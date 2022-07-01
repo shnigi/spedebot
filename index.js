@@ -46,6 +46,7 @@ const {
 const dota2players = require('./dota2players');
 const dota2heroes = require('./dota2heroes');
 const steamFriendList = require('./steamFriendList');
+const speech = require('./speech');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
@@ -70,6 +71,7 @@ Komentoni ovat:
 /ruletti
 /search [hakusana tai lause]
 /anime [animen nimi]
+/puhe [lause]
 /movie [elokuva]
 /pyssy [tyhjä tai all]
 /roll (arpoo numeron 1-100)
@@ -208,6 +210,14 @@ bot.command('search', (ctx) => {
     if (searchWord && searchWord !== '') searchWolfram(ctx, searchWord);
     else {
         ctx.reply('/search [hakuteksti]');
+    }
+});
+
+bot.command('puhe', (ctx) => {
+    const [_, sentence] = ctx.message.text.split('/puhe');
+    if (sentence && sentence !== '') speech(ctx, sentence);
+    else {
+        ctx.reply('/puhe [lause]');
     }
 });
 
