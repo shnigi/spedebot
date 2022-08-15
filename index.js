@@ -87,6 +87,7 @@ osakkeet
 perjantai
 raketti
 pim
+tilipäivä
 keli
 sketsi
 sup
