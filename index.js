@@ -408,6 +408,7 @@ splitGatePlayers.forEach((player) => bot.action(player.id, (ctx) => getSplitGate
 bot.hears('perjantai', (ctx) => ctx.replyWithVideo({ source: './media/perjantai.mp4' }));
 bot.hears('perjantai2', (ctx) => ctx.replyWithVideo({ source: './media/perjantai2.mp4' }));
 bot.hears('perjantai3', (ctx) => ctx.replyWithVideo({ source: './media/perjantai3.mp4' }));
+bot.hears('perjantai4', (ctx) => ctx.replyWithVideo({ source: './media/perjantai4.mp4' }));
 bot.hears('tilipäivä', (ctx) => ctx.replyWithVideo({ source: './media/tilipaiva.mp4' }));
 bot.hears('raketti', (ctx) => ctx.replyWithVideo({ source: './media/korko.mp4' }));
 bot.hears('keli', (ctx) => weather(ctx));
@@ -427,6 +428,7 @@ bot.hears('Jolipennet', (ctx) => jolipennet(ctx));
 bot.hears('Perjantai', (ctx) => ctx.replyWithVideo({ source: './media/perjantai.mp4' }));
 bot.hears('Perjantai2', (ctx) => ctx.replyWithVideo({ source: './media/perjantai2.mp4' }));
 bot.hears('Perjantai3', (ctx) => ctx.replyWithVideo({ source: './media/perjantai3.mp4' }));
+bot.hears('Perjantai4', (ctx) => ctx.replyWithVideo({ source: './media/perjantai4.mp4' }));
 bot.hears('Tilipäivä', (ctx) => ctx.replyWithVideo({ source: './media/tilipaiva.mp4' }));
 bot.hears('Raketti', (ctx) => ctx.replyWithVideo({ source: './media/korko.mp4' }));
 bot.hears('Keli', (ctx) => weather(ctx));
