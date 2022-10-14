@@ -22,7 +22,13 @@ const ouraData = async (ctx, token, name) => {
         const resp = await fetch(url);
         return resp.json();
     }));
-    if (req[0].readiness.length) {
+
+    if (req[0] && req[0].status === 401) {
+        ctx.reply('Vituiks män, rajapinnassa on häiriö tai apiavain vanhentunut.');
+        return;
+    }
+
+    if (req[0] && req[0].readiness && req[0].readiness.length) {
         const [{ readiness: [readiness] }, { sleep: [sleep] }, { activity: [activity] }] = req;
         const datehack = moment(readiness.summary_date, 'YYYY-MM-DD').add(1, 'days').format('DD.MM.YYYY');
         const steps = (activity && activity.steps) || 'Ei tietoa';
