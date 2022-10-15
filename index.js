@@ -107,14 +107,6 @@ bot.command('osake', (ctx) => {
     }
 });
 
-bot.on('message', async (ctx) => {
-    const { caption, photo } = ctx.update.message;
-    if (photo && caption && caption === 'ai') {
-        const url = await ctx.telegram.getFileLink(photo[1].file_id);
-        imageRecognition(ctx, url);
-    }
-});
-
 bot.command('company', (ctx) => {
     const [command, stock] = ctx.message.text.split(' ');
     if (stock && stock !== '') getCompany(ctx, stock);
@@ -240,6 +232,7 @@ bot.command('niki', async (ctx) => {
 });
 
 bot.command('halmela', async (ctx) => {
+    console.log('öö wat');
     ouraData(ctx, process.env.HALMELAOURA);
 });
 
@@ -428,5 +421,13 @@ bot.hears('Sketsi', (ctx) => sketsi(ctx));
 bot.hears('Pelijonnet', (ctx) => pelijonnet(ctx));
 bot.hears('Osakkeet', (ctx) => getAllStocks(ctx));
 bot.hears('Pelistatsit', (ctx) => getAndSortMostPlayedPeople(ctx));
+
+bot.on('message', async (ctx) => {
+    const { caption, photo } = ctx.update.message;
+    if (photo && caption && caption === 'ai') {
+        const url = await ctx.telegram.getFileLink(photo[1].file_id);
+        imageRecognition(ctx, url);
+    }
+});
 
 bot.launch();
