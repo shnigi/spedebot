@@ -47,6 +47,7 @@ const dota2players = require('./dota2players');
 const dota2heroes = require('./dota2heroes');
 const steamFriendList = require('./steamFriendList');
 const speech = require('./speech');
+const imageRecognition = require('./imageServices');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
@@ -106,25 +107,13 @@ bot.command('osake', (ctx) => {
     }
 });
 
-// const downloadFile = (async (url) => {
-//     const res = await fetch(url);
-//     const fileStream = fs.createWriteStream('./filename.jpg');
-//     await new Promise((resolve, reject) => {
-//         res.body.pipe(fileStream);
-//         res.body.on('error', reject);
-//         fileStream.on('finish', resolve);
-//     });
-// });
-
-// bot.on('message', async (ctx) => {
-//     console.log('PHOTOS', ctx.update.message.photo);
-//     const { file_id } = ctx.update.message.photo[3];
-//     const fileUrl = await ctx.telegram.getFileLink(file_id);
-//     const { caption } = ctx.update.message;
-//     console.log('CTX caption', caption);
-//     console.log('file link', fileUrl);
-//     downloadFile(fileUrl);
-// });
+bot.on('message', async (ctx) => {
+    const { caption, photo } = ctx.update.message;
+    if (photo && caption && caption === 'ai') {
+        const url = await ctx.telegram.getFileLink(photo[1].file_id);
+        imageRecognition(ctx, url);
+    }
+});
 
 bot.command('company', (ctx) => {
     const [command, stock] = ctx.message.text.split(' ');
