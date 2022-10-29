@@ -232,7 +232,6 @@ bot.command('niki', async (ctx) => {
 });
 
 bot.command('halmela', async (ctx) => {
-    console.log('öö wat');
     ouraData(ctx, process.env.HALMELAOURA);
 });
 
