@@ -424,10 +424,15 @@ bot.hears('Pelistatsit', (ctx) => getAndSortMostPlayedPeople(ctx));
 bot.on('message', async (ctx) => {
     console.log('ctx.message', ctx.message);
     const { caption, photo } = ctx.update.message;
-    if (photo && caption && caption === 'ai') {
-        const url = await ctx.telegram.getFileLink(photo[1].file_id);
-        imageRecognition(ctx, url);
-    }
+    if (photo && caption) {
+        if (caption === 'ai') {
+            const url = await ctx.telegram.getFileLink(photo[1].file_id);
+            imageRecognition(ctx, url);
+        }
+        if (caption.toLowerCase() === 'setit' && ctx.message.from.id === 152047241) {
+            ctx.reply('Jumalauta Tommi, Anders suuttuu');
+        }
+    } 
 });
 
 bot.launch();
