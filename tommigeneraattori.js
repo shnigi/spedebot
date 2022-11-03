@@ -40,10 +40,32 @@ const what = [
     'tilaamaan kanakebab ilman kastiketta',
 ];
 
+const lausahdukset = [
+    'Kohta on palkkapäivä',
+    'Koska pääsee salille',
+    'Halmela se vaan pötköttelee',
+    'Kohta tulee seTIT',
+    'Kohtahan se on tilipäivä',
+    'Pihvejä kanajauheliha pedillä',
+    'Vastatkaa HETI!',
+    'En ikinä',
+    'HPPH',
+    'Ai että',
+    'Sinä senkin',
+    'Pitää optimoida virtsan väri',
+    'Sellaset vauva-gear setit',
+    'Ei vauvasuille',
+];
+
 const getRandomItem = (array) => array[Math.floor(Math.random() * array.length)];
+const randomNumber = () => Math.floor(Math.random() * 10);
 
 const tommigeneraattori = (ctx) => {
-    ctx.reply(`${getRandomItem(thoughts)} ${getRandomItem(how)} ${getRandomItem(what)}`);
+    if (randomNumber() > 5) {
+        ctx.reply(`${getRandomItem(lausahdukset)}`);
+    } else {
+        ctx.reply(`${getRandomItem(thoughts)} ${getRandomItem(how)} ${getRandomItem(what)}`);
+    }
 };
 
 module.exports = tommigeneraattori;
