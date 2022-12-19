@@ -72,6 +72,7 @@ Komentoni ovat:
 /meme /id /top /bottom
 /ruletti
 /search [hakusana tai lause]
+/wikipedia [hakusana tai lause]
 /anime [animen nimi]
 /puhe [lause]
 /movie [elokuva]
