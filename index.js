@@ -48,6 +48,7 @@ const dota2heroes = require('./dota2heroes');
 const steamFriendList = require('./steamFriendList');
 const speech = require('./speech');
 const imageRecognition = require('./imageServices');
+const wikipedia = require('./wikipedia');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
@@ -104,6 +105,14 @@ bot.command('osake', (ctx) => {
     if (stock && stock !== '') getStock(ctx, stock);
     else {
         ctx.reply('/osake [osaketunnus]');
+    }
+});
+
+bot.command('wikipedia', (ctx) => {
+    const [_, query] = ctx.message.text.split('/wikipedia');
+    if (query && query !== '') wikipedia(ctx, query);
+    else {
+        ctx.reply('/wikipedia [hakusana]');
     }
 });
 
