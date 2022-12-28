@@ -49,7 +49,7 @@ const steamFriendList = require('./steamFriendList');
 const speech = require('./speech');
 const imageRecognition = require('./imageServices');
 const wikipedia = require('./wikipedia');
-const openAi = require('./openai');
+const { generateImage, shortChat } = require('./openai');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
@@ -121,9 +121,17 @@ bot.command('wikipedia', (ctx) => {
 
 bot.command('imagine', (ctx) => {
     const [_, query] = ctx.message.text.split('/imagine');
-    if (query && query !== '') openAi(ctx, query);
+    if (query && query !== '') generateImage(ctx, query);
     else {
         ctx.reply('/imagine [lause]');
+    }
+});
+
+bot.command('/chat', (ctx) => {
+    const [_, query] = ctx.message.text.split('/chat');
+    if (query && query !== '') shortChat(ctx, query);
+    else {
+        ctx.reply('/chat [lause]');
     }
 });
 

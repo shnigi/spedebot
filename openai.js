@@ -5,7 +5,7 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-const openAi = async (ctx, query) => {
+const generateImage = async (ctx, query) => {
     console.log('starting openai image generation');
     const imagineText = encodeURI(query.trim());
     try {
@@ -29,4 +29,31 @@ const openAi = async (ctx, query) => {
       }
 };
 
-module.exports = openAi;
+const shortChat = async (ctx, query) => {
+    const text = encodeURI(query.trim());
+    try {
+        const response = await openai.createCompletion({
+            model: "text-davinci-003",
+            prompt: `Human: ${text}`,
+            temperature: 0.9,
+            max_tokens: 150,
+            top_p: 1,
+            frequency_penalty: 0.0,
+            presence_penalty: 0.6,
+            stop: [" Human:", " AI:"],
+          });
+          console.log('chat', response);
+          ctx.reply(response.data.choices[0].text);
+      } catch (error) {
+        if (error.response) {
+          ctx.reply('Quota täynnä tai jotain meni pieleen')
+          console.log(error.response.status);
+          console.log(error.response.data);
+        } else {
+          ctx.reply('Quota täynnä tai jotain meni pieleen')
+          console.log(error.message);
+        }
+      }
+};
+
+module.exports = { generateImage, shortChat };
