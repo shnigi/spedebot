@@ -19,9 +19,11 @@ const openAi = async (ctx, query) => {
           ctx.replyWithPhoto({ url: image_url });
       } catch (error) {
         if (error.response) {
+          ctx.reply('Quota täynnä tai jotain meni pieleen')
           console.log(error.response.status);
           console.log(error.response.data);
         } else {
+          ctx.reply('Quota täynnä tai jotain meni pieleen')
           console.log(error.message);
         }
       }
