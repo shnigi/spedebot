@@ -80,6 +80,7 @@ Komentoni ovat:
 /pyssy [tyhjä tai all]
 /roll (arpoo numeron 1-100)
 /imagine [lause]
+/chat [lause]
 /niki
 /samu
 /juuso
@@ -127,7 +128,7 @@ bot.command('imagine', (ctx) => {
     }
 });
 
-bot.command('/chat', (ctx) => {
+bot.command('chat', (ctx) => {
     const [_, query] = ctx.message.text.split('/chat');
     if (query && query !== '') shortChat(ctx, query);
     else {
