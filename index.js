@@ -49,6 +49,7 @@ const steamFriendList = require('./steamFriendList');
 const speech = require('./speech');
 const imageRecognition = require('./imageServices');
 const wikipedia = require('./wikipedia');
+const openAi = require('./openai');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
@@ -78,6 +79,7 @@ Komentoni ovat:
 /movie [elokuva]
 /pyssy [tyhjä tai all]
 /roll (arpoo numeron 1-100)
+/imagine [lause]
 /niki
 /samu
 /juuso
@@ -114,6 +116,14 @@ bot.command('wikipedia', (ctx) => {
     if (query && query !== '') wikipedia(ctx, query);
     else {
         ctx.reply('/wikipedia [hakusana]');
+    }
+});
+
+bot.command('imagine', (ctx) => {
+    const [_, query] = ctx.message.text.split('/imagine');
+    if (query && query !== '') openAi(ctx, query);
+    else {
+        ctx.reply('/imagine [lause]');
     }
 });
 

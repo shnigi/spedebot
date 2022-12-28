@@ -78,10 +78,6 @@ const getGraafi = async (ctx, stockName) => {
             path: 'stock.png',
             fullPage: true,
         });
-        // await page.screenshot({
-        //     path: 'stock.png',
-        //     clip: { x: 0, y: 510, width: 640, height: 270 }
-        // });
         await browser.close();
         ctx.replyWithPhoto({ source: './stock.png' });
     }
