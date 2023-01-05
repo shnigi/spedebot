@@ -7,10 +7,9 @@ const openai = new OpenAIApi(configuration);
 
 const generateImage = async (ctx, query) => {
   console.log('starting openai image generation');
-  const imagineText = encodeURI(query.trim());
   try {
     const response = await openai.createImage({
-      prompt: imagineText,
+      prompt: query,
       n: 1,
       size: '1024x1024',
     });
@@ -39,8 +38,9 @@ const shortChat = async (ctx, query) => {
       top_p: 1,
       frequency_penalty: 0.0,
       presence_penalty: 0.6,
-      stop: [' Human:', ' AI:'],
+      stop: [' Human:'],
     });
+    console.log(response.data);
     ctx.reply(response.data.choices[0].text);
   } catch (error) {
     if (error.response) {
