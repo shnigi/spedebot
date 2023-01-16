@@ -47,7 +47,7 @@ const lausahdukset = [
     'Kohta tulee seTIT',
     'Kohtahan se on tilipäivä',
     'Pihvejä kanajauheliha pedillä',
-    'Vastatkaa HETI!',
+    'Vastatkaa VÄLITTÖMÄSTI!',
     'En ikinä',
     'HPPH',
     'Ai että',
@@ -55,13 +55,24 @@ const lausahdukset = [
     'Pitää optimoida virtsan väri',
     'Sellaset vauva-gear setit',
     'Ei vauvasuille',
+    'Maitua maitua!',
+    'Laitanpa nugetit pöhöttimeen',
+    'Laitanpa kanat pöhöttimeen',
+    'seTIT',
+    'Kohta pääsee salille',
+    'Piti mennä pötköttelemään',
+    '160km/h konsulttielämää',
+    'Pöhötinpullat ai että',
+    'Ei ole möykkäpäivä',
+    'Kaikista ei ole 120km/h konsultin elämään',
+    'Kohta on palkkapäivä'
 ];
 
 const getRandomItem = (array) => array[Math.floor(Math.random() * array.length)];
 const randomNumber = () => Math.floor(Math.random() * 10);
 
 const tommigeneraattori = (ctx) => {
-    if (randomNumber() > 5) {
+    if (randomNumber() > 3) {
         ctx.reply(`${getRandomItem(lausahdukset)}`);
     } else {
         ctx.reply(`${getRandomItem(thoughts)} ${getRandomItem(how)} ${getRandomItem(what)}`);
