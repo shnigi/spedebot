@@ -42,6 +42,7 @@ const speech = require('./speech');
 const imageRecognition = require('./imageServices');
 const wikipedia = require('./wikipedia');
 const { generateImage, shortChat } = require('./openai');
+const { news } = require('./news');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
@@ -74,9 +75,8 @@ Komentoni ovat:
 /roll (arpoo numeron 1-100)
 /imagine [lause]
 /chat [lause]
+/news
 /niki
-/samu
-/juuso
 /halmela
 /tommismi
 /tommi
@@ -136,6 +136,10 @@ bot.command('chat', (ctx) => {
   else {
     ctx.reply('/chat [lause]');
   }
+});
+
+bot.command('news', (ctx) => {
+  news(ctx);
 });
 
 bot.command('company', (ctx) => {
