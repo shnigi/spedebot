@@ -43,6 +43,7 @@ const imageRecognition = require('./imageServices');
 const wikipedia = require('./wikipedia');
 const { generateImage, shortChat } = require('./openai');
 const { news } = require('./news');
+const ourav2 = require('./ourav2');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
@@ -263,11 +264,11 @@ bot.command('pyssy', (ctx) => {
 });
 
 bot.command('niki', async (ctx) => {
-  ouraData(ctx, process.env.NIKIOURA);
+  ourav2(ctx, process.env.NIKIOURA, 'Niki');
 });
 
 bot.command('halmela', async (ctx) => {
-  ouraData(ctx, process.env.HALMELAOURA);
+  ourav2(ctx, process.env.HALMELAOURA, 'Teemu');
 });
 
 // bot.command('samu', async (ctx) => {

@@ -22,6 +22,7 @@ const fitBitTommi = async (ctx, name) => {
   );
 
   if (data) {
+    console.log('data', data);
     if (data[0] && data[0].errors) {
       return ctx.reply(`Please do the needful: ${data[0].errors[0].errorType}`);
     }
