@@ -268,7 +268,7 @@ bot.command('niki', async (ctx) => {
 });
 
 bot.command('halmela', async (ctx) => {
-  ourav2(ctx, process.env.HALMELAOURA, 'Teemu');
+  ourav2(ctx, process.env.HALMELAOURA, 'Halmela');
 });
 
 // bot.command('samu', async (ctx) => {
@@ -280,8 +280,8 @@ bot.command('halmela', async (ctx) => {
 // });
 
 bot.command('life', async (ctx) => {
-  ouraData(ctx, process.env.NIKIOURA, 'Niki');
-  ouraData(ctx, process.env.HALMELAOURA, 'Halmela');
+  ourav2(ctx, process.env.NIKIOURA, 'Niki');
+  ourav2(ctx, process.env.HALMELAOURA, 'Halmela');
   // ouraData(ctx, process.env.JUUSOOURA, 'Juuso');
   // ouraData(ctx, process.env.SAMUOURA, 'Samu');
   fitBitTommi(ctx, 'Tommi');
