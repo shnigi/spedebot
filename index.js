@@ -280,11 +280,11 @@ bot.command('halmela', async (ctx) => {
 // });
 
 bot.command('life', async (ctx) => {
-  ourav2(ctx, process.env.NIKIOURA, 'Niki');
-  ourav2(ctx, process.env.HALMELAOURA, 'Halmela');
+  await ourav2(ctx, process.env.NIKIOURA, 'Niki');
+  fitBitTommi(ctx, 'Tommi');
+  await ourav2(ctx, process.env.HALMELAOURA, 'Halmela');
   // ouraData(ctx, process.env.JUUSOOURA, 'Juuso');
   // ouraData(ctx, process.env.SAMUOURA, 'Samu');
-  fitBitTommi(ctx, 'Tommi');
 });
 
 bot.command('tommismi', (ctx) => {
