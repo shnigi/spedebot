@@ -29,13 +29,14 @@ const ourav2 = async (ctx, token, name) => {
   );
   console.log('req', req);
 
-  if (req && req[0] && req[0].data) {
+  if (req && req[0] && req[0].data && req[1] && req[2] && req[3]) {
     // daily sleep score
     const { day, score: sleepScore } = req[0].data[0];
     const date = parse(day, 'yyyy-mm-dd', new Date());
     const formattedDate = format(date, 'dd.mm.yyyy');
     // Sleep data
-    const { bedtime_start, bedtime_end, total_sleep_duration } = req[1].data[1];
+    const sleepArray = req[1].data.find(item => item.type === 'long_sleep');
+    const { bedtime_start, bedtime_end, total_sleep_duration } = sleepArray;
     const timeinBed = intervalToDuration({
       start: parseISO(bedtime_start),
       end: parseISO(bedtime_end)
@@ -56,8 +57,10 @@ Pötkötelty: ${timeinBed.hours}h ${timeinBed.minutes}min
 Nukuttu: ${slept.hours}h ${slept.minutes}min
 Askeleet eilen: ${steps}
 `);
-  } else {
+  } else if (req[0].message) {
     ctx.reply(req[0].message);
+  } else {
+    ctx.reply('Eipä ole avattu äppiä ja API päivittämättä, tai jotain muuta meni pieleen')
   }
 };
 
