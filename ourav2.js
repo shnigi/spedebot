@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const { format, parse, subDays } = require('date-fns');
+const { format, parse, subDays, intervalToDuration, parseISO } = require('date-fns');
 
 const formatSleepTime = (timestamp) => format(new Date(timestamp), 'HH:mm');
 
@@ -35,7 +35,12 @@ const ourav2 = async (ctx, token, name) => {
     const date = parse(day, 'yyyy-mm-dd', new Date());
     const formattedDate = format(date, 'dd.mm.yyyy');
     // Sleep data
-    const { bedtime_start, bedtime_end } = req[1].data[0];
+    const { bedtime_start, bedtime_end, total_sleep_duration } = req[1].data[1];
+    const timeinBed = intervalToDuration({
+      start: parseISO(bedtime_start),
+      end: parseISO(bedtime_end)
+    });
+    const slept = intervalToDuration({ start: 0, end: total_sleep_duration * 1000 })
     // Readiness
     const { score: readiness } = req[2].data[0];
     // Activity
@@ -47,6 +52,8 @@ Valmiustaso: ${readiness}
 Unipisteet: ${sleepScore}
 Sammu: ${formatSleepTime(bedtime_start)}
 Heräs: ${formatSleepTime(bedtime_end)}
+Pötkötelty: ${timeinBed.hours}h ${timeinBed.minutes}min
+Nukuttu: ${slept.hours}h ${slept.minutes}min
 Askeleet eilen: ${steps}
 `);
   } else {
