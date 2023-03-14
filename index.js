@@ -44,6 +44,7 @@ const wikipedia = require('./wikipedia');
 const { generateImage, shortChat } = require('./openai');
 const { news } = require('./news');
 const ourav2 = require('./ourav2');
+const { getDysonClubCode } = require('./dysonclub');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
@@ -77,6 +78,7 @@ Komentoni ovat:
 /imagine [lause]
 /chat [lause]
 /news
+/dysonclub
 /niki
 /halmela
 /tommismi
@@ -138,6 +140,8 @@ bot.command('chat', (ctx) => {
     ctx.reply('/chat [lause]');
   }
 });
+
+bot.command('dysonclub', (ctx) => getDysonClubCode(ctx));
 
 bot.command('news', (ctx) => {
   news(ctx);
