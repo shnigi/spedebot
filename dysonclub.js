@@ -10,7 +10,7 @@ const getDysonClubCode = async (ctx) => {
       });
     const result = await resp.text()
     if (result) {
-        ctx.reply(result);
+        ctx.reply(`Koodisi on rekisteröity, se on voimassa 2 minuuttia: ${result}`);
     } else {
         ctx.reply('Jotain meni vituiksi');
     }
