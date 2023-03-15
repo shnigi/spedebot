@@ -29,19 +29,29 @@ const ourav2 = async (ctx, token, name) => {
   );
   console.log('req', req);
 
-  if (req && req[0] && req[0].data && req[1] && req[2] && req[3]) {
+  if (
+    req &&
+    req[0] &&
+    req[0].data.length &&
+    req[1] &&
+    req[1].data.length &&
+    req[2] &&
+    req[2].data.length &&
+    req[3] &&
+    req[3].data.length
+  ) {
     // daily sleep score
     const { day, score: sleepScore } = req[0].data[0];
     const date = parse(day, 'yyyy-mm-dd', new Date());
     const formattedDate = format(date, 'dd.mm.yyyy');
     // Sleep data
-    const sleepArray = req[1].data.find(item => item.type === 'long_sleep');
+    const sleepArray = req[1].data.find((item) => item.type === 'long_sleep');
     const { bedtime_start, bedtime_end, total_sleep_duration } = sleepArray;
     const timeinBed = intervalToDuration({
       start: parseISO(bedtime_start),
-      end: parseISO(bedtime_end)
+      end: parseISO(bedtime_end),
     });
-    const slept = intervalToDuration({ start: 0, end: total_sleep_duration * 1000 })
+    const slept = intervalToDuration({ start: 0, end: total_sleep_duration * 1000 });
     // Readiness
     const { score: readiness } = req[2].data[0];
     // Activity
@@ -60,7 +70,7 @@ Askeleet eilen: ${steps}
   } else if (req[0].message) {
     ctx.reply(req[0].message);
   } else {
-    ctx.reply('Eipä ole avattu äppiä ja API päivittämättä, tai jotain muuta meni pieleen')
+    ctx.reply('Eipä ole avattu äppiä ja API päivittämättä, tai jotain muuta meni pieleen');
   }
 };
 
