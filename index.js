@@ -82,7 +82,6 @@ Komentoni ovat:
 /niki
 /halmela
 /tommismi
-/tommi
 /life
 /eurojaska
 osakkeet
