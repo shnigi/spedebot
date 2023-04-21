@@ -285,7 +285,6 @@ bot.command('halmela', async (ctx) => {
 
 bot.command('life', async (ctx) => {
   await ourav2(ctx, process.env.NIKIOURA, 'Niki');
-  fitBitTommi(ctx, 'Tommi');
   await ourav2(ctx, process.env.HALMELAOURA, 'Halmela');
   // ouraData(ctx, process.env.JUUSOOURA, 'Juuso');
   // ouraData(ctx, process.env.SAMUOURA, 'Samu');
