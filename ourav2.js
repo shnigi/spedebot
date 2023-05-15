@@ -5,6 +5,7 @@ const formatSleepTime = (timestamp) => format(new Date(timestamp), 'HH:mm');
 
 const ourav2 = async (ctx, token, name) => {
   const currentDate = format(new Date(), 'yyyy-MM-dd');
+  console.log('currentDate', currentDate);
   const prevDate = format(subDays(new Date(), 1), 'yyyy-MM-dd');
 
   const urls = [
@@ -45,7 +46,9 @@ const ourav2 = async (ctx, token, name) => {
     const date = parse(day, 'yyyy-mm-dd', new Date());
     const formattedDate = format(date, 'dd.mm.yyyy');
     // Sleep data
-    const sleepArray = req[1].data.find((item) => item.type === 'long_sleep');
+    const sleepArray = req[1].data.find(
+      (item) => item.type === 'long_sleep' && item.day === currentDate,
+    );
     const { bedtime_start, bedtime_end, total_sleep_duration } = sleepArray;
     const timeinBed = intervalToDuration({
       start: parseISO(bedtime_start),
