@@ -1,205 +1,227 @@
-const fetch = require("node-fetch");
-const fs = require("fs");
+const fetch = require('node-fetch');
+const fs = require('fs');
 const puppeteer = require('puppeteer');
+const { log } = require('console');
 
 const getStockSuggestions = async (ctx, stockName) => {
-    const url = `https://finance.yahoo.com/_finance_doubledown/api/resource/searchassist;searchTerm=${stockName}`;
-    const response = await fetch(url);
-    const symbolSuggests = await response.json();
-    const { items } = symbolSuggests;
-    if ( items && items.length === 0 ) {
-        ctx.reply('En osaa ehdottaa mitään, kokeile urpo uudestaan.');
-    } else {
+  const url = `https://finance.yahoo.com/_finance_doubledown/api/resource/searchassist;searchTerm=${stockName}`;
+  const response = await fetch(url);
+  const symbolSuggests = await response.json();
+  const { items } = symbolSuggests;
+  if (items && items.length === 0) {
+    ctx.reply('En osaa ehdottaa mitään, kokeile urpo uudestaan.');
+  } else {
     ctx.reply(`Osaketta ei löydy, olisiko se joku näistä?
-${items.map(stock => `${stock.symbol} \n`).join('')}
+${items.map((stock) => `${stock.symbol} \n`).join('')}
     `);
-    }
-}
+  }
+};
 const getStock = async (ctx, stockName) => {
-    const url = `https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols=${stockName}`;
-    const response = await fetch(url);
-    const stokit = await response.json();
-    if (stokit.quoteResponse.result.length === 0) {
-        getStockSuggestions(ctx, stockName);
-    } else {
-        const stocks = stokit.quoteResponse.result;
-        ctx.replyWithMarkdown(`
-    ${stocks.map((stock) => `*${stock.symbol}*: ${stock.regularMarketPrice} ${stock.currency ? stock.currency : ''}
-Muutos: ${stock.regularMarketChangePercent.toFixed(2)}% \n\n`).join('')}
+  const url = `https://query1.finance.yahoo.com/v6/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols=${stockName}`;
+  const response = await fetch(url);
+  const stokit = await response.json();
+  if (stokit.quoteResponse.result.length === 0) {
+    getStockSuggestions(ctx, stockName);
+  } else {
+    const stocks = stokit.quoteResponse.result;
+    ctx.replyWithMarkdown(`
+    ${stocks
+      .map(
+        (stock) => `*${stock.symbol}*: ${stock.regularMarketPrice} ${
+          stock.currency ? stock.currency : ''
+        }
+Muutos: ${stock.regularMarketChangePercent.toFixed(2)}% \n\n`,
+      )
+      .join('')}
 `);
-    }
+  }
 };
 
 const getCompany = async (ctx, stockName) => {
-    const url = `https://query1.finance.yahoo.com/v10/finance/quoteSummary/${stockName}?modules=assetProfile%2CfinancialData%2CrecommendationTrend%2CsummaryDetail%2CsummaryProfile`;
-    const response = await fetch(url);
-    const stokit = await response.json();
-    if (stokit.quoteSummary.result === null) {
-        ctx.reply('Eipä löytynyt mitään tällä tickerillä :/');
-        return;
-    }
-    if (stokit.quoteSummary.result.length === 0) {
-        getStockSuggestions(ctx, stockName);
-    } else {
-        const { assetProfile: { industry, sector, website, longBusinessSummary, fullTimeEmployees, country } } = stokit.quoteSummary.result[0];
-        ctx.replyWithMarkdown(`
+  const url = `https://query1.finance.yahoo.com/v10/finance/quoteSummary/${stockName}?modules=assetProfile%2CfinancialData%2CrecommendationTrend%2CsummaryDetail%2CsummaryProfile`;
+  const response = await fetch(url);
+  const stokit = await response.json();
+  if (stokit.quoteSummary.result === null) {
+    ctx.reply('Eipä löytynyt mitään tällä tickerillä :/');
+    return;
+  }
+  if (stokit.quoteSummary.result.length === 0) {
+    getStockSuggestions(ctx, stockName);
+  } else {
+    const {
+      assetProfile: { industry, sector, website, longBusinessSummary, fullTimeEmployees, country },
+    } = stokit.quoteSummary.result[0];
+    ctx.replyWithMarkdown(`
 *Toimiala:* ${sector}
 *Nettisivu:* ${website}
 *Maa:* ${country}
 *Työntekijöitä:* ${fullTimeEmployees || 'ei tiedossa'}
 *Kuvaus:* ${longBusinessSummary}
 `);
-    }
+  }
 };
 
 const getGraafi = async (ctx, stockName) => {
-    const url = `https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols=${stockName}`;
-    const response = await fetch(url);
-    const stokit = await response.json();
-    if (stokit.quoteResponse.result.length === 0) {
-        getStockSuggestions(ctx, stockName);
+  const url = `https://query1.finance.yahoo.com/v6/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols=${stockName}`;
+  const response = await fetch(url);
+  const stokit = await response.json();
+  if (stokit.quoteResponse.result.length === 0) {
+    getStockSuggestions(ctx, stockName);
+  } else {
+    let browser;
+    if (process.env.DEV) {
+      browser = await puppeteer.launch();
     } else {
-        let browser;
-        if (process.env.DEV) {
-            browser = await puppeteer.launch();
-        } else {
-            browser = await puppeteer.launch({
-                executablePath: '/usr/bin/chromium-browser' // set according to dev machine
-            })
-        }
-        const page = await browser.newPage();
-        await page.goto(`https://finance.yahoo.com/chart/${stockName}`);
-        await page.click('button[name="agree"]');
-        await page.waitForNavigation();
-        await page.waitForNavigation({
-            waitUntil: 'networkidle0',
-        });
-        await page.screenshot({
-            path: 'stock.png',
-            fullPage: true,
-        });
-        await browser.close();
-        ctx.replyWithPhoto({ source: './stock.png' });
+      browser = await puppeteer.launch({
+        executablePath: '/usr/bin/chromium-browser', // set according to dev machine
+      });
     }
+    const page = await browser.newPage();
+    await page.goto(`https://finance.yahoo.com/chart/${stockName}`);
+    await page.click('button[name="agree"]');
+    await page.waitForNavigation();
+    await page.waitForNavigation({
+      waitUntil: 'networkidle0',
+    });
+    await page.screenshot({
+      path: 'stock.png',
+      fullPage: true,
+    });
+    await browser.close();
+    ctx.replyWithPhoto({ source: './stock.png' });
+  }
 };
 
 const getAllStocks = async (ctx) => {
-    const response = await fetch(`https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols=tlss,mnmd,AVGR,GME,HYLN,pltr,BTC-EUR,ETH-EUR`);
-    const stokit = await response.json();
-    const stocks = stokit.quoteResponse.result;
+  const response = await fetch(
+    `https://query1.finance.yahoo.com/v6/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols=tlss,mnmd,AVGR,GME,HYLN,pltr,BTC-EUR,ETH-EUR`,
+  );
+  const stokit = await response.json();
+  console.log('stokit', stokit);
+  const stocks = stokit.quoteResponse.result;
 
-    ctx.replyWithMarkdown(`
-    ${stocks.map((stock) => `*${stock.symbol}*: ${stock.regularMarketPrice} ${stock.currency ? stock.currency : ''}
-Muutos: ${stock.regularMarketChangePercent.toFixed(2)}% \n\n`).join('')}
+  ctx.replyWithMarkdown(`
+    ${stocks
+      .map(
+        (stock) => `*${stock.symbol}*: ${stock.regularMarketPrice} ${
+          stock.currency ? stock.currency : ''
+        }
+Muutos: ${stock.regularMarketChangePercent.toFixed(2)}% \n\n`,
+      )
+      .join('')}
 `);
 };
 
 const userStockMessage = (stock) => {
-    const marketPrice = stock.regularMarketPrice ? stock.regularMarketPrice : 'Hinta ei tiedossa';
-    const currency = stock.currency ? stock.currency : '';
-    const change = stock.regularMarketChangePercent ? `Muutos: ${stock.regularMarketChangePercent.toFixed(2)}%` : 'Muutos ei tiedossa';
-    return `
+  const marketPrice = stock.regularMarketPrice ? stock.regularMarketPrice : 'Hinta ei tiedossa';
+  const currency = stock.currency ? stock.currency : '';
+  const change = stock.regularMarketChangePercent
+    ? `Muutos: ${stock.regularMarketChangePercent.toFixed(2)}%`
+    : 'Muutos ei tiedossa';
+  return `
 *${stock.symbol}*: ${marketPrice} ${currency} \n${change}\n`;
 };
 
 const getUserStocks = async (ctx, userName) => {
-    try {
-        let rawdata = fs.readFileSync('database.json');
-        const { database } = JSON.parse(rawdata);
-        console.log('database', database);
-        const { tickers } = database.find(user => user.name === userName);
-        if (tickers.length > 0) {
-            console.log('tickers', tickers);
-        const response = await fetch(`https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols=${tickers}`)
-        const stokit = await response.json();
-        const stocks = stokit.quoteResponse.result
-            console.log('stokit', stokit);
+  try {
+    let rawdata = fs.readFileSync('database.json');
+    const { database } = JSON.parse(rawdata);
+    console.log('database', database);
+    const { tickers } = database.find((user) => user.name === userName);
+    if (tickers.length > 0) {
+      console.log('tickers', tickers);
+      const response = await fetch(
+        `https://query1.finance.yahoo.com/v6/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols=${tickers}`,
+      );
+      const stokit = await response.json();
+      const stocks = stokit.quoteResponse.result;
+      console.log('stokit', stokit);
 
-        ctx.replyWithMarkdown(`
+      ctx.replyWithMarkdown(`
     Tässä osakkeesi ${userName}:
-    ${stocks.map(stock => userStockMessage(stock)).join('')}
+    ${stocks.map((stock) => userStockMessage(stock)).join('')}
     `);
-        } else {
-            ctx.reply(`Et ole lisännyt osakkeita listallesi.
+    } else {
+      ctx.reply(`Et ole lisännyt osakkeita listallesi.
             Voit lisätä osakkeita komennolla /stocks add tickername
             ja poistaa osakkeita komennolla /stocks remove tickername`);
-        }
-    } catch (e) {
-        console.log('VIRHE', e);
     }
+  } catch (e) {
+    console.log('VIRHE', e);
+  }
 };
 
 const getSingleStockWithSuggestion = async (ctx, stockName) => {
-    const url = `https://query1.finance.yahoo.com/v7/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols=${stockName}`;
-    const response = await fetch(url);
-    const stokit = await response.json();
-    if (stokit.quoteResponse.result.length === 0) {
-        getStockSuggestions(ctx, stockName);
-    } else {
-        return stokit.quoteResponse.result;
-    }
+  const url = `https://query1.finance.yahoo.com/v6/finance/quote?lang=en-US&region=US&corsDomain=finance.yahoo.com&symbols=${stockName}`;
+  const response = await fetch(url);
+  const stokit = await response.json();
+  if (stokit.quoteResponse.result.length === 0) {
+    getStockSuggestions(ctx, stockName);
+  } else {
+    return stokit.quoteResponse.result;
+  }
 };
 
 const addStockToDatabase = (ctx, userName, symbol) => {
-    fs.readFile('database.json', function (err, data) {
-        const { database } = JSON.parse(data)
-        const { tickers } = database.find(user => user.name === userName);
-        tickers.push(symbol);
-        fs.writeFile("database.json", JSON.stringify({database}), function (err) {
-            if (err) throw err;
-            ctx.reply('Osake lisätty.');
-        });
-    })
+  fs.readFile('database.json', function (err, data) {
+    const { database } = JSON.parse(data);
+    const { tickers } = database.find((user) => user.name === userName);
+    tickers.push(symbol);
+    fs.writeFile('database.json', JSON.stringify({ database }), function (err) {
+      if (err) throw err;
+      ctx.reply('Osake lisätty.');
+    });
+  });
 };
 
 const removeStockFromDatabase = (ctx, userName, symbol) => {
-    fs.readFile('database.json', function (err, data) {
-        const { database } = JSON.parse(data)
-        const { tickers } = database.find(user => user.name === userName);
-        const lowerCaseTickers = tickers.map(v => v.toLowerCase());
-        const index = lowerCaseTickers.indexOf(symbol.toLowerCase());
-        if (index > -1) {
-            tickers.splice(index, 1);
-        }
-        fs.writeFile("database.json", JSON.stringify({ database }), function (err) {
-            if (err) throw err;
-            ctx.reply('Osake poistettu.');
-        });
-    })
+  fs.readFile('database.json', function (err, data) {
+    const { database } = JSON.parse(data);
+    const { tickers } = database.find((user) => user.name === userName);
+    const lowerCaseTickers = tickers.map((v) => v.toLowerCase());
+    const index = lowerCaseTickers.indexOf(symbol.toLowerCase());
+    if (index > -1) {
+      tickers.splice(index, 1);
+    }
+    fs.writeFile('database.json', JSON.stringify({ database }), function (err) {
+      if (err) throw err;
+      ctx.reply('Osake poistettu.');
+    });
+  });
 };
 
 const removeStock = (ctx, userName, symbol) => {
-    let rawdata = fs.readFileSync('database.json');
-    const { database } = JSON.parse(rawdata);
-    const { tickers } = database.find(user => user.name === userName);
-    const lowerCaseTickers = tickers.map(v => v.toLowerCase());
-    if (lowerCaseTickers.includes(symbol.toLowerCase())) {
-        removeStockFromDatabase(ctx, userName, symbol);
-    } else {
-        ctx.reply('Listallasi ei ole kyseistä osaketta.')
-    }
+  let rawdata = fs.readFileSync('database.json');
+  const { database } = JSON.parse(rawdata);
+  const { tickers } = database.find((user) => user.name === userName);
+  const lowerCaseTickers = tickers.map((v) => v.toLowerCase());
+  if (lowerCaseTickers.includes(symbol.toLowerCase())) {
+    removeStockFromDatabase(ctx, userName, symbol);
+  } else {
+    ctx.reply('Listallasi ei ole kyseistä osaketta.');
+  }
 };
 
 const addStockToUser = async (ctx, userName, stockname) => {
-    let rawdata = fs.readFileSync('database.json');
-    const { database } = JSON.parse(rawdata);
-    const { tickers } = database.find(user => user.name === userName);
-    if (tickers.includes(stockname)) {
-        ctx.reply('Osake on jo listallasi.');
-    } else {
-        const stockFound = await getSingleStockWithSuggestion(ctx, stockname);
-        if (stockFound && stockFound.length) {
-            addStockToDatabase(ctx, userName, stockFound[0].symbol)
-        }
+  let rawdata = fs.readFileSync('database.json');
+  const { database } = JSON.parse(rawdata);
+  const { tickers } = database.find((user) => user.name === userName);
+  if (tickers.includes(stockname)) {
+    ctx.reply('Osake on jo listallasi.');
+  } else {
+    const stockFound = await getSingleStockWithSuggestion(ctx, stockname);
+    if (stockFound && stockFound.length) {
+      addStockToDatabase(ctx, userName, stockFound[0].symbol);
     }
+  }
 };
 
 module.exports = {
-    getStock,
-    getAllStocks,
-    getUserStocks,
-    addStockToUser,
-    removeStock,
-    getGraafi,
-    getCompany,
+  getStock,
+  getAllStocks,
+  getUserStocks,
+  addStockToUser,
+  removeStock,
+  getGraafi,
+  getCompany,
 };
