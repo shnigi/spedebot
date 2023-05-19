@@ -4,7 +4,6 @@ const sali = require('./sali');
 const weather = require('./weather');
 const tommigeneraattori = require('./tommigeneraattori');
 const fitBitTommi = require('./fittommi');
-const ouraData = require('./ouraData');
 const {
   getStock,
   getAllStocks,
