@@ -33,12 +33,16 @@ const ourav2 = async (ctx, token, name) => {
   if (
     req &&
     req[0] &&
+    req[0].data &&
     req[0].data.length &&
     req[1] &&
+    req[1].data &&
     req[1].data.length &&
     req[2] &&
+    req[2].data &&
     req[2].data.length &&
     req[3] &&
+    req[3].data &&
     req[3].data.length
   ) {
     // daily sleep score
