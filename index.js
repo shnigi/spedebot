@@ -3,31 +3,31 @@ const { Telegraf } = require('telegraf');
 const sali = require('./sali');
 const weather = require('./weather');
 const tommigeneraattori = require('./tommigeneraattori');
-const fitBitTommi = require('./fittommi');
-const {
-  getStock,
-  getAllStocks,
-  getUserStocks,
-  addStockToUser,
-  removeStock,
-  getGraafi,
-  getCompany,
-} = require('./stocks');
+// const fitBitTommi = require('./fittommi');
+// const {
+// getStock,
+// getAllStocks,
+// getUserStocks,
+// addStockToUser,
+// removeStock,
+// getGraafi,
+// getCompany,
+// } = require('./stocks');
 const games = require('./games');
 const sketsi = require('./sketsi');
 const { pelijonnet, getAndSortMostPlayedPeople, getSplitGateBasicInfo } = require('./pelijonnet');
 const playSound = require('./playSound');
 const getHslData = require('./hslData');
-const getRoadCameras = require('./roadCameras');
-const lunch = require('./lunch');
+// const getRoadCameras = require('./roadCameras');
+// const lunch = require('./lunch');
 const getBeer = require('./beer');
 const jolipennet = require('./trollit');
 const getRandomItem = require('./arvonta');
-const { getMemes, generateMeme, showAllMemes } = require('./meme');
+// const { getMemes, generateMeme, showAllMemes } = require('./meme');
 const searchWolfram = require('./search');
 const searchMovie = require('./movie');
 const searchAnime = require('./anime');
-const googleSearch = require('./googleSearch');
+// const googleSearch = require('./googleSearch');
 const { rulettiNextlevel, rulettiResults } = require('./rulettiNextlevel');
 const {
   dota2heroperformanceSelectHero,
@@ -40,7 +40,7 @@ const steamFriendList = require('./steamFriendList');
 const speech = require('./speech');
 const imageRecognition = require('./imageServices');
 const wikipedia = require('./wikipedia');
-const { generateImage, shortChat } = require('./openai');
+// const { generateImage, shortChat } = require('./openai');
 const { news } = require('./news');
 const ourav2 = require('./ourav2');
 const { getDysonClubCode } = require('./dysonclub');
@@ -48,25 +48,35 @@ const { getDysonClubCode } = require('./dysonclub');
 const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
 
-bot.help((ctx) =>
-  ctx.reply(`
-Komentoni ovat:
-/help
+/*
+Deleted commands
 /osake [ticker]
 /company [ticker]
 /stocks [add, remove]
-/pelit [Antaa lisäkomentoja]
-/audio [numero]
-/keli
-/kamera [tien nimi]
 /graafi [ticker]
 /lounas [ravintola]
-/bisse [olut]
-/arvonta [lista]
 /google [hakusana tai lause]
 /etsimeme [meme name / all]
 /meme /id /top /bottom
 /ruletti
+/imagine [lause]
+/chat [lause]
+/halmela
+/life
+osakkeet
+sup
+/kamera [tien nimi]
+*/
+
+bot.help((ctx) =>
+  ctx.reply(`
+Komentoni ovat:
+/help
+/pelit [Antaa lisäkomentoja]
+/audio [numero]
+/keli
+/bisse [olut]
+/arvonta [lista]
 /search [hakusana tai lause]
 /wikipedia [hakusana tai lause]
 /anime [animen nimi]
@@ -74,23 +84,17 @@ Komentoni ovat:
 /movie [elokuva]
 /pyssy [tyhjä tai all]
 /roll (arpoo numeron 1-100)
-/imagine [lause]
-/chat [lause]
 /news
 /dysonclub
 /niki
-/halmela
 /tommismi
-/life
 /eurojaska
-osakkeet
 perjantai
 raketti
 pim
 tilipäivä
 keli
 sketsi
-sup
 sali
 pelijonnet
 pelistatsit
@@ -99,13 +103,13 @@ jolipennet
 `),
 );
 
-bot.command('osake', (ctx) => {
-  const [command, stock] = ctx.message.text.split(' ');
-  if (stock && stock !== '') getStock(ctx, stock);
-  else {
-    ctx.reply('/osake [osaketunnus]');
-  }
-});
+// bot.command('osake', (ctx) => {
+//   const [command, stock] = ctx.message.text.split(' ');
+//   if (stock && stock !== '') getStock(ctx, stock);
+//   else {
+//     ctx.reply('/osake [osaketunnus]');
+//   }
+// });
 
 bot.command('wikipedia', (ctx) => {
   const [_, query] = ctx.message.text.split('/wikipedia');
@@ -115,29 +119,21 @@ bot.command('wikipedia', (ctx) => {
   }
 });
 
-bot.command('wiki', (ctx) => {
-  const [_, query] = ctx.message.text.split('/wiki');
-  if (query && query !== '') wikipedia(ctx, query);
-  else {
-    ctx.reply('/wiki [hakusana]');
-  }
-});
+// bot.command('imagine', (ctx) => {
+//   const [_, query] = ctx.message.text.split('/imagine');
+//   if (query && query !== '') generateImage(ctx, query);
+//   else {
+//     ctx.reply('/imagine [lause]');
+//   }
+// });
 
-bot.command('imagine', (ctx) => {
-  const [_, query] = ctx.message.text.split('/imagine');
-  if (query && query !== '') generateImage(ctx, query);
-  else {
-    ctx.reply('/imagine [lause]');
-  }
-});
-
-bot.command('chat', (ctx) => {
-  const [_, query] = ctx.message.text.split('/chat');
-  if (query && query !== '') shortChat(ctx, query);
-  else {
-    ctx.reply('/chat [lause]');
-  }
-});
+// bot.command('chat', (ctx) => {
+//   const [_, query] = ctx.message.text.split('/chat');
+//   if (query && query !== '') shortChat(ctx, query);
+//   else {
+//     ctx.reply('/chat [lause]');
+//   }
+// });
 
 bot.command('dysonclub', (ctx) => getDysonClubCode(ctx));
 
@@ -145,13 +141,13 @@ bot.command('news', (ctx) => {
   news(ctx);
 });
 
-bot.command('company', (ctx) => {
-  const [command, stock] = ctx.message.text.split(' ');
-  if (stock && stock !== '') getCompany(ctx, stock);
-  else {
-    ctx.reply('/company [ticker]');
-  }
-});
+// bot.command('company', (ctx) => {
+//   const [command, stock] = ctx.message.text.split(' ');
+//   if (stock && stock !== '') getCompany(ctx, stock);
+//   else {
+//     ctx.reply('/company [ticker]');
+//   }
+// });
 
 bot.command('roll', (ctx) => {
   const number = Math.floor(Math.random() * 101);
@@ -166,13 +162,13 @@ bot.command('movie', (ctx) => {
   }
 });
 
-bot.command('google', (ctx) => {
-  const [command, searchWord] = ctx.message.text.split('/google');
-  if (searchWord && searchWord !== '') googleSearch(ctx, searchWord);
-  else {
-    ctx.reply('/google [hakusana tai lause]');
-  }
-});
+// bot.command('google', (ctx) => {
+//   const [command, searchWord] = ctx.message.text.split('/google');
+//   if (searchWord && searchWord !== '') googleSearch(ctx, searchWord);
+//   else {
+//     ctx.reply('/google [hakusana tai lause]');
+//   }
+// });
 
 bot.command('anime', (ctx) => {
   const [command, anime] = ctx.message.text.split('/anime');
@@ -182,40 +178,40 @@ bot.command('anime', (ctx) => {
   }
 });
 
-bot.command('etsimeme', (ctx) => {
-  const [notUsed, memename] = ctx.message.text.split('/etsimeme');
-  if (memename && memename.trim() === 'all') {
-    showAllMemes(ctx);
-  } else if (memename && memename !== '') {
-    getMemes(ctx, memename.trim());
-  } else {
-    ctx.reply('/etsimeme [meemin nimi]\n/etsimeme all');
-  }
-});
+// bot.command('etsimeme', (ctx) => {
+//   const [notUsed, memename] = ctx.message.text.split('/etsimeme');
+//   if (memename && memename.trim() === 'all') {
+//     showAllMemes(ctx);
+//   } else if (memename && memename !== '') {
+//     getMemes(ctx, memename.trim());
+//   } else {
+//     ctx.reply('/etsimeme [meemin nimi]\n/etsimeme all');
+//   }
+// });
 
-bot.command('meme', (ctx) => {
-  const [notUsed, notUsed2, id, text1, text2] = ctx.message.text.split('/');
-  if (id && text1 && text2) generateMeme(ctx, id, text1, text2);
-  else {
-    ctx.reply('/meme /id /top /bottom');
-  }
-});
+// bot.command('meme', (ctx) => {
+//   const [notUsed, notUsed2, id, text1, text2] = ctx.message.text.split('/');
+//   if (id && text1 && text2) generateMeme(ctx, id, text1, text2);
+//   else {
+//     ctx.reply('/meme /id /top /bottom');
+//   }
+// });
 
-bot.command('graafi', (ctx) => {
-  const [command, stock] = ctx.message.text.split(' ');
-  if (stock && stock !== '') getGraafi(ctx, stock);
-  else {
-    ctx.reply('/graafi [osaketunnus]');
-  }
-});
+// bot.command('graafi', (ctx) => {
+//   const [command, stock] = ctx.message.text.split(' ');
+//   if (stock && stock !== '') getGraafi(ctx, stock);
+//   else {
+//     ctx.reply('/graafi [osaketunnus]');
+//   }
+// });
 
-bot.command('lounas', (ctx) => {
-  const [command, restaurant] = ctx.message.text.split('/lounas');
-  if (restaurant && restaurant !== '') lunch(ctx, restaurant);
-  else {
-    ctx.reply('/lounas [ravintola]');
-  }
-});
+// bot.command('lounas', (ctx) => {
+//   const [command, restaurant] = ctx.message.text.split('/lounas');
+//   if (restaurant && restaurant !== '') lunch(ctx, restaurant);
+//   else {
+//     ctx.reply('/lounas [ravintola]');
+//   }
+// });
 
 bot.command('bisse', (ctx) => {
   const [command, beer] = ctx.message.text.split('/bisse');
@@ -249,11 +245,11 @@ bot.command('arvonta', (ctx) => {
   }
 });
 
-bot.command('ruletti', (ctx) => {
-  const commands = ['😌 CLICK', '😌 CLICK', '😌 CLICK', '😌 CLICK', '😌 CLICK', 'BANG 🤯🔫'];
-  const answer = commands[Math.floor(Math.random() * commands.length)];
-  ctx.reply(answer);
-});
+// bot.command('ruletti', (ctx) => {
+//   const commands = ['😌 CLICK', '😌 CLICK', '😌 CLICK', '😌 CLICK', '😌 CLICK', 'BANG 🤯🔫'];
+//   const answer = commands[Math.floor(Math.random() * commands.length)];
+//   ctx.reply(answer);
+// });
 
 bot.command('pyssy', (ctx) => {
   const [notused, command] = ctx.message.text.split('/pyssy ');
@@ -269,9 +265,9 @@ bot.command('niki', async (ctx) => {
   ourav2(ctx, process.env.NIKIOURA, 'Niki');
 });
 
-bot.command('halmela', async (ctx) => {
-  ourav2(ctx, process.env.HALMELAOURA, 'Halmela');
-});
+// bot.command('halmela', async (ctx) => {
+//   ourav2(ctx, process.env.HALMELAOURA, 'Halmela');
+// });
 
 // bot.command('samu', async (ctx) => {
 //     ouraData(ctx, process.env.SAMUOURA);
@@ -281,20 +277,20 @@ bot.command('halmela', async (ctx) => {
 //     ouraData(ctx, process.env.JUUSOOURA);
 // });
 
-bot.command('life', async (ctx) => {
-  await ourav2(ctx, process.env.NIKIOURA, 'Niki');
-  await ourav2(ctx, process.env.HALMELAOURA, 'Halmela');
-  // ouraData(ctx, process.env.JUUSOOURA, 'Juuso');
-  // ouraData(ctx, process.env.SAMUOURA, 'Samu');
-});
+// bot.command('life', async (ctx) => {
+//   await ourav2(ctx, process.env.NIKIOURA, 'Niki');
+//   await ourav2(ctx, process.env.HALMELAOURA, 'Halmela');
+//   // ouraData(ctx, process.env.JUUSOOURA, 'Juuso');
+//   // ouraData(ctx, process.env.SAMUOURA, 'Samu');
+// });
 
 bot.command('tommismi', (ctx) => {
   tommigeneraattori(ctx);
 });
 
-bot.command('tommi', (ctx) => {
-  fitBitTommi(ctx);
-});
+// bot.command('tommi', (ctx) => {
+//   fitBitTommi(ctx);
+// });
 
 const getNumberBetween = (limit, existingNumbers) => {
   const randomNumber = Math.floor(Math.random() * limit) + 1;
@@ -320,19 +316,19 @@ bot.command('eurojaska', (ctx) => {
   ctx.reply(`${base} - ${extra}`);
 });
 
-bot.command('stocks', (ctx) => {
-  const [notUsed, command, stockname] = ctx.message.text.split(' ');
-  const userName = ctx.update.message.from.username;
-  console.log('ctx.update.message.from', ctx.update.message.from.username);
-  if (!command) getUserStocks(ctx, userName);
-  else if (command === 'add' && stockname !== '') {
-    addStockToUser(ctx, userName, stockname);
-  } else if (command === 'remove' && stockname !== '') {
-    removeStock(ctx, userName, stockname);
-  } else {
-    ctx.reply('Perhana, jotain meni pieleen.');
-  }
-});
+// bot.command('stocks', (ctx) => {
+//   const [notUsed, command, stockname] = ctx.message.text.split(' ');
+//   const userName = ctx.update.message.from.username;
+//   console.log('ctx.update.message.from', ctx.update.message.from.username);
+//   if (!command) getUserStocks(ctx, userName);
+//   else if (command === 'add' && stockname !== '') {
+//     addStockToUser(ctx, userName, stockname);
+//   } else if (command === 'remove' && stockname !== '') {
+//     removeStock(ctx, userName, stockname);
+//   } else {
+//     ctx.reply('Perhana, jotain meni pieleen.');
+//   }
+// });
 
 bot.command('hsl', (ctx) => {
   const [command, name] = ctx.message.text.split(' ');
@@ -404,16 +400,16 @@ bot.command('keli', (ctx) => {
   }
 });
 
-bot.command('kamera', (ctx) => {
-  const [command1, command2] = ctx.message.text.split(' ');
-  if (!command2) {
-    ctx.reply(
-      'kokeile esim. \n/kamera tornioon\n/kamera ivalo\n/kamera kehä i/\nkamera kehä ii\n/kamera kehä iii\n/kamera tampereelle\n/kamera tuusulaan',
-    );
-  } else {
-    getRoadCameras(ctx, command2);
-  }
-});
+// bot.command('kamera', (ctx) => {
+//   const [command1, command2] = ctx.message.text.split(' ');
+//   if (!command2) {
+//     ctx.reply(
+//       'kokeile esim. \n/kamera tornioon\n/kamera ivalo\n/kamera kehä i/\nkamera kehä ii\n/kamera kehä iii\n/kamera tampereelle\n/kamera tuusulaan',
+//     );
+//   } else {
+//     getRoadCameras(ctx, command2);
+//   }
+// });
 
 // inline button listeners
 const dota2HeroCategories = ['strength', 'agility', 'mana'];
@@ -440,12 +436,12 @@ bot.hears('perjantai4', (ctx) => ctx.replyWithVideo({ source: './media/perjantai
 bot.hears('tilipäivä', (ctx) => ctx.replyWithVideo({ source: './media/tilipaiva.mp4' }));
 bot.hears('raketti', (ctx) => ctx.replyWithVideo({ source: './media/korko.mp4' }));
 bot.hears('keli', (ctx) => weather(ctx));
-bot.hears('sup', (ctx) => ctx.reply('Haista sinä mursu paska!'));
+// bot.hears('sup', (ctx) => ctx.reply('Haista sinä mursu paska!'));
 bot.hears('sali', (ctx) => sali(ctx));
 bot.hears('pim', (ctx) => ctx.replyWithPhoto({ source: './pim.jpeg' }));
 bot.hears('sketsi', (ctx) => sketsi(ctx));
 bot.hears('pelijonnet', (ctx) => pelijonnet(ctx));
-bot.hears('osakkeet', (ctx) => getAllStocks(ctx));
+// bot.hears('osakkeet', (ctx) => getAllStocks(ctx));
 bot.hears('pelistatsit', (ctx) => getAndSortMostPlayedPeople(ctx));
 bot.hears('jolipennet', (ctx) => jolipennet(ctx));
 bot.hears('eipelata', (ctx) => ctx.replyWithVideo({ source: './media/eipelata.mp4' }));
@@ -460,12 +456,12 @@ bot.hears('Perjantai4', (ctx) => ctx.replyWithVideo({ source: './media/perjantai
 bot.hears('Tilipäivä', (ctx) => ctx.replyWithVideo({ source: './media/tilipaiva.mp4' }));
 bot.hears('Raketti', (ctx) => ctx.replyWithVideo({ source: './media/korko.mp4' }));
 bot.hears('Keli', (ctx) => weather(ctx));
-bot.hears('Sup', (ctx) => ctx.reply('Haista sinä mursu paska!'));
+// bot.hears('Sup', (ctx) => ctx.reply('Haista sinä mursu paska!'));
 bot.hears('Sali', (ctx) => sali(ctx));
 bot.hears('Pim', (ctx) => ctx.replyWithPhoto({ source: './pim.jpeg' }));
 bot.hears('Sketsi', (ctx) => sketsi(ctx));
 bot.hears('Pelijonnet', (ctx) => pelijonnet(ctx));
-bot.hears('Osakkeet', (ctx) => getAllStocks(ctx));
+// bot.hears('Osakkeet', (ctx) => getAllStocks(ctx));
 bot.hears('Pelistatsit', (ctx) => getAndSortMostPlayedPeople(ctx));
 
 bot.on('message', async (ctx) => {
