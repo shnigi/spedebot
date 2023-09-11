@@ -40,10 +40,11 @@ const steamFriendList = require('./steamFriendList');
 const speech = require('./speech');
 const imageRecognition = require('./imageServices');
 const wikipedia = require('./wikipedia');
-// const { generateImage, shortChat } = require('./openai');
+const { generateImage, shortChat } = require('./openai');
 const { news } = require('./news');
 const ourav2 = require('./ourav2');
 const { getDysonClubCode } = require('./dysonclub');
+const { sahko } = require('./sahko');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
@@ -59,8 +60,6 @@ Deleted commands
 /etsimeme [meme name / all]
 /meme /id /top /bottom
 /ruletti
-/imagine [lause]
-/chat [lause]
 /halmela
 /life
 osakkeet
@@ -87,8 +86,11 @@ Komentoni ovat:
 /news
 /dysonclub
 /niki
+/imagine [lause]
+/chat [lause]
 /tommismi
 /eurojaska
+/sahko
 perjantai
 raketti
 pim
@@ -119,23 +121,25 @@ bot.command('wikipedia', (ctx) => {
   }
 });
 
-// bot.command('imagine', (ctx) => {
-//   const [_, query] = ctx.message.text.split('/imagine');
-//   if (query && query !== '') generateImage(ctx, query);
-//   else {
-//     ctx.reply('/imagine [lause]');
-//   }
-// });
+bot.command('imagine', (ctx) => {
+  const [_, query] = ctx.message.text.split('/imagine');
+  if (query && query !== '') generateImage(ctx, query);
+  else {
+    ctx.reply('/imagine [lause]');
+  }
+});
 
-// bot.command('chat', (ctx) => {
-//   const [_, query] = ctx.message.text.split('/chat');
-//   if (query && query !== '') shortChat(ctx, query);
-//   else {
-//     ctx.reply('/chat [lause]');
-//   }
-// });
+bot.command('chat', (ctx) => {
+  const [_, query] = ctx.message.text.split('/chat');
+  if (query && query !== '') shortChat(ctx, query);
+  else {
+    ctx.reply('/chat [lause]');
+  }
+});
 
 bot.command('dysonclub', (ctx) => getDysonClubCode(ctx));
+
+bot.command('sahko', (ctx) => sahko(ctx));
 
 bot.command('news', (ctx) => {
   news(ctx);
