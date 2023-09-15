@@ -1,20 +1,18 @@
-const { Configuration, OpenAIApi } = require('openai');
+const OpenAI = require('openai');
 
-const configuration = new Configuration({
+const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
-const openai = new OpenAIApi(configuration);
 
 const generateImage = async (ctx, query) => {
   console.log('starting openai image generation');
   try {
-    const response = await openai.createImage({
+    const response = await openai.images.generate({
       prompt: query,
       n: 1,
       size: '1024x1024',
     });
-    const imageUrl = response.data.data[0].url;
-    console.log('imageUrl', imageUrl);
+    const imageUrl = response.data[0].url;
     ctx.replyWithPhoto({ url: imageUrl });
   } catch (error) {
     if (error.response) {
@@ -30,18 +28,12 @@ const generateImage = async (ctx, query) => {
 
 const shortChat = async (ctx, query) => {
   try {
-    const response = await openai.createCompletion({
-      model: 'text-davinci-003',
-      prompt: `Human: ${query}`,
-      temperature: 0.9,
-      max_tokens: 250,
-      top_p: 1,
-      frequency_penalty: 0.0,
-      presence_penalty: 0.6,
-      stop: [' Human:'],
+    const response = await openai.chat.completions.create({
+      messages: [{ role: 'user', content: query }],
+      model: 'gpt-3.5-turbo',
     });
-    console.log(response.data);
-    ctx.reply(response.data.choices[0].text);
+    console.log(response.choices[0].message.content);
+    ctx.reply(response.choices[0].message.content);
   } catch (error) {
     if (error.response) {
       ctx.reply('Quota täynnä tai jotain meni pieleen');
