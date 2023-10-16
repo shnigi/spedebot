@@ -3,6 +3,7 @@ const { Telegraf } = require('telegraf');
 const sali = require('./sali');
 const weather = require('./weather');
 const tommigeneraattori = require('./tommigeneraattori');
+const { aijaStory, aijaSpurdo } = require('./bjorck');
 // const fitBitTommi = require('./fittommi');
 // const {
 // getStock,
@@ -71,6 +72,8 @@ bot.help((ctx) =>
   ctx.reply(`
 Komentoni ovat:
 /help
+/aijastoori
+/aijaspurdo
 /pelit [Antaa lisäkomentoja]
 /audio [numero]
 /keli
@@ -433,6 +436,8 @@ splitGatePlayers.forEach((player) =>
 );
 
 // Bot commands
+bot.command('aijastoori', (ctx) => ctx.reply(aijaStory()));
+bot.command('aijaspurdo', (ctx) => ctx.reply(aijaSpurdo()));
 bot.hears('perjantai', (ctx) => ctx.replyWithVideo({ source: './media/perjantai.mp4' }));
 bot.hears('perjantai2', (ctx) => ctx.replyWithVideo({ source: './media/perjantai2.mp4' }));
 bot.hears('perjantai3', (ctx) => ctx.replyWithVideo({ source: './media/perjantai3.mp4' }));
