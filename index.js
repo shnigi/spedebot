@@ -18,7 +18,7 @@ const games = require('./games');
 const sketsi = require('./sketsi');
 const { pelijonnet, getAndSortMostPlayedPeople, getSplitGateBasicInfo } = require('./pelijonnet');
 const playSound = require('./playSound');
-const getHslData = require('./hslData');
+// const getHslData = require('./hslData');
 // const getRoadCameras = require('./roadCameras');
 // const lunch = require('./lunch');
 const getBeer = require('./beer');
@@ -46,6 +46,7 @@ const { news } = require('./news');
 const ourav2 = require('./ourav2');
 const { getDysonClubCode } = require('./dysonclub');
 const { sahko } = require('./sahko');
+const { japani } = require('./japani/japani');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
@@ -115,6 +116,8 @@ jolipennet
 //     ctx.reply('/osake [osaketunnus]');
 //   }
 // });
+
+bot.command('japani', (ctx) => japani(ctx, bot));
 
 bot.command('wikipedia', (ctx) => {
   const [_, query] = ctx.message.text.split('/wikipedia');
@@ -337,28 +340,28 @@ bot.command('eurojaska', (ctx) => {
 //   }
 // });
 
-bot.command('hsl', (ctx) => {
-  const [command, name] = ctx.message.text.split(' ');
-  if (name && name !== '') getHslData(ctx, name);
-  else {
-    ctx.reply(`
-/hsl [nimi]
-anders
-niki
-roivas
-halmela
-juuso
-mikko
-mustonen
-samu
-aleksi
-vikman
-kemi
-mara
-chan
-`);
-  }
-});
+// bot.command('hsl', (ctx) => {
+//   const [command, name] = ctx.message.text.split(' ');
+//   if (name && name !== '') getHslData(ctx, name);
+//   else {
+//     ctx.reply(`
+// /hsl [nimi]
+// anders
+// niki
+// roivas
+// halmela
+// juuso
+// mikko
+// mustonen
+// samu
+// aleksi
+// vikman
+// kemi
+// mara
+// chan
+// `);
+//   }
+// });
 
 bot.command('pelit', (ctx) => {
   const [command1, command] = ctx.message.text.split(' ');
@@ -369,7 +372,6 @@ bot.command('pelit', (ctx) => {
 /pelit [komento]
 statsit
 nyt
-tanaan
 dota
 dotamatches
 eniten

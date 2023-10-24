@@ -3,17 +3,9 @@ const {
 } = require('./pelijonnet');
 const { getPlayerSummaries, getRecentMatches } = require('./dota2_new');
 
-const gamesToPlay = ['Sea of thievesiä', 'Phasmophobiaa', 'Dotaa', 'Apexia', 'Splitgatea', 'Groundedia'];
-const randomGame = (ctx) => {
-    const selectedRandomGame = gamesToPlay[Math.floor(Math.random() * gamesToPlay.length)];
-    ctx.reply(`Tänään pelataan ${selectedRandomGame}.`);
-};
 
 const games = (ctx, command) => {
     switch (command) {
-    case 'tanaan':
-        randomGame(ctx);
-        break;
     case 'nyt':
         pelijonnet(ctx);
         break;
