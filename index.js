@@ -159,29 +159,29 @@ bot.command('news', (ctx) => {
 //   }
 // });
 
-bot.on('text', async (ctx) => {
-  const { text, from } = ctx.message;
-  const targetUserId = 152047241;
-  if (from.id === targetUserId && text.toLowerCase().includes('sä olet')) {
-    const splitText = text.split(/sä olet/i);
+// bot.on('text', async (ctx) => {
+//   const { text, from } = ctx.message;
+//   const targetUserId = 152047241;
+//   if (from.id === targetUserId && text.toLowerCase().includes('sä olet')) {
+//     const splitText = text.split(/sä olet/i);
 
-    if (splitText.length > 1) {
-      const wordsAfterSäOlet = splitText[1].trim();
+//     if (splitText.length > 1) {
+//       const wordsAfterSäOlet = splitText[1].trim();
 
-      if (wordsAfterSäOlet) {
-        const transformedText = wordsAfterSäOlet
-          .split('')
-          .map((char, index) => (index % 2 === 0 ? char.toLowerCase() : char.toUpperCase()))
-          .join('');
+//       if (wordsAfterSäOlet) {
+//         const transformedText = wordsAfterSäOlet
+//           .split('')
+//           .map((char, index) => (index % 2 === 0 ? char.toLowerCase() : char.toUpperCase()))
+//           .join('');
 
-        await ctx.replyWithPhoto(
-          { source: './media/spongebob.jpg' },
-          { caption: `sÄ oLeT ${transformedText}` },
-        );
-      }
-    }
-  }
-});
+//         await ctx.replyWithPhoto(
+//           { source: './media/spongebob.jpg' },
+//           { caption: `sÄ oLeT ${transformedText}` },
+//         );
+//       }
+//     }
+//   }
+// });
 
 bot.command('roll', (ctx) => {
   const number = Math.floor(Math.random() * 101);
