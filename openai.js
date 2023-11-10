@@ -9,8 +9,7 @@ const generateImage = async (ctx, query) => {
   try {
     const response = await openai.images.generate({
       prompt: query,
-      n: 1,
-      size: '1024x1024',
+      model: 'dall-e-3',
     });
     const imageUrl = response.data[0].url;
     ctx.replyWithPhoto({ url: imageUrl });
