@@ -92,6 +92,7 @@ Komentoni ovat:
 /niki
 /imagine [lause]
 /chat [lause]
+/vision [lause] + kuva
 /tommismi
 /eurojaska
 /sahko
