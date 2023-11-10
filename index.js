@@ -41,7 +41,7 @@ const steamFriendList = require('./steamFriendList');
 const speech = require('./speech');
 const imageRecognition = require('./imageServices');
 const wikipedia = require('./wikipedia');
-const { generateImage, shortChat } = require('./openai');
+const { generateImage, shortChat, aiVision } = require('./openai');
 const { news } = require('./news');
 const ourav2 = require('./ourav2');
 const { getDysonClubCode } = require('./dysonclub');
@@ -500,12 +500,16 @@ bot.hears('Pelijonnet', (ctx) => pelijonnet(ctx));
 bot.hears('Pelistatsit', (ctx) => getAndSortMostPlayedPeople(ctx));
 
 bot.on('message', async (ctx) => {
-  console.log('ctx.message', ctx.message);
   const { caption, photo } = ctx.update.message;
   if (photo && caption) {
     if (caption === 'ai') {
       const url = await ctx.telegram.getFileLink(photo[1].file_id);
       imageRecognition(ctx, url);
+    }
+    if (caption.startsWith('/vision')) {
+      const [_, query] = caption.split('/vision');
+      const imageUrl = await ctx.telegram.getFileLink(photo[1].file_id);
+      aiVision(ctx, query, imageUrl);
     }
     if (caption.toLowerCase() === 'setit' && ctx.message.from.id === 152047241) {
       ctx.reply('Jumalauta Tommi, Anders suuttuu');

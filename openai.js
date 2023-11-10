@@ -45,4 +45,37 @@ const shortChat = async (ctx, query) => {
   }
 };
 
-module.exports = { generateImage, shortChat };
+const aiVision = async (ctx, query, image) => {
+  console.log('starting openai vision image generation', query);
+  try {
+    const response = await openai.chat.completions.create({
+      model: 'gpt-4-vision-preview',
+      messages: [
+        {
+          role: 'user',
+          content: [
+            { type: 'text', text: query },
+            {
+              type: 'image_url',
+              image_url: { url: image, detail: 'low' },
+            },
+          ],
+        },
+      ],
+      max_tokens: 150,
+    });
+    console.log(response.choices);
+    ctx.reply(response.choices[0].message.content);
+  } catch (error) {
+    if (error.response) {
+      ctx.reply('Quota täynnä tai jotain meni pieleen');
+      console.log(error.response.status);
+      console.log(error.response.data);
+    } else {
+      ctx.reply('Quota täynnä tai jotain meni pieleen');
+      console.log(error.message);
+    }
+  }
+};
+
+module.exports = { generateImage, shortChat, aiVision };
