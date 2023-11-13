@@ -15,11 +15,11 @@ const generateImage = async (ctx, query) => {
     ctx.replyWithPhoto({ url: imageUrl });
   } catch (error) {
     if (error.response) {
-      ctx.reply('Quota täynnä tai jotain meni pieleen');
+      ctx.reply(`Quota täynnä tai jotain meni pieleen: ${error.response.data}`);
       console.log(error.response.status);
       console.log(error.response.data);
     } else {
-      ctx.reply('Quota täynnä tai jotain meni pieleen');
+      ctx.reply(`Quota täynnä tai jotain meni pieleen: ${error.message}`);
       console.log(error.message);
     }
   }
@@ -35,11 +35,11 @@ const shortChat = async (ctx, query) => {
     ctx.reply(response.choices[0].message.content);
   } catch (error) {
     if (error.response) {
-      ctx.reply('Quota täynnä tai jotain meni pieleen');
+      ctx.reply(`Quota täynnä tai jotain meni pieleen: ${error.response.data}`);
       console.log(error.response.status);
       console.log(error.response.data);
     } else {
-      ctx.reply('Quota täynnä tai jotain meni pieleen');
+      ctx.reply(`Quota täynnä tai jotain meni pieleen: ${error.message}`);
       console.log(error.message);
     }
   }
@@ -68,11 +68,11 @@ const aiVision = async (ctx, query, image) => {
     ctx.reply(response.choices[0].message.content);
   } catch (error) {
     if (error.response) {
-      ctx.reply('Quota täynnä tai jotain meni pieleen');
+      ctx.reply(`Quota täynnä tai jotain meni pieleen: ${error.response.data}`);
       console.log(error.response.status);
       console.log(error.response.data);
     } else {
-      ctx.reply('Quota täynnä tai jotain meni pieleen');
+      ctx.reply(`Quota täynnä tai jotain meni pieleen: ${error.message}`);
       console.log(error.message);
     }
   }
