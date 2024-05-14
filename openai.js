@@ -29,7 +29,7 @@ const shortChat = async (ctx, query) => {
   try {
     const response = await openai.chat.completions.create({
       messages: [{ role: 'user', content: query }],
-      model: 'gpt-4-turbo-preview',
+      model: 'gpt-4o',
     });
     console.log(response.choices[0].message.content);
     ctx.reply(response.choices[0].message.content);
