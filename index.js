@@ -427,8 +427,6 @@ bot.command('audio', (ctx) => {
 
 bot.command('keli', (ctx) => {
   const [command1, location] = ctx.message.text.split(' ');
-  console.log('command1', command1);
-  console.log('location', location);
   if (!location) {
     weather(ctx);
   } else if (command1 && location) {
