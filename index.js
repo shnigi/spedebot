@@ -96,6 +96,7 @@ Komentoni ovat:
 /tommismi
 /eurojaska
 /sahko
+/piupau
 perjantai
 raketti
 pim
@@ -434,6 +435,10 @@ bot.command('keli', (ctx) => {
   } else {
     ctx.reply('Mursu se komento on /keli');
   }
+});
+
+bot.command('piupau', (ctx) => {
+  ctx.replyWithVideo({ source: './media/piupau.mp4' });
 });
 
 // bot.command('kamera', (ctx) => {
