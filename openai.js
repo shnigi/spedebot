@@ -49,7 +49,7 @@ const aiVision = async (ctx, query, image) => {
   console.log('starting openai vision image generation', query);
   try {
     const response = await openai.chat.completions.create({
-      model: 'gpt-4-vision-preview',
+      model: 'gpt-4o',
       messages: [
         {
           role: 'user',
