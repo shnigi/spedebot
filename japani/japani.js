@@ -1,11 +1,11 @@
 const { Markup } = require('telegraf');
-const { japanVideos } = require('./videos');
 const _ = require('lodash');
+const { japanVideos } = require('./videos');
 
 const japanVideosInChunk = _.chunk(japanVideos, 3);
 
 const japani = async (ctx, bot) => {
-  ctx.telegram.sendMessage(
+  await ctx.telegram.sendMessage(
     ctx.message.chat.id,
     'Valitse video',
     Markup.inlineKeyboard(
@@ -15,13 +15,17 @@ const japani = async (ctx, bot) => {
     ),
   );
 
-  japanVideos.map((video) =>
-    bot.action(video.name, (ctx) => {
-      ctx.replyWithVideo({ source: `./japani/videos/${video.url}` });
-      ctx.editMessageReplyMarkup('');
-      ctx.editMessageText('Laitetaan video pyörimään');
-    }),
-  );
+  japanVideos.forEach((video) => {
+    bot.action(video.name, async (ctx) => {
+      try {
+        await ctx.deleteMessage();
+      } catch (e) {
+        console.error('Could not delete message:', e);
+      }
+
+      await ctx.replyWithVideo({ source: `./japani/videos/${video.url}` });
+    });
+  });
 };
 
 module.exports = { japani };
