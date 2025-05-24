@@ -1,7 +1,7 @@
 require('dotenv').config();
 const { Telegraf } = require('telegraf');
 const sali = require('./sali');
-const weather = require('./weather');
+const { weather, weatherTomorrow } = require('./weather');
 const tommigeneraattori = require('./tommigeneraattori');
 const { aijaStory, aijaSpurdo } = require('./bjorck');
 // const fitBitTommi = require('./fittommi');
@@ -49,7 +49,7 @@ const { sahko } = require('./sahko');
 const { japani } = require('./japani/japani');
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
-bot.start((ctx) => ctx.reply('Noniin pellet, meikä on botti.'));
+bot.start(ctx => ctx.reply('Noniin pellet, meikä on botti.'));
 
 /*
 Deleted commands
@@ -69,7 +69,7 @@ sup
 /kamera [tien nimi]
 */
 
-bot.help((ctx) =>
+bot.help(ctx =>
   ctx.reply(`
 Komentoni ovat:
 /help
@@ -77,7 +77,7 @@ Komentoni ovat:
 /aijaspurdo
 /pelit [Antaa lisäkomentoja]
 /audio [numero]
-/keli
+/keli [paikkakunta tai "tuleva" + paikkakunta]
 /bisse [olut]
 /arvonta [lista]
 /search [hakusana tai lause]
@@ -108,7 +108,7 @@ pelijonnet
 pelistatsit
 eipelata
 jolipennet
-`),
+`)
 );
 
 // bot.command('osake', (ctx) => {
@@ -119,9 +119,9 @@ jolipennet
 //   }
 // });
 
-bot.command('japani', (ctx) => japani(ctx, bot));
+bot.command('japani', ctx => japani(ctx, bot));
 
-bot.command('wikipedia', (ctx) => {
+bot.command('wikipedia', ctx => {
   const [_, query] = ctx.message.text.split('/wikipedia');
   if (query && query !== '') wikipedia(ctx, query);
   else {
@@ -129,7 +129,7 @@ bot.command('wikipedia', (ctx) => {
   }
 });
 
-bot.command('imagine', (ctx) => {
+bot.command('imagine', ctx => {
   const [_, query] = ctx.message.text.split('/imagine');
   if (query && query !== '') generateImage(ctx, query);
   else {
@@ -137,7 +137,7 @@ bot.command('imagine', (ctx) => {
   }
 });
 
-bot.command('chat', (ctx) => {
+bot.command('chat', ctx => {
   const [_, query] = ctx.message.text.split('/chat');
   if (query && query !== '') shortChat(ctx, query);
   else {
@@ -145,11 +145,11 @@ bot.command('chat', (ctx) => {
   }
 });
 
-bot.command('dysonclub', (ctx) => getDysonClubCode(ctx));
+bot.command('dysonclub', ctx => getDysonClubCode(ctx));
 
-bot.command('sahko', (ctx) => sahko(ctx));
+bot.command('sahko', ctx => sahko(ctx));
 
-bot.command('news', (ctx) => {
+bot.command('news', ctx => {
   news(ctx);
 });
 
@@ -185,12 +185,12 @@ bot.command('news', (ctx) => {
 //   }
 // });
 
-bot.command('roll', (ctx) => {
+bot.command('roll', ctx => {
   const number = Math.floor(Math.random() * 101);
   ctx.reply(`${number}`);
 });
 
-bot.command('movie', (ctx) => {
+bot.command('movie', ctx => {
   const [command, movie] = ctx.message.text.split('/movie');
   if (movie && movie !== '') searchMovie(ctx, movie);
   else {
@@ -206,7 +206,7 @@ bot.command('movie', (ctx) => {
 //   }
 // });
 
-bot.command('anime', (ctx) => {
+bot.command('anime', ctx => {
   const [command, anime] = ctx.message.text.split('/anime');
   if (anime && anime !== '') searchAnime(ctx, anime);
   else {
@@ -249,7 +249,7 @@ bot.command('anime', (ctx) => {
 //   }
 // });
 
-bot.command('bisse', (ctx) => {
+bot.command('bisse', ctx => {
   const [command, beer] = ctx.message.text.split('/bisse');
   if (beer && beer !== '') getBeer(ctx, beer);
   else {
@@ -257,7 +257,7 @@ bot.command('bisse', (ctx) => {
   }
 });
 
-bot.command('search', (ctx) => {
+bot.command('search', ctx => {
   const [command, searchWord] = ctx.message.text.split('/search');
   if (searchWord && searchWord !== '') searchWolfram(ctx, searchWord);
   else {
@@ -265,7 +265,7 @@ bot.command('search', (ctx) => {
   }
 });
 
-bot.command('puhe', (ctx) => {
+bot.command('puhe', ctx => {
   const [_, sentence] = ctx.message.text.split('/puhe');
   if (sentence && sentence !== '') speech(ctx, sentence);
   else {
@@ -273,7 +273,7 @@ bot.command('puhe', (ctx) => {
   }
 });
 
-bot.command('arvonta', (ctx) => {
+bot.command('arvonta', ctx => {
   const [command, ...rest] = ctx.message.text.split(' ');
   if (rest) getRandomItem(ctx, rest);
   else {
@@ -287,7 +287,7 @@ bot.command('arvonta', (ctx) => {
 //   ctx.reply(answer);
 // });
 
-bot.command('pyssy', (ctx) => {
+bot.command('pyssy', ctx => {
   const [notused, command] = ctx.message.text.split('/pyssy ');
   const userName = ctx.update.message.from.username;
   if (command === 'all') {
@@ -297,7 +297,7 @@ bot.command('pyssy', (ctx) => {
   }
 });
 
-bot.command('niki', async (ctx) => {
+bot.command('niki', async ctx => {
   ourav2(ctx, process.env.NIKIOURA, 'Niki');
 });
 
@@ -320,7 +320,7 @@ bot.command('niki', async (ctx) => {
 //   // ouraData(ctx, process.env.SAMUOURA, 'Samu');
 // });
 
-bot.command('tommismi', (ctx) => {
+bot.command('tommismi', ctx => {
   tommigeneraattori(ctx);
 });
 
@@ -336,7 +336,7 @@ const getNumberBetween = (limit, existingNumbers) => {
   return randomNumber;
 };
 
-bot.command('eurojaska', (ctx) => {
+bot.command('eurojaska', ctx => {
   const lottoBaseNumbers = [];
   const lottoExtraNumbers = [];
   for (let i = 0; i < 5; i++) {
@@ -389,7 +389,7 @@ bot.command('eurojaska', (ctx) => {
 //   }
 // });
 
-bot.command('pelit', (ctx) => {
+bot.command('pelit', ctx => {
   const [command1, command] = ctx.message.text.split(' ');
   if (command && command !== '') {
     games(ctx, command);
@@ -406,7 +406,7 @@ splitgate
   }
 });
 
-bot.command('audio', (ctx) => {
+bot.command('audio', ctx => {
   const [command1, command] = ctx.message.text.split(' ');
   if (command && command !== '') {
     playSound(ctx, command);
@@ -426,10 +426,12 @@ bot.command('audio', (ctx) => {
   }
 });
 
-bot.command('keli', (ctx) => {
-  const [command1, location] = ctx.message.text.split(' ');
+bot.command('keli', ctx => {
+  const [command1, location, point] = ctx.message.text.split(' ');
   if (!location) {
     weather(ctx);
+  } else if (location === 'tuleva') {
+    weatherTomorrow(ctx, point);
   } else if (command1 && location) {
     weather(ctx, location);
   } else {
@@ -437,7 +439,7 @@ bot.command('keli', (ctx) => {
   }
 });
 
-bot.command('piupau', (ctx) => {
+bot.command('piupau', ctx => {
   ctx.replyWithVideo({ source: './media/piupau.mp4' });
 });
 
@@ -454,60 +456,60 @@ bot.command('piupau', (ctx) => {
 
 // inline button listeners
 const dota2HeroCategories = ['strength', 'agility', 'mana'];
-dota2players.forEach((player) =>
-  bot.action(player.name, (ctx) => dota2heroperformanceSelectCategory(ctx, player.steamShortId)),
+dota2players.forEach(player =>
+  bot.action(player.name, ctx => dota2heroperformanceSelectCategory(ctx, player.steamShortId))
 );
-dota2HeroCategories.forEach((category) =>
-  bot.action(category, (ctx) => dota2heroperformanceSelectHero(ctx, category)),
+dota2HeroCategories.forEach(category =>
+  bot.action(category, ctx => dota2heroperformanceSelectHero(ctx, category))
 );
-dota2heroes.forEach((hero) =>
-  bot.action(hero.localized_name, (ctx) => getHeroPerformance(ctx, hero.id)),
+dota2heroes.forEach(hero =>
+  bot.action(hero.localized_name, ctx => getHeroPerformance(ctx, hero.id))
 );
 
-const splitGatePlayers = steamFriendList.filter((friend) => friend.splitgate);
-splitGatePlayers.forEach((player) =>
-  bot.action(player.id, (ctx) => getSplitGateBasicInfo(ctx, player.id)),
+const splitGatePlayers = steamFriendList.filter(friend => friend.splitgate);
+splitGatePlayers.forEach(player =>
+  bot.action(player.id, ctx => getSplitGateBasicInfo(ctx, player.id))
 );
 
 // Bot commands
-bot.command('aijastoori', (ctx) => ctx.reply(aijaStory()));
-bot.command('aijaspurdo', (ctx) => ctx.reply(aijaSpurdo()));
-bot.hears('perjantai', (ctx) => ctx.replyWithVideo({ source: './media/perjantai.mp4' }));
-bot.hears('perjantai2', (ctx) => ctx.replyWithVideo({ source: './media/perjantai2.mp4' }));
-bot.hears('perjantai3', (ctx) => ctx.replyWithVideo({ source: './media/perjantai3.mp4' }));
-bot.hears('perjantai4', (ctx) => ctx.replyWithVideo({ source: './media/perjantai4.mp4' }));
-bot.hears('tilipäivä', (ctx) => ctx.replyWithVideo({ source: './media/tilipaiva.mp4' }));
-bot.hears('raketti', (ctx) => ctx.replyWithVideo({ source: './media/korko.mp4' }));
-bot.hears('keli', (ctx) => weather(ctx));
+bot.command('aijastoori', ctx => ctx.reply(aijaStory()));
+bot.command('aijaspurdo', ctx => ctx.reply(aijaSpurdo()));
+bot.hears('perjantai', ctx => ctx.replyWithVideo({ source: './media/perjantai.mp4' }));
+bot.hears('perjantai2', ctx => ctx.replyWithVideo({ source: './media/perjantai2.mp4' }));
+bot.hears('perjantai3', ctx => ctx.replyWithVideo({ source: './media/perjantai3.mp4' }));
+bot.hears('perjantai4', ctx => ctx.replyWithVideo({ source: './media/perjantai4.mp4' }));
+bot.hears('tilipäivä', ctx => ctx.replyWithVideo({ source: './media/tilipaiva.mp4' }));
+bot.hears('raketti', ctx => ctx.replyWithVideo({ source: './media/korko.mp4' }));
+bot.hears('keli', ctx => weather(ctx));
 // bot.hears('sup', (ctx) => ctx.reply('Haista sinä mursu paska!'));
-bot.hears('sali', (ctx) => sali(ctx));
-bot.hears('pim', (ctx) => ctx.replyWithPhoto({ source: './pim.jpeg' }));
-bot.hears('sketsi', (ctx) => sketsi(ctx));
-bot.hears('pelijonnet', (ctx) => pelijonnet(ctx));
+bot.hears('sali', ctx => sali(ctx));
+bot.hears('pim', ctx => ctx.replyWithPhoto({ source: './pim.jpeg' }));
+bot.hears('sketsi', ctx => sketsi(ctx));
+bot.hears('pelijonnet', ctx => pelijonnet(ctx));
 // bot.hears('osakkeet', (ctx) => getAllStocks(ctx));
-bot.hears('pelistatsit', (ctx) => getAndSortMostPlayedPeople(ctx));
-bot.hears('jolipennet', (ctx) => jolipennet(ctx));
-bot.hears('eipelata', (ctx) => ctx.replyWithVideo({ source: './media/eipelata.mp4' }));
+bot.hears('pelistatsit', ctx => getAndSortMostPlayedPeople(ctx));
+bot.hears('jolipennet', ctx => jolipennet(ctx));
+bot.hears('eipelata', ctx => ctx.replyWithVideo({ source: './media/eipelata.mp4' }));
 
 // Bot alias
-bot.hears('Eipelata', (ctx) => ctx.replyWithVideo({ source: './media/eipelata.mp4' }));
-bot.hears('Jolipennet', (ctx) => jolipennet(ctx));
-bot.hears('Perjantai', (ctx) => ctx.replyWithVideo({ source: './media/perjantai.mp4' }));
-bot.hears('Perjantai2', (ctx) => ctx.replyWithVideo({ source: './media/perjantai2.mp4' }));
-bot.hears('Perjantai3', (ctx) => ctx.replyWithVideo({ source: './media/perjantai3.mp4' }));
-bot.hears('Perjantai4', (ctx) => ctx.replyWithVideo({ source: './media/perjantai4.mp4' }));
-bot.hears('Tilipäivä', (ctx) => ctx.replyWithVideo({ source: './media/tilipaiva.mp4' }));
-bot.hears('Raketti', (ctx) => ctx.replyWithVideo({ source: './media/korko.mp4' }));
-bot.hears('Keli', (ctx) => weather(ctx));
+bot.hears('Eipelata', ctx => ctx.replyWithVideo({ source: './media/eipelata.mp4' }));
+bot.hears('Jolipennet', ctx => jolipennet(ctx));
+bot.hears('Perjantai', ctx => ctx.replyWithVideo({ source: './media/perjantai.mp4' }));
+bot.hears('Perjantai2', ctx => ctx.replyWithVideo({ source: './media/perjantai2.mp4' }));
+bot.hears('Perjantai3', ctx => ctx.replyWithVideo({ source: './media/perjantai3.mp4' }));
+bot.hears('Perjantai4', ctx => ctx.replyWithVideo({ source: './media/perjantai4.mp4' }));
+bot.hears('Tilipäivä', ctx => ctx.replyWithVideo({ source: './media/tilipaiva.mp4' }));
+bot.hears('Raketti', ctx => ctx.replyWithVideo({ source: './media/korko.mp4' }));
+bot.hears('Keli', ctx => weather(ctx));
 // bot.hears('Sup', (ctx) => ctx.reply('Haista sinä mursu paska!'));
-bot.hears('Sali', (ctx) => sali(ctx));
-bot.hears('Pim', (ctx) => ctx.replyWithPhoto({ source: './pim.jpeg' }));
-bot.hears('Sketsi', (ctx) => sketsi(ctx));
-bot.hears('Pelijonnet', (ctx) => pelijonnet(ctx));
+bot.hears('Sali', ctx => sali(ctx));
+bot.hears('Pim', ctx => ctx.replyWithPhoto({ source: './pim.jpeg' }));
+bot.hears('Sketsi', ctx => sketsi(ctx));
+bot.hears('Pelijonnet', ctx => pelijonnet(ctx));
 // bot.hears('Osakkeet', (ctx) => getAllStocks(ctx));
-bot.hears('Pelistatsit', (ctx) => getAndSortMostPlayedPeople(ctx));
+bot.hears('Pelistatsit', ctx => getAndSortMostPlayedPeople(ctx));
 
-bot.on('message', async (ctx) => {
+bot.on('message', async ctx => {
   const { caption, photo } = ctx.update.message;
   if (photo && caption) {
     if (caption === 'ai') {
